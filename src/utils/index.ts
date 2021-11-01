@@ -100,7 +100,7 @@ export async function getExamples(ref = "latest") {
     }
   ).then((res) => res.json());
   if (!Array.isArray(examples)) {
-    console.log(res);
+    console.log(examples);
     throw new Error(`GITHUB_TOKEN appears to be misconfigured`);
   }
   return groupExamplesByCategory(examples, ref);
