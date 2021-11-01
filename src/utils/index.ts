@@ -94,7 +94,7 @@ export async function getExamples(ref = "latest") {
     `https://api.github.com/repos/snowpackjs/astro/contents/examples?ref=${ref}`,
     {
       headers: {
-        Authorization: `token ${process.env.GITHUB_TOKEN}`,
+        Authorization: `token ${import.meta.env.GITHUB_TOKEN}`,
         Accept: "application/vnd.github.v3+json",
       },
     }
