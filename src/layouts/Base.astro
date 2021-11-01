@@ -1,0 +1,158 @@
+---
+import Card from '../components/Card.astro';
+const { examples: groups } = Astro.props;
+const { pathname } = Astro.request.url;
+---
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<meta name="viewport" content="width=device-width" />
+	<title>astro.new</title>
+	
+	<style global>
+		:root {
+            --background: #F4EFED;
+			--font-fallback: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+			font-family: GTAmericaTrial-Rg, var(--font-fallback);
+			padding: 2rem 1rem;
+			margin-bottom: 4rem;
+			background: var(--background);
+		}
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+		ul:where([class]) {
+			list-style: none;
+		}
+		h1 {
+			font-family: RTAliasMediumTest-Bold, var(--font-fallback);
+			font-size: calc(4rem + ((1vw - 0.4rem) * 4.375));
+			min-height: 0vw;
+			margin: 2rem 0;
+		}
+		h2 {
+			font-size: 2rem;
+			min-height: 0vw;
+		}
+		@media (min-width: 80em) {
+			h1 {
+				font-size: 5.75rem;
+			}
+		}
+
+        @property --corner-radius {
+            syntax: '<integer>';
+            inherits: true;
+            initial-value: 4;
+        }
+        @property --pixel-size {
+            syntax: '<integer>';
+            inherits: true;
+            initial-value: 4;
+        }
+
+        @supports (mask-image: paint(pixel)) or (-webkit-mask-image: paint(pixel)) {
+            .card.loaded {
+                background: none;
+                border-radius: 0;
+            }
+            .card.loaded::before {
+                border-radius: 0;
+                -webkit-mask-image: paint(pixel);
+                mask-image: paint(pixel);
+            }
+        }
+
+        .card {
+            animation: enter 200ms calc(calc(var(--base) * 30ms) + calc(var(--i) * 35ms)) cubic-bezier(0.55, 0.055, 0.675, 0.19) both;
+        }
+
+        @keyframes enter {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+	</style>
+	
+	<style>
+		main {
+			display: flex;
+			flex-direction: column;
+			max-width: 1280px;
+			margin: 0 auto;
+		}
+        .title {
+            background: linear-gradient(180.2deg, #205EFF 0.17%, #C238BD 114.76%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+        }
+        .pathname {
+            background: linear-gradient(0deg, #FF9776 3.25%, #FF6B6B 83.27%, #FFD66B 102.38%);
+
+            -webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+        }
+		.templates {
+			display: flex;
+			flex-direction: column;
+			gap: 3rem;
+		}
+		.templates > li {
+			display: flex;
+			flex-direction: column;
+			gap: 1em;
+		}
+		.cards {
+			display: grid;
+			list-style: none;
+			grid-template-columns: repeat(auto-fill, minmax(24rem, auto));
+			grid-auto-rows: auto;
+			gap: 1rem;
+		}
+        .cards > li {
+            box-shadow: inset 0 0 0 4px var(--background), inset 0 0 0 120px #F6F6F6;
+;
+        }
+	</style>
+
+	<script type="module">
+		if ('paintWorklet' in CSS) {
+			CSS.paintWorklet.addModule('/pixel.js');
+			const cards = document.querySelectorAll('.card');
+			for (const card of cards) {
+				card.classList.add('loaded');
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<main>
+		<h1>
+            <span class="title">astro.new</span>{pathname !== '/' && <span class="pathname">{pathname}</span>}
+        </h1>
+
+		<ul class="templates">
+			{groups.map(([category, examples], i) => {
+				return (
+					<li>
+						<h2>{category}</h2>
+						<ul class="cards" style=`--base: ${i + 1};`>
+							{examples.map((example, j) => <li><Card {...example} index={j + 1} /></li>)}
+						</ul>
+					</li>
+				);
+			})}
+		</ul>
+	</main>
+</body>
+
+</html>

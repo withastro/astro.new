@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Base.astro';
+import { getExamples } from '../utils/index.ts';
+
+const examples = await getExamples('main');
+---
+
+<Layout {examples} />

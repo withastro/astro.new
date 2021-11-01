@@ -1,0 +1,70 @@
+---
+const { title, sourceUrl, stackblitzUrl, codesandboxUrl, index } = Astro.props;
+---
+
+<style>
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    overflow: hidden;
+    height: 100%;
+    padding: 1em;
+    z-index: 0;
+}
+
+.card::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    display: block;
+    background: white;
+    z-index: -1;
+    --corner-radius: 12;
+    border-radius: calc(var(--corner-radius) * 1px);
+}
+
+header, .open {
+    display: flex;
+    gap: 0.5em;
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.source {
+    opacity: 0.6;
+    transform: scale(0.9);
+    transition: opacity 120ms cubic-bezier(0.23, 1, 0.320, 1),
+        transform 150ms cubic-bezier(0.23, 1, 0.320, 1);
+}
+.source:hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+header {
+    justify-content: space-between;
+}
+</style>
+
+<article class="card" style=`--i: ${index};`>
+    <header>
+        <h3>{title}</h3>
+        <a class="source" href={sourceUrl} aria-label="View Source Code">
+            <img height="24" src="/github.svg" aria-hidden="true" />
+        </a>
+    </header>
+    <div class="open">
+        <a href={stackblitzUrl} aria-label="Open in StackBlitz">
+            <img height="32" src="/open-in-stackblitz.svg" aria-hidden="true" />
+        </a>
+        <a href={codesandboxUrl} aria-label="Open in CodeSandbox">
+            <img height="32" src="/open-in-codesandbox.svg" aria-hidden="true" />
+        </a>
+    </div>
+</article>
+
