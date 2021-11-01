@@ -12,17 +12,22 @@ const { title, sourceUrl, stackblitzUrl, codesandboxUrl, index } = Astro.props;
     height: 100%;
     padding: 1em;
     z-index: 0;
+    background: white;
+    border-radius: 8px;
 }
 
 .card::before {
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     content: '';
     display: block;
     background: white;
     z-index: -1;
-    --corner-radius: 12;
-    border-radius: calc(var(--corner-radius) * 1px);
+    --corner-radius: 8;
+    overflow: hidden;
 }
 
 header, .open {

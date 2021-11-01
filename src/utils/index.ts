@@ -90,13 +90,18 @@ function groupExamplesByCategory(
 }
 
 export async function getExamples(ref = "latest") {
+  const headers = {
+    Accept: "application/vnd.github.v3+json",
+  }
+  if (typeof import.meta.env.VITE_GITHUB_TOKEN === 'undefined') {
+    console.warn(`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
+  } else {
+    headers['Authorization'] = `token ${import.meta.env.VITE_GITHUB_TOKEN}`;
+  }
   const examples = await fetch(
     `https://api.github.com/repos/snowpackjs/astro/contents/examples?ref=${ref}`,
     {
-      headers: {
-        Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
-        Accept: "application/vnd.github.v3+json",
-      },
+      headers
     }
   ).then((res) => res.json());
   if (!Array.isArray(examples)) {
