@@ -1,0 +1,4 @@
+/      /index.html 200
+/next  /next.html 200
+
+/*     /.netlify/functions/redirect/:splat 200
