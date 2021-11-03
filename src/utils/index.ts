@@ -25,7 +25,8 @@ export interface Example {
   codesandboxUrl: string;
 }
 
-function toExample({ name, html_url }: ExampleData, ref: string): Example {
+function toExample({ name }: ExampleData, ref: string): Example {
+  const suffix = ref === 'main' ? '@next' : '';
   let title: string;
   if (TITLES.has(name)) {
     title = TITLES.get(name);
@@ -34,9 +35,9 @@ function toExample({ name, html_url }: ExampleData, ref: string): Example {
   }
   return {
     name,
-    sourceUrl: html_url,
-    stackblitzUrl: `https://stackblitz.com/github/snowpackjs/astro/tree/${ref}/examples/${name}`,
-    codesandboxUrl: `https://githubbox.com//snowpackjs/astro/tree/${ref}/examples/${name}`,
+    sourceUrl: `/${name}${suffix}?on=github`,
+    stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
+    codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
     title,
   };
 }
