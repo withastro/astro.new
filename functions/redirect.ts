@@ -2,7 +2,6 @@ import { Handler, HandlerEvent } from '@netlify/functions'
 import fetch from 'node-fetch';
 
 let examplesCache = new Map();
-
 async function getExamples(ref = "latest") {
   if (examplesCache.has(ref)) {
     return examplesCache.get(ref);
@@ -41,8 +40,44 @@ async function getExamples(ref = "latest") {
   return values
 }
 
-function isRef(name: string) {
-  return name === 'next' || name === 'latest';
+const releaseCache = new Map();
+async function getRelease(ref: string) {
+  if (releaseCache.has(ref)) {
+    return releaseCache.get(ref);
+  }
+
+  const headers = {
+    Accept: "application/vnd.github.v3+json",
+  }
+  if (typeof process.env.VITE_GITHUB_TOKEN === 'undefined') {
+    console.warn(`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
+  } else {
+    headers['Authorization'] = `token ${process.env.VITE_GITHUB_TOKEN}`;
+  }
+
+  const release = await fetch(
+    `https://api.github.com/repos/snowpackjs/astro/releases/tags/astro@${ref}`,
+    {
+      headers
+    }
+  ).then(res => res.status === 200 ? res.json() : null);
+
+  releaseCache.set(ref, release);
+
+  return release
+}
+
+async function validateRef(name: string) {
+  if (name === 'next' || name === 'latest') {
+    return true;
+  }
+  
+  const release = await getRelease(name);
+  if (release !== null) {
+    return true;
+  }
+
+  throw new Error(`Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/snowpackjs/astro/releases?q=astro%40">GitHub release</a>.`);
 }
 
 const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github']);
@@ -50,7 +85,7 @@ function isPlatform(name: string) {
   return PLATFORMS.has(name);
 }
 
-function parseReq(event: HandlerEvent) {
+async function parseReq(event: HandlerEvent) {
   let { path, queryStringParameters: { on: platform = 'stackblitz' } } = event;
   path = path.slice(1);
 
@@ -66,14 +101,14 @@ function parseReq(event: HandlerEvent) {
 
   if (path.indexOf('@') > -1) {
     const [template, ref] = path.split('@')
-    if (!isRef(ref)) {
-      throw new Error(`Invalid version "@${ref}"! Supported versions are "@next" or "@latest".`);
-    }
+    await validateRef(ref);
     value.template = template;
     if (ref === 'next') {
       value.ref = 'main';
     } else if (ref === 'latest') {
       value.ref = 'latest';
+    } else {
+      value.ref = `astro@${ref}`;
     }
   }
   
@@ -83,7 +118,7 @@ function parseReq(event: HandlerEvent) {
 
 const handler: Handler = async (event, context) => {
   try {
-    const { ref, template, platform } = parseReq(event);
+    const { ref, template, platform } = await parseReq(event);
     
     const examples = await getExamples(ref);
     const example = examples.find(x => x.name === template);
@@ -104,6 +139,9 @@ const handler: Handler = async (event, context) => {
   } catch (e) {
     return {
       statusCode: 400,
+      headers: {
+        "content-type": "text/html; charset=utf-8"
+      },
       body: `${e.message}`
     }
   }
