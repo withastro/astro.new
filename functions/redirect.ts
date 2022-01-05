@@ -16,7 +16,7 @@ async function getExamples(ref = "latest") {
     headers['Authorization'] = `token ${process.env.VITE_GITHUB_TOKEN}`;
   }
   const examples = await fetch(
-    `https://api.github.com/repos/snowpackjs/astro/contents/examples?ref=${ref}`,
+    `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
     {
       headers
     }
@@ -31,8 +31,8 @@ async function getExamples(ref = "latest") {
     name: example.name,
     github: example.html_url,
     netlify: 'https://astro.build',
-    stackblitz: `https://stackblitz.com/github/snowpackjs/astro/tree/${ref}/examples/${example.name}`,
-    codesandbox: `https://githubbox.com//snowpackjs/astro/tree/${ref}/examples/${example.name}`,
+    stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
+    codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
   }))).filter(x => x);
 
   examplesCache.set(ref, values);
@@ -56,7 +56,7 @@ async function getRelease(ref: string) {
   }
 
   const release = await fetch(
-    `https://api.github.com/repos/snowpackjs/astro/releases/tags/astro@${ref}`,
+    `https://api.github.com/repos/withastro/astro/releases/tags/astro@${ref}`,
     {
       headers
     }
@@ -77,7 +77,7 @@ async function validateRef(name: string) {
     return true;
   }
 
-  throw new Error(`Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/snowpackjs/astro/releases?q=astro%40">GitHub release</a>.`);
+  throw new Error(`Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`);
 }
 
 const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github']);

@@ -100,7 +100,7 @@ export async function getExamples(ref = "latest") {
     headers['Authorization'] = `token ${import.meta.env.VITE_GITHUB_TOKEN}`;
   }
   const examples = await fetch(
-    `https://api.github.com/repos/snowpackjs/astro/contents/examples?ref=${ref}`,
+    `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
     {
       headers
     }
