@@ -81,7 +81,7 @@ async function validateRef(name: string) {
   throw new Error(`Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`);
 }
 
-const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github']);
+const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github', 'gitpod']);
 function isPlatform(name: string) {
   return PLATFORMS.has(name);
 }
