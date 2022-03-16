@@ -32,6 +32,7 @@ const { title, sourceUrl, stackblitzUrl, codesandboxUrl, gitpodUrl, index } = As
 
 header, .open {
     display: flex;
+    flex-flow: row wrap;
     gap: 0.5em;
 }
 
@@ -71,7 +72,7 @@ header {
             <img height="32" src="/open-in-codesandbox.svg" aria-hidden="true" />
         </a>
          <a href={gitpodUrl} aria-label="Open in Gitpod">
-            <img height="32" src="/gitpod.svg" aria-hidden="true" />
+            <img height="32" src="/open-in-gitpod.svg" aria-hidden="true" />
         </a>
     </div>
 </article>
