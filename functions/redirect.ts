@@ -33,6 +33,7 @@ async function getExamples(ref = "latest") {
     netlify: 'https://astro.build',
     stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
     codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+    gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
   }))).filter(x => x);
 
   examplesCache.set(ref, values);
