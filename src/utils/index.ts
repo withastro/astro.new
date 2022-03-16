@@ -23,6 +23,7 @@ export interface Example {
   sourceUrl: string;
   stackblitzUrl: string;
   codesandboxUrl: string;
+  gitpodUrl: string;
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
@@ -38,6 +39,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
     sourceUrl: `/${name}${suffix}?on=github`,
     stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
     codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
+    gitpodUrl: `https://gitpod.io/#ASTRO_NEW=${name}${suffix}/https://github.com/withastro/astro`,
     title,
   };
 }

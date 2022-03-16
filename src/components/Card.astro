@@ -1,5 +1,5 @@
 ---
-const { title, sourceUrl, stackblitzUrl, codesandboxUrl, index } = Astro.props;
+const { title, sourceUrl, stackblitzUrl, codesandboxUrl, gitpodUrl, index } = Astro.props;
 ---
 
 <style>
@@ -69,6 +69,9 @@ header {
         </a>
         <a href={codesandboxUrl} aria-label="Open in CodeSandbox">
             <img height="32" src="/open-in-codesandbox.svg" aria-hidden="true" />
+        </a>
+         <a href={gitpodUrl} aria-label="Open in Gitpod">
+            <img height="32" src="/gitpod.svg" aria-hidden="true" />
         </a>
     </div>
 </article>
