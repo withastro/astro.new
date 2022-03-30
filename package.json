@@ -9,7 +9,7 @@
     "preview": "astro preview"
   },
   "devDependencies": {
-    "@netlify/functions": "^0.8.0",
+    "@netlify/functions": "^1.0.0",
     "@types/node": "^16.11.6",
     "astro": "^0.21.0-next.1",
     "install": "^0.13.0",
