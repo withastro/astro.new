@@ -1,7 +1,7 @@
-import { schedule, Handler } from '@netlify/functions'
-import fetch from 'node-fetch'
+const { schedule } = require('@netlify/functions')
+const fetch = require('node-fetch')
 
-const nightly: Handler = async function () {
+const handler = async function () {
 	try {
 		const response = await fetch(process.env.NIGHTLY_BUILD_HOOK, {
 			method: 'POST',
@@ -26,6 +26,4 @@ const nightly: Handler = async function () {
 	}
 }
 
-const handler = schedule('0 0 * * *', nightly)
-
-export { handler }
+module.exports.handler = schedule('0 8 * * *', handler)

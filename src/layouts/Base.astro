@@ -74,7 +74,7 @@ const { pathname } = Astro.request.url;
 				return (
 					<li>
 						<h2>{category}</h2>
-						<ul class="cards" style=`--base: ${i + 1};`>
+						<ul class="cards" style={`--base: ${i + 1};`}>
 							{examples.map((example, j) => <li><Card {...example} index={j + 1} /></li>)}
 						</ul>
 					</li>

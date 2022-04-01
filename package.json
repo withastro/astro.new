@@ -11,7 +11,7 @@
   "devDependencies": {
     "@netlify/functions": "^1.0.0",
     "@types/node": "^16.11.6",
-    "astro": "^0.21.0-next.1",
+    "astro": "^0.25.4",
     "install": "^0.13.0",
     "npm": "^8.1.2"
   },
