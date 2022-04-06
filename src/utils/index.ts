@@ -96,10 +96,10 @@ export async function getExamples(ref = "latest") {
   const headers = {
     Accept: "application/vnd.github.v3+json",
   }
-  if (typeof import.meta.env.VITE_GITHUB_TOKEN === 'undefined') {
-    console.warn(`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
+  if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN === 'undefined') {
+    console.warn(`PUBLIC_VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
   } else {
-    headers['Authorization'] = `token ${import.meta.env.VITE_GITHUB_TOKEN}`;
+    headers['Authorization'] = `token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`;
   }
   const examples = await fetch(
     `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
