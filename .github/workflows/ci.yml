@@ -22,5 +22,4 @@ jobs:
     - name: Run Playwright tests
       run: npm run test:e2e
       env:
-        # This might depend on your test-runner/language binding
-        PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
+        PLAYWRIGHT_TEST_BASE_URL: ${{ steps.waitFor200.outputs.url }}
