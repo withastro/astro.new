@@ -17,3 +17,5 @@ yarn-error.log*
 
 # macOS-specific files
 .DS_Store
+test-results/
+playwright-report/
