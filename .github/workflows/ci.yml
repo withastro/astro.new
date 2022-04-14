@@ -14,11 +14,11 @@ jobs:
     - name: Install Playwright
       run: npx playwright install --with-deps
     - name: Waiting for 200 from the Netlify Preview
-        uses: jakepartusch/wait-for-netlify-action@v1.3
-        id: waitFor200
-        with:
-          site_name: "astro-new"
-          max_timeout: 120
+      uses: jakepartusch/wait-for-netlify-action@v1.3
+      id: waitFor200
+      with:
+        site_name: "astro-new"
+        max_timeout: 120
     - name: Run Playwright tests
       run: npm run test:e2e
       env:
