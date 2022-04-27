@@ -1,4 +1,5 @@
 ---
+import { TOP_SECTION } from '../utils/index'
 import Card from '../components/Card.astro';
 const { examples: groups } = Astro.props;
 const { pathname } = Astro.request.url;
@@ -73,7 +74,7 @@ const { pathname } = Astro.request.url;
 			{groups.map(([category, examples], i) => {
 				return (
 					<li>
-						<h2>{category}</h2>
+						{category !== TOP_SECTION ? <h2>{category}</h2> : null}
 						<ul class="cards" style={`--base: ${i + 1};`}>
 							{examples.map((example, j) => <li><Card {...example} index={j + 1} /></li>)}
 						</ul>
