@@ -6,7 +6,7 @@ const TITLES = new Map([
   ["with-markdown-plugins", "Markdown (Remark Plugins)"],
   ["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
   ["basics", "Just the Basics"],
-  ["minimal", "Completely empty"],
+  ["minimal", "Completely Empty"],
 ]);
 // this heading is hidden from the page
 export const TOP_SECTION = "TOP_SECTION";
@@ -114,7 +114,7 @@ export async function getExamples(ref = "latest") {
     }`;
   }
   const examples = await fetch(
-    `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
+    `https://api.github.com/repos/withastro/astro/contents/examples`,
     {
       headers,
     }
