@@ -114,7 +114,7 @@ export async function getExamples(ref = "latest") {
     }`;
   }
   const examples = await fetch(
-    `https://api.github.com/repos/withastro/astro/contents/examples`,
+    `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
     {
       headers,
     }
