@@ -5,10 +5,22 @@ const TITLES = new Map([
   ["blog-multiple-authors", "Blog (Complex)"],
   ["with-markdown-plugins", "Markdown (Remark Plugins)"],
   ["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
+  ["basics", "Just the Basics"],
+  ["minimal", "Completely Empty"],
 ]);
-const FEATURED_TEMPLATES = new Set(["starter", "minimal"]);
+// this heading is hidden from the page
+export const TOP_SECTION = "TOP_SECTION";
+const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"];
+
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"]);
-const FRAMEWORK_ORDER = ["react", "preact", "vue", "svelte", "lit", "solid"].map(name => `framework-${name}`);
+const FRAMEWORK_ORDER = [
+  "react",
+  "preact",
+  "vue",
+  "svelte",
+  "lit",
+  "solid",
+].map((name) => `framework-${name}`);
 
 interface ExampleData {
   name: string;
@@ -27,12 +39,14 @@ export interface Example {
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
-  const suffix = ref === 'main' ? '@next' : '';
+  const suffix = ref === "main" ? "@next" : "";
   let title: string;
   if (TITLES.has(name)) {
     title = TITLES.get(name);
   } else {
-    title = toTitle(name.replace(/^(with|framework)/, "").replace(/-/g, " ")).trim();
+    title = toTitle(
+      name.replace(/^(with|framework)/, "").replace(/-/g, " ")
+    ).trim();
   }
   return {
     name,
@@ -49,16 +63,20 @@ function groupExamplesByCategory(
   ref: string
 ): [string, Example[]][] {
   const groups: Record<string, Example[]> = {
-    Templates: [],
+    [TOP_SECTION]: [],
     Frameworks: [],
     Integrations: [],
+    Templates: [],
   };
   for (const example of examples) {
     if (example.size !== 0) continue;
     const data = toExample(example, ref);
     switch (true) {
+      case TOP_SECTION_ORDER.includes(example.name):
+        groups[TOP_SECTION].push(data);
+        break;
       case example.name.startsWith("with-"):
-        if (FEATURED_INTEGRATIONS.has(example.name.replace('with-', ''))) {
+        if (FEATURED_INTEGRATIONS.has(example.name.replace("with-", ""))) {
           groups["Integrations"].splice(0, 0, data);
         } else {
           groups["Integrations"].push(data);
@@ -68,18 +86,50 @@ function groupExamplesByCategory(
         groups["Frameworks"].push(data);
         break;
       default: {
-        if (FEATURED_TEMPLATES.has(example.name)) {
-          groups["Templates"].splice(0, 0, data);
-        } else {
-          groups["Templates"].push(data);
-        }
+        groups["Templates"].push(data);
         break;
       }
     }
   }
-  groups["Frameworks"] = groups["Frameworks"].sort((a, b) => {
-    let aIndex = FRAMEWORK_ORDER.indexOf(a.name);
-    let bIndex = FRAMEWORK_ORDER.indexOf(b.name);
+  groups[TOP_SECTION] = groups[TOP_SECTION].sort(
+    sortExamplesByOrder(TOP_SECTION_ORDER)
+  );
+  groups["Frameworks"] = groups["Frameworks"].sort(
+    sortExamplesByOrder(FRAMEWORK_ORDER)
+  );
+  return Object.entries(groups);
+}
+
+export async function getExamples(ref = "latest") {
+  const headers = {
+    Accept: "application/vnd.github.v3+json",
+  };
+  if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN === "undefined") {
+    console.warn(
+      `PUBLIC_VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`
+    );
+  } else {
+    headers["Authorization"] = `token ${
+      import.meta.env.PUBLIC_VITE_GITHUB_TOKEN
+    }`;
+  }
+  const examples = await fetch(
+    `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
+    {
+      headers,
+    }
+  ).then((res) => res.json());
+  if (!Array.isArray(examples)) {
+    console.log(examples);
+    throw new Error(`GITHUB_TOKEN appears to be misconfigured`);
+  }
+  return groupExamplesByCategory(examples, ref);
+}
+
+function sortExamplesByOrder(order: string[]) {
+  return (a: Example, b: Example) => {
+    let aIndex = order.indexOf(a.name);
+    let bIndex = order.indexOf(b.name);
     if (aIndex === -1) {
       aIndex = Infinity;
     }
@@ -88,28 +138,5 @@ function groupExamplesByCategory(
     }
     if (aIndex > bIndex) return 1;
     if (aIndex < bIndex) return -1;
-  })
-  return Object.entries(groups);
-}
-
-export async function getExamples(ref = "latest") {
-  const headers = {
-    Accept: "application/vnd.github.v3+json",
-  }
-  if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN === 'undefined') {
-    console.warn(`PUBLIC_VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
-  } else {
-    headers['Authorization'] = `token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`;
-  }
-  const examples = await fetch(
-    `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
-    {
-      headers
-    }
-  ).then((res) => res.json());
-  if (!Array.isArray(examples)) {
-    console.log(examples);
-    throw new Error(`GITHUB_TOKEN appears to be misconfigured`);
-  }
-  return groupExamplesByCategory(examples, ref);
+  };
 }
