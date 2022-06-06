@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@netlify/functions": "^1.0.0",
