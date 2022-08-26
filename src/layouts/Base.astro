@@ -4,7 +4,8 @@ import Card from '../components/Card.astro';
 import PageTitle from '../components/PageTitle.astro';
 
 const { examples: groups } = Astro.props;
-const { pathname } = Astro.url;
+
+const pathname = Astro.url.pathname.replace(/\/$/, '');
 ---
 
 <html lang="en">
@@ -20,7 +21,7 @@ const { pathname } = Astro.url;
 <body>
 	<PageTitle as="header">
 		<Fragment slot="title">
-			<span>astro.new</span>{pathname !== '/' && (
+			<span>astro.new</span>{pathname !== '' && (
 				<span class="px-2 font-normal text-secondary-300">/</span>
 				<span>{pathname.substring(1)}</span>
 			)}
