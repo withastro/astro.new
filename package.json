@@ -9,10 +9,12 @@
     "preview": "astro preview"
   },
   "devDependencies": {
+    "@astrojs/tailwind": "^1.0.0",
     "@netlify/functions": "^1.2.0",
     "@playwright/test": "^1.25.1",
     "@types/node": "^16.11.56",
     "astro": "^1.1.0",
+    "astro-icon": "^0.7.3",
     "install": "^0.13.0",
     "npm": "^8.18.0"
   },

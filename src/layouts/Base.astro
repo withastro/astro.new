@@ -1,6 +1,8 @@
 ---
 import { TOP_SECTION } from '../utils/index'
 import Card from '../components/Card.astro';
+import PageTitle from '../components/PageTitle.astro';
+
 const { examples: groups } = Astro.props;
 const { pathname } = Astro.url;
 ---
@@ -13,69 +15,25 @@ const { pathname } = Astro.url;
 	<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
 	<meta name="viewport" content="width=device-width" />
 	<title>astro.new</title>
-
-	<link rel="stylesheet" href="/index.css" />
-
-	<style>
-		main {
-			display: flex;
-			flex-direction: column;
-			max-width: 1280px;
-			margin: 0 auto;
-		}
-        .title {
-            background: linear-gradient(180.2deg, #205EFF 0.17%, #C238BD 114.76%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-        }
-        .pathname {
-            background: linear-gradient(0deg, #FF9776 3.25%, #FF6B6B 83.27%, #FFD66B 102.38%);
-
-            -webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-        }
-		.templates {
-			display: flex;
-			flex-direction: column;
-			gap: 3rem;
-		}
-		.templates > li {
-			display: flex;
-			flex-direction: column;
-			gap: 1em;
-		}
-		.cards {
-			display: grid;
-			list-style: none;
-			grid-template-columns: repeat(auto-fill, minmax(28rem, auto));
-			grid-auto-rows: auto;
-			gap: 1rem;
-		}
-	</style>
-
-	<script type="module">
-		if ('paintWorklet' in CSS) {
-			CSS.paintWorklet.addModule('/pixel.js');
-			const cards = document.querySelectorAll('.card');
-			for (const card of cards) {
-				card.classList.add('loaded');
-			}
-		}
-	</script>
 </head>
 
 <body>
-	<main>
-		<h1>
-            <span class="title">astro.new</span>{pathname !== '/' && <span class="pathname">{pathname}</span>}
-        </h1>
+	<PageTitle as="header">
+		<Fragment slot="title">
+			<span>astro.new</span>{pathname !== '/' && (
+				<span class="px-2 font-normal text-secondary-300">/</span>
+				<span>{pathname.substring(1)}</span>
+			)}
+		</Fragment>
+	</PageTitle>
 
-		<ul class="templates">
+	<main class="flex flex-col max-w-screen-xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 sm:pt-12 lg:pt-16">
+		<ul class="templates flex flex-col gap-12">
 			{groups.map(([category, examples], i) => {
 				return (
-					<li>
+					<li class="flex flex-col gap-4">
 						{category !== TOP_SECTION ? <h2>{category}</h2> : null}
-						<ul class="cards" style={`--base: ${i + 1};`}>
+						<ul class="grid lg:grid-cols-2 gap-4" style={`--base: ${i + 1};`}>
 							{examples.map((example, j) => <li><Card {...example} index={j + 1} /></li>)}
 						</ul>
 					</li>
@@ -86,3 +44,9 @@ const { pathname } = Astro.url;
 </body>
 
 </html>
+
+<style>
+	body {
+		@apply bg-neutral-50 text-neutral-900;
+	}
+</style>
