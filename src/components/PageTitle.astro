@@ -1,0 +1,21 @@
+---
+import Starfield from './Starfield.astro'
+
+export interface Props {
+    as?: string;
+}
+
+const { as: Component = 'div', ...props } = Astro.props as Props
+---
+
+<Component class="relative pt-20 pb-12 md:pt-24 md:pb-16 lg:pb-20">
+    <Starfield subtle />
+    <section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1
+            class="text-3xl font-extrabold text-neutral-50 sm:text-5xl sm:tracking-tight lg:text-6xl"
+        >
+            <slot name="title" />
+        </h1>
+        <p class="mt-5 text-lg md:text-xl text-neutral-300"><slot /></p>
+    </section>
+</Component>
