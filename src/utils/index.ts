@@ -28,6 +28,7 @@ interface ExampleData {
   url: string;
   html_url: string;
   git_url: string;
+  preview_image: string;
 }
 export interface Example {
   name: string;
@@ -36,6 +37,7 @@ export interface Example {
   stackblitzUrl: string;
   codesandboxUrl: string;
   gitpodUrl: string;
+  previewImage: string;
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
@@ -54,6 +56,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
     stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
     codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
     gitpodUrl: `/${name}${suffix}?on=gitpod`,
+    previewImage: `/previews/${name}.png`,
     title,
   };
 }
