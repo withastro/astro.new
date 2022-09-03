@@ -8,14 +8,14 @@ export interface Props {
 const { as: Component = 'div', ...props } = Astro.props as Props
 ---
 
-<Component class="relative pt-20 pb-12 md:pt-24 md:pb-16 lg:pb-20">
+<Component class="relative py-12 lg:py-20">
     <Starfield subtle />
-    <section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap gap-5 sm:gap-10 lg:gap-16 justify-between items-center">
         <h1
-            class="text-3xl font-extrabold text-neutral-50 sm:text-5xl sm:tracking-tight lg:text-6xl"
+            class="text-4xl font-extrabold text-neutral-50 sm:text-6xl sm:tracking-tight"
         >
             <slot name="title" />
         </h1>
-        <p class="mt-5 text-lg md:text-xl text-neutral-300"><slot /></p>
+        <div class="text-neutral-300"><slot /></div>
     </section>
 </Component>
