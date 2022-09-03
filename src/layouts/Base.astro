@@ -29,7 +29,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '');
 	</PageTitle>
 
 	<main class="flex flex-col max-w-screen-xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 sm:pt-12 lg:pt-16">
-		<ul class="templates flex flex-col gap-24">
+		<ul class="templates flex flex-col gap-24 mb-24">
 			{groups.map(([category, examples]) => {
 				return (
 					<li class="flex flex-col gap-8">
