@@ -22,7 +22,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '');
 	<PageTitle as="header">
 		<Fragment slot="title">
 			<span>astro.new</span>{pathname !== '' && (
-				<span class="px-2 font-normal text-secondary-300">/</span>
+				<span class="px-[0.1em] font-normal text-secondary-300">/</span>
 				<span>{pathname.substring(1)}</span>
 			)}
 		</Fragment>
