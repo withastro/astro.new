@@ -30,12 +30,12 @@ const pathname = Astro.url.pathname.replace(/\/$/, '');
 
 	<main class="flex flex-col max-w-screen-xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 sm:pt-12 lg:pt-16">
 		<ul class="templates flex flex-col gap-12">
-			{groups.map(([category, examples], i) => {
+			{groups.map(([category, examples]) => {
 				return (
 					<li class="flex flex-col gap-4">
 						{category !== TOP_SECTION ? <h2>{category}</h2> : null}
-						<ul class="grid lg:grid-cols-2 gap-4" style={`--base: ${i + 1};`}>
-							{examples.map((example, j) => <li><Card {...example} index={j + 1} /></li>)}
+						<ul class="grid lg:grid-cols-2 gap-4">
+							{examples.map((example) => <li><Card {...example} /></li>)}
 						</ul>
 					</li>
 				);

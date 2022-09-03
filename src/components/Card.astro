@@ -1,10 +1,19 @@
 ---
 import { Icon } from 'astro-icon';
 
-const { title, sourceUrl, stackblitzUrl, codesandboxUrl, gitpodUrl, previewImage, index } = Astro.props;
+export interface Props {
+    title: string;
+    sourceUrl: string;
+    stackblitzUrl: string;
+    codesandboxUrl: string;
+    gitpodUrl: string;
+    previewImage: string;
+}
+
+const { title, sourceUrl, stackblitzUrl, codesandboxUrl, gitpodUrl, previewImage } = Astro.props;
 ---
 
-<article class="relative flex flex-col gap-4 overflow-hidden h-full p-4 z-0 bg-white rounded-lg shadow shadow-neutral-200 border border-neutral-200 transition-colors duration-50 hover:border-primary-300 hover:shadow-accent-200" style={`--i: ${index};`}>
+<article class="relative flex flex-col gap-4 overflow-hidden h-full p-4 z-0 bg-white rounded-lg shadow shadow-neutral-200 border border-neutral-200 transition-colors duration-50 hover:border-primary-300 hover:shadow-accent-200">
     <header class="flex flex-row flex-wrap justify-between gap-2">
         <h3 class="font-bold">{title}</h3>
         <a class="opacity-60 scale-90 transition-all duration-100 ease hover:opacity-100 hover:scale-100" href={sourceUrl} aria-label="View Source Code">
