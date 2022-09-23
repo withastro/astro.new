@@ -10,8 +10,10 @@ import { devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig = {
-  testDir: './tests',
+const config: Omit<PlaywrightTestConfig, "workers"> & {
+  workers: number | undefined;
+} = {
+  testDir: "./tests",
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
