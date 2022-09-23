@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "format": "prettier -w . --ignore-path .gitignore",
+    "format:check": "prettier -c . --ignore-path .gitignore",
     "check:astro": "astro check",
     "check:ts": "tsc -p ./tsconfig.json",
     "check": "run-p --race --aggregate-output --print-name check:**"

@@ -20,3 +20,19 @@ jobs:
         env:
           # This might depend on your test-runner/language binding
           PLAYWRIGHT_TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
+  lint:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+      - name: Install dependencies
+        run: npm ci
+      - name: Check prettier
+        run: npm run format:check
+      - name: Check astro
+        run: npm run check:astro
+      - name: Check typescript
+        run: npm run check:ts
