@@ -1,5 +1,5 @@
-import { Handler, HandlerEvent } from '@netlify/functions'
-import fetch from 'node-fetch';
+import type { Handler, HandlerEvent } from "@netlify/functions";
+import fetch from "node-fetch";
 
 let examplesCache = new Map();
 async function getExamples(ref = "latest") {
@@ -29,18 +29,24 @@ async function getExamples(ref = "latest") {
     throw new Error(`Unable to fetch templates from GitHub`);
   }
 
-  const values = examples.map(example => (example.size > 0 ? null : ({
-    name: example.name,
-    github: example.html_url,
-    netlify: 'https://astro.build',
-    stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-    codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
-    gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
-  }))).filter(x => x);
+  const values = examples
+    .map((example) =>
+      example.size > 0
+        ? null
+        : {
+            name: example.name,
+            github: example.html_url,
+            netlify: "https://astro.build",
+            stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
+            codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+            gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+          }
+    )
+    .filter((x) => x);
 
   examplesCache.set(ref, values);
 
-  return values
+  return values;
 }
 
 const releaseCache = new Map();
@@ -63,29 +69,37 @@ async function getRelease(ref: string) {
   const release = await fetch(
     `https://api.github.com/repos/withastro/astro/releases/tags/astro@${ref}`,
     {
-      headers
+      headers,
     }
-  ).then(res => res.status === 200 ? res.json() : null);
+  ).then((res) => (res.status === 200 ? res.json() : null));
 
   releaseCache.set(ref, release);
 
-  return release
+  return release;
 }
 
 async function validateRef(name: string) {
-  if (name === 'next' || name === 'latest') {
+  if (name === "next" || name === "latest") {
     return true;
   }
-  
+
   const release = await getRelease(name);
   if (release !== null) {
     return true;
   }
 
-  throw new Error(`Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`);
+  throw new Error(
+    `Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`
+  );
 }
 
-const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github', 'gitpod']);
+const PLATFORMS = new Set([
+  "stackblitz",
+  "codesandbox",
+  "netlify",
+  "github",
+  "gitpod",
+]);
 function isPlatform(name: string) {
   return PLATFORMS.has(name);
 }
