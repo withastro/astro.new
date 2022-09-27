@@ -6,7 +6,7 @@ const TITLES = new Map([
   ["with-markdown-plugins", "Markdown (Remark Plugins)"],
   ["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
   ["basics", "Just the Basics"],
-  ["minimal", "Completely Empty"],
+  ["minimal", "Empty Project"],
 ]);
 // this heading is hidden from the page
 export const TOP_SECTION = "TOP_SECTION";
