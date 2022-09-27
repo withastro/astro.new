@@ -1,6 +1,7 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
+    "skipLibCheck": true,
     "types": ["astro/client", "@types/node", "@types/title"]
   }
 }
