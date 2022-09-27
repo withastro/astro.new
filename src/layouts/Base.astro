@@ -1,60 +1,85 @@
 ---
-import { TOP_SECTION } from '../utils/index'
-import Card from '../components/Card.astro';
-import PageTitle from '../components/PageTitle.astro';
-import Outlinks from '../components/Outlinks.astro';
+import { TOP_SECTION } from "../utils/index";
+import Card, { type Props as CardProps } from "../components/Card.astro";
+import PageTitle from "../components/PageTitle.astro";
+import Outlinks from "../components/Outlinks.astro";
+import type { Example } from "../utils/index";
 
-const { examples: groups } = Astro.props;
+type Props = { examples: [string, Example[]][] };
+const { examples: groups } = Astro.props as Props;
 
-const pathname = Astro.url.pathname.replace(/\/$/, '');
+const pathname = Astro.url.pathname.replace(/\/$/, "");
 ---
 
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>astro.new</title>
+  </head>
 
-<head>
-	<meta charset="utf-8" />
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-	<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
-	<meta name="viewport" content="width=device-width" />
-	<title>astro.new</title>
-</head>
+  <body>
+    <PageTitle>
+      <Fragment slot="title">
+        <span>astro.new</span>{
+          pathname !== "" && (
+            <>
+              <span class="px-[0.1em] font-normal text-secondary-300">/</span>
+              <span>{pathname.substring(1)}</span>
+            </>
+          )
+        }
+      </Fragment>
+      <div class="max-w-prose space-y-4">
+        <p><strong>Welcome to Astro’s official example projects!</strong></p>
+        <p>
+          Each of these templates is meant to show a common pattern or use case:
+          different kinds of websites, various integrations included
+          automatically, or how to work with common tools.
+        </p>
+        <p>
+          Open these in your choice of online code editor right in your browser,
+          or click the GitHub logo to see its source code!
+        </p>
+      </div>
+    </PageTitle>
 
-<body>
-	<PageTitle as="header">
-		<Fragment slot="title">
-			<span>astro.new</span>{pathname !== '' && (
-				<span class="px-[0.1em] font-normal text-secondary-300">/</span>
-				<span>{pathname.substring(1)}</span>
-			)}
-		</Fragment>
-		<div class="max-w-prose space-y-4">
-			<p><strong>Welcome to Astro’s official example projects!</strong></p>
-			<p>Each of these templates is meant to show a common pattern or use case: different kinds of websites, various integrations included automatically, or how to work with common tools.</p>
-			<p>Open these in your choice of online code editor right in your browser, or click the GitHub logo to see its source code!</p>
-		</div>
-	</PageTitle>
-
-	<main class="flex flex-col max-w-screen-xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 sm:pt-12 lg:pt-16">
-		<ul class="templates flex flex-col gap-24 mb-24">
-			{groups.map(([category, examples]) => {
-				return (
-					<li class="flex flex-col gap-8">
-						{category !== TOP_SECTION ? <h2 class="text-2xl">{category}</h2> : null}
-						<ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-							{examples.map((example) => <li><Card {...example} /></li>)}
-							{category === TOP_SECTION && <Outlinks/>}
-						</ul>
-					</li>
-				);
-			})}
-		</ul>
-	</main>
-</body>
-
+    <main
+      class="flex flex-col max-w-screen-xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 sm:pt-12 lg:pt-16"
+    >
+      <ul class="templates flex flex-col gap-24 mb-24">
+        {
+          groups.map(([category, examples]) => {
+            return (
+              <li class="flex flex-col gap-8">
+                {category !== TOP_SECTION ? (
+                  <h2 class="text-2xl">{category}</h2>
+                ) : null}
+                <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+                  {examples.map(
+                    (
+                      example: astroHTML.JSX.IntrinsicAttributes & CardProps
+                    ) => (
+                      <li>
+                        <Card {...example} />
+                      </li>
+                    )
+                  )}
+                  {category === TOP_SECTION && <Outlinks />}
+                </ul>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </main>
+  </body>
 </html>
 
 <style>
-	body {
-		@apply bg-neutral-50 text-neutral-900;
-	}
+  body {
+    @apply bg-neutral-50 text-neutral-900;
+  }
 </style>

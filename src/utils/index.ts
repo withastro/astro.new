@@ -44,7 +44,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
   const suffix = ref === "main" ? "@next" : "";
   let title: string;
   if (TITLES.has(name)) {
-    title = TITLES.get(name);
+    title = TITLES.get(name) as string; // we just checked w/ `.has()` it should exist.
   } else {
     title = toTitle(
       name.replace(/^(with|framework)/, "").replace(/-/g, " ")
@@ -65,7 +65,12 @@ function groupExamplesByCategory(
   examples: ExampleData[],
   ref: string
 ): [string, Example[]][] {
-  const groups: Record<string, Example[]> = {
+  const groups: {
+    [TOP_SECTION]: Example[];
+    Frameworks: Example[];
+    Integrations: Example[];
+    Templates: Example[];
+  } = {
     [TOP_SECTION]: [],
     Frameworks: [],
     Integrations: [],
@@ -104,17 +109,18 @@ function groupExamplesByCategory(
 }
 
 export async function getExamples(ref = "latest") {
-  const headers = {
+  const headers: Headers = new Headers({
     Accept: "application/vnd.github.v3+json",
-  };
+  });
   if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN === "undefined") {
     console.warn(
       `PUBLIC_VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`
     );
   } else {
-    headers["Authorization"] = `token ${
-      import.meta.env.PUBLIC_VITE_GITHUB_TOKEN
-    }`;
+    headers.set(
+      "Authorization",
+      `token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`
+    );
   }
   const examples = await fetch(
     `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
@@ -141,5 +147,6 @@ function sortExamplesByOrder(order: string[]) {
     }
     if (aIndex > bIndex) return 1;
     if (aIndex < bIndex) return -1;
+    return 0;
   };
 }

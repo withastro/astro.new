@@ -1,5 +1,5 @@
-import { Handler, HandlerEvent } from '@netlify/functions'
-import fetch from 'node-fetch';
+import type { Handler, HandlerEvent } from "@netlify/functions";
+import fetch from "node-fetch";
 
 let examplesCache = new Map();
 async function getExamples(ref = "latest") {
@@ -7,38 +7,46 @@ async function getExamples(ref = "latest") {
     return examplesCache.get(ref);
   }
 
-  const headers = {
+  const headers: HeadersInit = {
     Accept: "application/vnd.github.v3+json",
-  }
-  if (typeof process.env.VITE_GITHUB_TOKEN === 'undefined') {
-    console.warn(`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
+  };
+  if (typeof process.env.VITE_GITHUB_TOKEN === "undefined") {
+    console.warn(
+      `VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`
+    );
   } else {
-    headers['Authorization'] = `token ${process.env.VITE_GITHUB_TOKEN}`;
+    headers["Authorization"] = `token ${process.env.VITE_GITHUB_TOKEN}`;
   }
   const examples = await fetch(
     `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
     {
-      headers
+      headers,
     }
-  ).then((res) => res.json());
+  ).then((res: { json: () => any }) => res.json());
 
   if (!Array.isArray(examples)) {
     console.log(examples);
     throw new Error(`Unable to fetch templates from GitHub`);
   }
 
-  const values = examples.map(example => (example.size > 0 ? null : ({
-    name: example.name,
-    github: example.html_url,
-    netlify: 'https://astro.build',
-    stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-    codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
-    gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
-  }))).filter(x => x);
+  const values = examples
+    .map((example) =>
+      example.size > 0
+        ? null
+        : {
+            name: example.name,
+            github: example.html_url,
+            netlify: "https://astro.build",
+            stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
+            codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+            gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+          }
+    )
+    .filter((x) => x);
 
   examplesCache.set(ref, values);
 
-  return values
+  return values;
 }
 
 const releaseCache = new Map();
@@ -47,105 +55,129 @@ async function getRelease(ref: string) {
     return releaseCache.get(ref);
   }
 
-  const headers = {
+  const headers: HeadersInit = {
     Accept: "application/vnd.github.v3+json",
-  }
-  if (typeof process.env.VITE_GITHUB_TOKEN === 'undefined') {
-    console.warn(`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`);
+  };
+  if (typeof process.env.VITE_GITHUB_TOKEN === "undefined") {
+    console.warn(
+      `VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`
+    );
   } else {
-    headers['Authorization'] = `token ${process.env.VITE_GITHUB_TOKEN}`;
+    headers["Authorization"] = `token ${process.env.VITE_GITHUB_TOKEN}`;
   }
 
   const release = await fetch(
     `https://api.github.com/repos/withastro/astro/releases/tags/astro@${ref}`,
     {
-      headers
+      headers,
     }
-  ).then(res => res.status === 200 ? res.json() : null);
+  ).then((res) => (res.status === 200 ? res.json() : null));
 
   releaseCache.set(ref, release);
 
-  return release
+  return release;
 }
 
 async function validateRef(name: string) {
-  if (name === 'next' || name === 'latest') {
+  if (name === "next" || name === "latest") {
     return true;
   }
-  
+
   const release = await getRelease(name);
   if (release !== null) {
     return true;
   }
 
-  throw new Error(`Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`);
+  throw new Error(
+    `Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`
+  );
 }
 
-const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github', 'gitpod']);
+const PLATFORMS = new Set([
+  "stackblitz",
+  "codesandbox",
+  "netlify",
+  "github",
+  "gitpod",
+]);
 function isPlatform(name: string) {
   return PLATFORMS.has(name);
 }
 
 async function parseReq(event: HandlerEvent) {
-  let { path, queryStringParameters: { on: platform = 'stackblitz' } } = event;
+  let { path, queryStringParameters } = event;
+  const platform = queryStringParameters?.["on"] ?? "stackblitz";
   path = path.slice(1);
 
   if (!isPlatform(platform)) {
-    throw new Error(`Unsupported "on" query! Supported platforms are:\n  - ${Array.from(PLATFORMS.values()).map(x => x).join(`\n  - `)}`)
+    throw new Error(
+      `Unsupported "on" query! Supported platforms are:\n  - ${Array.from(
+        PLATFORMS.values()
+      )
+        .map((x) => x)
+        .join(`\n  - `)}`
+    );
   }
 
   let value = {
-    ref: 'latest',
+    ref: "latest",
     template: path,
-    platform
-  }
+    platform,
+  };
 
-  if (path.indexOf('@') > -1) {
-    const [template, ref] = path.split('@')
+  if (path.indexOf("@") > -1) {
+    const [template, ref] = path.split("@");
+    if (!ref || !template) {
+      throw new Error("why have you forsaken me");
+    }
     await validateRef(ref);
     value.template = template;
-    if (ref === 'next') {
-      value.ref = 'main';
-    } else if (ref === 'latest') {
-      value.ref = 'latest';
+    if (ref === "next") {
+      value.ref = "main";
+    } else if (ref === "latest") {
+      value.ref = "latest";
     } else {
       value.ref = `astro@${ref}`;
     }
   }
-  
+
   return value;
 }
 
-
-const handler: Handler = async (event, context) => {
+const handler: Handler = async (event) => {
   try {
     const { ref, template, platform } = await parseReq(event);
-    
+
     const examples = await getExamples(ref);
-    const example = examples.find(x => x.name === template);
+    const example = examples.find((x: { name: string }) => x.name === template);
 
     if (!example) {
       return {
         statusCode: 404,
-        body: `Unable to find ${template}! Supported templates are:\n  - ${examples.map(x => x.name).join(`\n  - `)}`
-      }
+        body: `Unable to find ${template}! Supported templates are:\n  - ${examples
+          .map((x: { name: any }) => x.name)
+          .join(`\n  - `)}`,
+      };
     }
 
     return {
       statusCode: 302,
       headers: {
-        Location: example[platform]
-      }
-    }
-  } catch (e) {
-    return {
-      statusCode: 400,
-      headers: {
-        "content-type": "text/html; charset=utf-8"
+        Location: example[platform],
       },
-      body: `${e.message}`
+    };
+  } catch (e) {
+    if (e instanceof Error) {
+      return {
+        statusCode: 400,
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+        },
+        body: `${e.message}`,
+      };
     }
+    throw e;
   }
-}
+};
 
-export { handler }
+export { handler };

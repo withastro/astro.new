@@ -6,20 +6,31 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "format": "prettier -w . --ignore-path .gitignore",
+    "format:check": "prettier -c . --ignore-path .gitignore",
+    "check:astro": "astro check",
+    "check:ts": "tsc -p ./tsconfig.json",
+    "check": "run-p --race --aggregate-output --print-name check:**"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^1.0.0",
     "@netlify/functions": "^1.2.0",
     "@playwright/test": "^1.25.1",
-    "@types/node": "^16.11.56",
-    "astro": "^1.1.0",
+    "@types/node": "^16.11.59",
+    "@types/node-fetch": "^2.6.2",
+    "@types/title": "^3.4.1",
+    "astro": "^1.3.0",
     "astro-icon": "^0.7.3",
     "install": "^0.13.0",
     "npm": "^8.18.0"
   },
   "dependencies": {
     "node-fetch": "^2.6.7",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.7.1",
+    "prettier-plugin-astro": "^0.5.4",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "title": "^3.5.3"
   }
 }
