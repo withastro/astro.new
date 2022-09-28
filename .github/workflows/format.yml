@@ -17,8 +17,8 @@ jobs:
           node-version: "14.x"
       - name: Install dependencies
         run: npm ci
-      - name: npm format
-        run: npm format
+      - name: npm run format
+        run: npm run format
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
