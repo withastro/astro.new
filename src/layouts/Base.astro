@@ -18,6 +18,13 @@ const pathname = Astro.url.pathname.replace(/\/$/, "");
     <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />
     <title>astro.new</title>
+
+    <!-- Fathom - beautiful, simple website analytics -->
+    <script
+      src="https://certain-quality.astro.build/script.js"
+      data-site="EZBHTSIG"
+      defer
+    ></script>
   </head>
 
   <body>
@@ -47,9 +54,9 @@ const pathname = Astro.url.pathname.replace(/\/$/, "");
     </PageTitle>
 
     <main
-      class="flex flex-col max-w-screen-xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 sm:pt-12 lg:pt-16"
+      class="mx-auto flex max-w-screen-xl flex-col px-4 pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16"
     >
-      <ul class="templates flex flex-col gap-24 mb-24">
+      <ul class="templates mb-24 flex flex-col gap-24">
         {
           groups.map(([category, examples]) => {
             return (
@@ -83,3 +90,17 @@ const pathname = Astro.url.pathname.replace(/\/$/, "");
     @apply bg-neutral-50 text-neutral-900;
   }
 </style>
+
+<script>
+  // find all internal links, this will pickup all redirects handled by the redirect function
+  document
+    .querySelectorAll<HTMLAnchorElement>("a[href^='/']")
+    .forEach((link) => {
+      link.addEventListener("click", () => {
+        /** @ts-ignore */
+        window.fathom.trackPageview({
+          url: link.href,
+        });
+      });
+    });
+</script>
