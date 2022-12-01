@@ -97,6 +97,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "");
     .querySelectorAll<HTMLAnchorElement>("a[href^='/']")
     .forEach((link) => {
       link.addEventListener("click", () => {
+        /** @ts-ignore */
         window.fathom.trackPageview({
           url: link.href,
         });
