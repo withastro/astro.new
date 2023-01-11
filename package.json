@@ -32,5 +32,6 @@
   },
   "dependencies": {
     "title": "^3.5.3"
-  }
+  },
+  "license": "MIT"
 }
