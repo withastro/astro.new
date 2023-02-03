@@ -38,7 +38,7 @@ async function getExamples(ref = "latest") {
             github: example.html_url,
             netlify: "https://astro.build",
             stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-            codesandbox: `https://githubbox.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+            codesandbox: `https://codesandbox.io/p/sandbox/github/withastro/astro/tree/${ref}/examples/${example.name}`,
             gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
           }
     )
