@@ -61,9 +61,14 @@ const pathname = Astro.url.pathname.replace(/\/$/, "");
           groups.map(([category, examples]) => {
             return (
               <li class="flex flex-col gap-8">
-                {category !== TOP_SECTION ? (
-                  <h2 class="text-2xl">{category}</h2>
-                ) : null}
+                <h2
+                  class:list={[
+                    'text-2xl',
+                    { 'sr-only': category === TOP_SECTION },
+                  ]}
+                >
+                  {category}
+                </h2>
                 <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
                   {examples.map(
                     (

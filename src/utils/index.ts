@@ -9,7 +9,7 @@ const TITLES = new Map([
   ["minimal", "Empty Project"],
 ]);
 // this heading is hidden from the page
-export const TOP_SECTION = "TOP_SECTION";
+export const TOP_SECTION = "Featured Starters";
 const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"];
 
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"]);
