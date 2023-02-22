@@ -1,10 +1,10 @@
 import toTitle from "title";
 const previewImageSlugs = new Set(
-  Object.keys(import.meta.glob('../../public/previews/*.webp')).map((key) =>
+  Object.keys(import.meta.glob("../../public/previews/*.webp")).map((key) =>
     key
-      .split('/')
+      .split("/")
       .pop()
-      ?.replace(/\.webp$/, '')
+      ?.replace(/\.webp$/, "")
   )
 );
 
