@@ -1,4 +1,12 @@
 import toTitle from "title";
+const previewImageSlugs = new Set(
+  Object.keys(import.meta.glob('../../public/previews/*.webp')).map((key) =>
+    key
+      .split('/')
+      .pop()
+      ?.replace(/\.webp$/, '')
+  )
+);
 
 const TITLES = new Map([
   ["with-tailwindcss", "Tailwind CSS"],
@@ -9,7 +17,7 @@ const TITLES = new Map([
   ["minimal", "Empty Project"],
 ]);
 // this heading is hidden from the page
-export const TOP_SECTION = "TOP_SECTION";
+export const TOP_SECTION = "Featured Starters";
 const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"];
 
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"]);
@@ -37,7 +45,7 @@ export interface Example {
   stackblitzUrl: string;
   codesandboxUrl: string;
   gitpodUrl: string;
-  previewImage: string;
+  previewImage: string | null;
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
@@ -56,7 +64,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
     stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
     codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
     gitpodUrl: `/${name}${suffix}?on=gitpod`,
-    previewImage: `/previews/${name}.png`,
+    previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : null,
     title,
   };
 }
