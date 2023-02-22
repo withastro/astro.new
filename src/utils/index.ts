@@ -56,7 +56,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
     stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
     codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
     gitpodUrl: `/${name}${suffix}?on=gitpod`,
-    previewImage: `/previews/${name}.png`,
+    previewImage: `/previews/${name}.webp`,
     title,
   };
 }
