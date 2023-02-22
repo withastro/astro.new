@@ -44,10 +44,16 @@ const {
       <Icon name="open-in-gitpod" height={32} aria-hidden="true" />
     </a>
   </div>
-  <img
-    src={previewImage}
-    alt=""
-    class="-order-1 aspect-video rounded-t border-b object-cover object-left-top"
-    loading="lazy"
-  />
+  {
+    previewImage ? (
+      <img
+        src={previewImage}
+        alt=""
+        class="-order-1 aspect-video rounded-t border-b object-cover object-left-top"
+        loading="lazy"
+      />
+    ) : (
+      <div class="-order-1 aspect-video rounded-t border-b" />
+    )
+  }
 </article>

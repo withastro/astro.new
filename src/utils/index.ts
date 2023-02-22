@@ -1,4 +1,12 @@
 import toTitle from "title";
+const previewImageSlugs = new Set(
+  Object.keys(import.meta.glob('../../public/previews/*.webp')).map((key) =>
+    key
+      .split('/')
+      .pop()
+      ?.replace(/\.webp$/, '')
+  )
+);
 
 const TITLES = new Map([
   ["with-tailwindcss", "Tailwind CSS"],
@@ -37,7 +45,7 @@ export interface Example {
   stackblitzUrl: string;
   codesandboxUrl: string;
   gitpodUrl: string;
-  previewImage: string;
+  previewImage: string | null;
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
@@ -56,7 +64,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
     stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
     codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
     gitpodUrl: `/${name}${suffix}?on=gitpod`,
-    previewImage: `/previews/${name}.webp`,
+    previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : null,
     title,
   };
 }
