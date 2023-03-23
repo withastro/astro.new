@@ -1,9 +1,0 @@
-[build.environment]
-  NODE_VERSION = "14.16.0"
-
-[build]
-  publish = "dist/"
-  command = "npm run build"
-
-[functions]
-  directory = "functions"

@@ -7,31 +7,33 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "format": "prettier -w . --ignore-path .gitignore",
-    "format:check": "prettier -c . --ignore-path .gitignore",
-    "check:astro": "astro check",
-    "check:ts": "tsc -p ./tsconfig.json",
-    "check": "run-p --race --aggregate-output --print-name check:**"
-  },
-  "devDependencies": {
-    "@astrojs/tailwind": "^1.0.1",
-    "@netlify/functions": "^1.3.0",
-    "@playwright/test": "^1.28.1",
-    "@types/node": "^16.18.4",
-    "@types/node-fetch": "^2.6.2",
-    "@types/title": "^3.4.1",
-    "astro": "^1.6.12",
-    "astro-icon": "^0.7.3",
-    "install": "^0.13.0",
-    "node-fetch": "^3.3.0",
-    "npm": "^8.19.3",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.0",
-    "prettier-plugin-astro": "^0.7.0",
-    "prettier-plugin-tailwindcss": "^0.2.0"
+    "format": "run-s format:*",
+    "format:prettier": "prettier -w --plugin-search-dir=. .",
+    "format:eslint": "eslint --fix \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
+    "lint": "run-s --print-label --continue-on-error lint:*",
+    "lint:prettier": "prettier --check --plugin-search-dir=. .",
+    "lint:eslint": "eslint \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
+    "lint:tsc": "tsc --noEmit",
+    "lint:astro": "cd src && astro check"
   },
   "dependencies": {
     "title": "^3.5.3"
+  },
+  "devDependencies": {
+    "@astrojs/site-kit": "withastro/site-kit#v1.0.0",
+    "@astrojs/tailwind": "^3.1.1",
+    "@netlify/functions": "^1.4.0",
+    "@types/node": "^18.15.5",
+    "@types/title": "^3.4.1",
+    "astro": "^2.1.5",
+    "astro-icon": "^0.8.0",
+    "eslint": "^8.36.0",
+    "install": "^0.13.0",
+    "node-fetch": "^3.3.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.6",
+    "tailwindcss": "^3.2.7",
+    "typescript": "^5.0.2"
   },
   "license": "MIT"
 }

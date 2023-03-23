@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Base.astro";
-import { getExamples } from "../utils/index.js";
+import Layout from "../layouts/Base.astro"
+import { getExamples } from "../utils/index.js"
 
-const examples = await getExamples("main");
+const examples = await getExamples("main")
 ---
 
 <Layout examples={examples} />

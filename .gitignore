@@ -19,3 +19,7 @@ yarn-error.log*
 .DS_Store
 test-results/
 playwright-report/
+
+# non-pnpm lockfiles
+package-lock.json
+yarn.lock
