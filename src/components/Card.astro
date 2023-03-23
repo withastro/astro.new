@@ -1,59 +1,59 @@
 ---
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon"
 
-export interface Props {
-  title: string;
-  sourceUrl: string;
-  stackblitzUrl: string;
-  codesandboxUrl: string;
-  gitpodUrl: string;
-  previewImage: string | null;
+export type Props = {
+	title: string
+	sourceUrl: string
+	stackblitzUrl: string
+	codesandboxUrl: string
+	gitpodUrl: string
+	previewImage: string | null
 }
 
 const {
-  title,
-  sourceUrl,
-  stackblitzUrl,
-  codesandboxUrl,
-  gitpodUrl,
-  previewImage,
-} = Astro.props;
+	title,
+	sourceUrl,
+	stackblitzUrl,
+	codesandboxUrl,
+	gitpodUrl,
+	previewImage,
+} = Astro.props
 ---
 
 <article
-  class="duration-50 relative z-0 flex h-full flex-col gap-4 overflow-hidden rounded-lg border border-neutral-200 bg-white p-4 shadow shadow-neutral-200 transition-colors hover:border-primary-300 hover:shadow-accent-200"
+	class="duration-50 hover:border-primary-300 hover:shadow-accent-200 relative z-0 flex h-full flex-col gap-4 overflow-hidden rounded-lg border border-neutral-200 bg-white p-4 shadow shadow-neutral-200 transition-colors"
 >
-  <header class="flex flex-row flex-wrap justify-between gap-2">
-    <h3 class="text-lg font-bold">{title}</h3>
-    <a
-      class="ease scale-90 opacity-60 transition-all duration-100 hover:scale-100 hover:opacity-100"
-      href={sourceUrl}
-      aria-label="View Source Code"
-    >
-      <Icon name="github" size={24} aria-hidden="true" />
-    </a>
-  </header>
-  <div class="flex flex-row flex-wrap gap-2">
-    <a href={stackblitzUrl} aria-label="Open in StackBlitz">
-      <Icon name="open-in-stackblitz" height={32} aria-hidden="true" />
-    </a>
-    <a href={codesandboxUrl} aria-label="Open in CodeSandbox">
-      <Icon name="open-in-codesandbox" height={32} aria-hidden="true" />
-    </a>
-    <a href={gitpodUrl} aria-label="Open in Gitpod">
-      <Icon name="open-in-gitpod" height={32} aria-hidden="true" />
-    </a>
-  </div>
-  {
-    previewImage ? (
-      <img
-        src={previewImage}
-        alt=""
-        class="-order-1 aspect-video rounded-t border-b object-cover object-left-top"
-        loading="lazy"
-      />
-    ) : (
-      <div class="-order-1 aspect-video rounded-t border-b" />
-    )
-  }
+	<header class="flex flex-row flex-wrap justify-between gap-2">
+		<h3 class="text-lg font-bold">{title}</h3>
+		<a
+			class="ease scale-90 opacity-60 transition-all duration-100 hover:scale-100 hover:opacity-100"
+			href={sourceUrl}
+			aria-label="View Source Code"
+		>
+			<Icon name="github" size={24} aria-hidden="true" />
+		</a>
+	</header>
+	<div class="flex flex-row flex-wrap gap-2">
+		<a href={stackblitzUrl} aria-label="Open in StackBlitz">
+			<Icon name="open-in-stackblitz" height={32} aria-hidden="true" />
+		</a>
+		<a href={codesandboxUrl} aria-label="Open in CodeSandbox">
+			<Icon name="open-in-codesandbox" height={32} aria-hidden="true" />
+		</a>
+		<a href={gitpodUrl} aria-label="Open in Gitpod">
+			<Icon name="open-in-gitpod" height={32} aria-hidden="true" />
+		</a>
+	</div>
+	{
+		previewImage ? (
+			<img
+				src={previewImage}
+				alt=""
+				class="-order-1 aspect-video rounded-t border-b object-cover object-left-top"
+				loading="lazy"
+			/>
+		) : (
+			<div class="-order-1 aspect-video rounded-t border-b" />
+		)
+	}
 </article>
