@@ -16,13 +16,14 @@
     "lint:tsc": "tsc --noEmit",
     "lint:astro": "cd src && astro check"
   },
+  "dependencies": {
+    "title": "^3.5.3"
+  },
   "devDependencies": {
     "@astrojs/site-kit": "withastro/site-kit#v1.0.0",
     "@astrojs/tailwind": "^3.1.1",
     "@netlify/functions": "^1.4.0",
-    "@playwright/test": "^1.31.2",
     "@types/node": "^18.15.5",
-    "@types/node-fetch": "^2.6.2",
     "@types/title": "^3.4.1",
     "astro": "^2.1.5",
     "astro-icon": "^0.8.0",
@@ -33,9 +34,6 @@
     "prettier": "^2.8.6",
     "tailwindcss": "^3.2.7",
     "typescript": "^5.0.2"
-  },
-  "dependencies": {
-    "title": "^3.5.3"
   },
   "license": "MIT"
 }
