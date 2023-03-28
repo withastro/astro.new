@@ -2,6 +2,8 @@
 import Layout from "../layouts/Base.astro"
 import { getExamples } from "../utils/index.js"
 
+export const prerender = true
+
 const examples = await getExamples("latest")
 ---
 

@@ -1,5 +1,4 @@
 [dev]
-command = 'pnpm dev'
+command = "astro dev"
 targetPort = 3000
-port = 8888
-publish = "dist"
+publish = "public"

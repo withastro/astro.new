@@ -1,5 +1,4 @@
-import type { Handler, HandlerEvent } from "@netlify/functions"
-import fetch from "node-fetch"
+import type { APIContext, APIRoute } from "astro"
 
 const examplesCache = new Map()
 async function getExamples(ref = "latest") {
@@ -107,9 +106,9 @@ function isPlatform(name: string) {
 	return PLATFORMS.has(name)
 }
 
-async function parseReq(event: HandlerEvent) {
-	const platform = event.queryStringParameters?.["on"] ?? "stackblitz"
-	const path = event.path.slice(1)
+async function parseReq(context: APIContext) {
+	const platform = context.url.searchParams.get("on") ?? "stackblitz"
+	const path = context.params.rest?.replace(/^\//, "") ?? ""
 
 	if (!isPlatform(platform)) {
 		throw new Error(
@@ -146,9 +145,9 @@ async function parseReq(event: HandlerEvent) {
 	return value
 }
 
-const handler: Handler = async (event) => {
+export const get: APIRoute = async (context) => {
 	try {
-		const { ref, template, platform } = await parseReq(event)
+		const { ref, template, platform } = await parseReq(context)
 
 		const examples = await getExamples(ref)
 		const example = examples.find((x: { name: string }) => x.name === template)
@@ -162,24 +161,9 @@ const handler: Handler = async (event) => {
 			}
 		}
 
-		return {
-			statusCode: 302,
-			headers: {
-				Location: example[platform],
-			},
-		}
-	} catch (e) {
-		if (e instanceof Error) {
-			return {
-				statusCode: 400,
-				headers: {
-					"content-type": "text/html; charset=utf-8",
-				},
-				body: `${e.message}`,
-			}
-		}
-		throw e
+		return context.redirect(example[platform])
+	} catch (error) {
+		console.error(error)
+		return new Response("An internal error occurred", { status: 500 })
 	}
 }
-
-export { handler }
