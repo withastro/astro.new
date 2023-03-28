@@ -4,12 +4,10 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
-import { Icon } from "astro-icon"
-import AstroLogo from "../components/AstroLogo.astro"
 import Card, { type Props as CardProps } from "../components/Card.astro"
+import Header from "../components/Header.astro"
 import Outlinks from "../components/Outlinks.astro"
 import PageTitle from "../components/PageTitle.astro"
-import { mainSiteLink, socialLinks } from "../data/links"
 import type { Example } from "../utils/index"
 import { TOP_SECTION } from "../utils/index"
 
@@ -22,9 +20,9 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 <html lang="en" class="bg-astro-gray-700 text-astro-gray-100">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,intial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
-
 		<link
 			rel="preload"
 			href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
@@ -32,7 +30,6 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			type="font/woff2"
 			crossorigin
 		/>
-
 		<link
 			rel="preload"
 			href="/fonts/MD IO/Web/MDIO0.5-Regular.woff2"
@@ -40,10 +37,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			type="font/woff2"
 			crossorigin
 		/>
-
 		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
 
-		<meta name="viewport" content="width=device-width" />
 		<title>astro.new{pathname}</title>
 		<meta
 			name="description"
@@ -59,34 +54,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 	</head>
 
 	<body>
-		<header
-			class="noise-panel flex h-24 items-center gap-6 border-b border-astro-gray-500 px-8"
-		>
-			<a href="/" class="transition hover:opacity-75" title="Home">
-				<AstroLogo class="h-14 w-10 translate-y-1 object-top" />
-			</a>
-			<div class="h-10 border-r border-white/25"></div>
-			<a href="/" class="transition hover:opacity-75">
-				<h1 class="-translate-y-0.5 font-obviously-wide text-xl tracking-wider">
-					astro.new
-				</h1>
-			</a>
-			<div class="flex-1"></div>
-			{
-				socialLinks.map((link) => (
-					<a
-						href={link.href}
-						title={link.title}
-						class="transition hover:opacity-75"
-					>
-						<Icon name={link.icon} class="s-8" />
-					</a>
-				))
-			}
-			<a href={mainSiteLink} class="button button-primary font-medium">
-				Visit astro.build
-			</a>
-		</header>
+		<Header />
+
 		<PageTitle>
 			<Fragment slot="title">
 				<span>astro.new</span>{
