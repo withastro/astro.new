@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "netlify dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -17,6 +17,7 @@
     "lint:astro": "cd src && astro check"
   },
   "dependencies": {
+    "@astrojs/netlify": "^2.2.0",
     "title": "^3.5.3"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "astro-icon": "^0.8.0",
     "eslint": "^8.36.0",
     "install": "^0.13.0",
+    "netlify-cli": "^13.2.2",
     "node-fetch": "^3.3.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.6",
