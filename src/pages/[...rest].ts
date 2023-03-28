@@ -1,5 +1,4 @@
 import type { APIContext, APIRoute } from "astro"
-import fetch from "node-fetch"
 
 const examplesCache = new Map()
 async function getExamples(ref = "latest") {
