@@ -13,8 +13,8 @@ dependencies:
 
 devDependencies:
   '@astrojs/site-kit':
-    specifier: github:withastro/site-kit#v1.0.0
-    version: github.com/withastro/site-kit/2d76bd831104768c174324a0156e3fc9880a450e(@types/node@18.15.11)(eslint@8.36.0)(postcss@8.4.21)(prettier@2.8.7)(typescript@5.0.2)
+    specifier: github:withastro/site-kit#v2.0.0
+    version: github.com/withastro/site-kit/420973ee39a572febe35976eefaccc6d27ec43d3(@types/node@18.15.11)(eslint@8.36.0)(prettier@2.8.7)(tailwindcss@3.3.0)(typescript@5.0.2)
   '@astrojs/tailwind':
     specifier: ^3.1.1
     version: 3.1.1(astro@2.1.8)(tailwindcss@3.3.0)
@@ -29,7 +29,7 @@ devDependencies:
     version: 3.4.1
   astro:
     specifier: ^2.1.8
-    version: 2.1.8(@types/node@18.15.11)(sharp@0.31.3)
+    version: 2.1.8(@types/node@18.15.11)(sharp@0.32.0)
   astro-icon:
     specifier: ^0.8.0
     version: 0.8.0
@@ -74,7 +74,7 @@ packages:
   /@astrojs/compiler@1.3.0:
     resolution: {integrity: sha512-VxSj3gh/UTB/27rkRCT7SvyGjWtuxUO7Jf7QqDduch7j/gr/uA5P/Q5I/4zIIrZjy2yQAKyKLoox2QI2mM/BSA==}
 
-  /@astrojs/image@0.16.3(astro@2.1.8)(sharp@0.31.3):
+  /@astrojs/image@0.16.3(astro@2.1.8)(sharp@0.32.0):
     resolution: {integrity: sha512-uBs9rKF03jckd0SlNU06PZU8L+WdDCjbvkrsF4QXlArhGExPi5rQi7UVquJFMEQZsVrNxY4mj8M6KBhggXO0Ug==}
     peerDependencies:
       astro: ^2.1.8
@@ -84,13 +84,13 @@ packages:
         optional: true
     dependencies:
       '@altano/tiny-async-pool': 1.0.2
-      astro: 2.1.8(@types/node@18.15.11)(sharp@0.31.3)
+      astro: 2.1.8(@types/node@18.15.11)(sharp@0.32.0)
       http-cache-semantics: 4.1.1
       image-size: 1.0.2
       kleur: 4.1.5
       magic-string: 0.27.0
       mime: 3.0.0
-      sharp: 0.31.3
+      sharp: 0.32.0
     dev: true
 
   /@astrojs/language-server@0.28.3:
@@ -116,7 +116,7 @@ packages:
       astro: ^2.1.5
     dependencies:
       '@astrojs/prism': 2.1.1
-      astro: 2.1.8(@types/node@18.15.11)(sharp@0.31.3)
+      astro: 2.1.8(@types/node@18.15.11)(sharp@0.32.0)
       github-slugger: 1.5.0
       import-meta-resolve: 2.2.2
       rehype-raw: 6.1.1
@@ -139,7 +139,7 @@ packages:
     dependencies:
       '@astrojs/webapi': 2.1.0
       '@netlify/functions': 1.4.0
-      astro: 2.1.8(@types/node@18.15.11)(sharp@0.31.3)
+      astro: 2.1.8(@types/node@18.15.11)(sharp@0.32.0)
       esbuild: 0.15.18
     dev: false
 
@@ -156,7 +156,7 @@ packages:
       tailwindcss: ^3.0.24
     dependencies:
       '@proload/core': 0.3.3
-      astro: 2.1.8(@types/node@18.15.11)(sharp@0.31.3)
+      astro: 2.1.8(@types/node@18.15.11)(sharp@0.32.0)
       autoprefixer: 10.4.14(postcss@8.4.21)
       postcss: 8.4.21
       postcss-load-config: 4.0.1(postcss@8.4.21)
@@ -1714,14 +1714,6 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
-  /@tailwindcss/line-clamp@0.4.2(tailwindcss@3.3.0):
-    resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
-    peerDependencies:
-      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
-    dependencies:
-      tailwindcss: 3.3.0(postcss@8.4.21)
-    dev: true
-
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
@@ -2541,7 +2533,7 @@ packages:
       svgo: 2.8.0
     dev: true
 
-  /astro@2.1.8(@types/node@18.15.11)(sharp@0.31.3):
+  /astro@2.1.8(@types/node@18.15.11)(sharp@0.32.0):
     resolution: {integrity: sha512-4XryaPNUSf6u9rwzd4gd9lX3KpVaann8DesWxIPE3IdhpVjzY0U0wqUjuvkw3DKUbKr4eLbbvJDb4+5h0q623g==}
     engines: {node: '>=16.12.0', npm: '>=6.14.0'}
     hasBin: true
@@ -2591,7 +2583,7 @@ packages:
       rehype: 12.0.1
       semver: 7.3.8
       server-destroy: 1.0.1
-      sharp: 0.31.3
+      sharp: 0.32.0
       shiki: 0.11.1
       slash: 4.0.0
       string-width: 5.1.2
@@ -8073,8 +8065,8 @@ packages:
     dependencies:
       semver: 7.3.8
 
-  /node-addon-api@5.1.0:
-    resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
+  /node-addon-api@6.0.0:
+    resolution: {integrity: sha512-GyHvgPvUXBvAkXa0YvYnhilSB1A+FRYMpIVggKzPZqdaZfevZOuzfWzyvgzOwRLHBeo/MMswmJFsrNF4Nw1pmA==}
 
   /node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
@@ -9885,14 +9877,14 @@ packages:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
     dev: true
 
-  /sharp@0.31.3:
-    resolution: {integrity: sha512-XcR4+FCLBFKw1bdB+GEhnUNXNXvnt0tDo4WsBsraKymuo/IAuPuCBVAL2wIkUw2r/dwFW5Q5+g66Kwl2dgDFVg==}
+  /sharp@0.32.0:
+    resolution: {integrity: sha512-yLAypVcqj1toSAqRSwbs86nEzfyZVDYqjuUX8grhFpeij0DDNagKJXELS/auegDBRDg1XBtELdOGfo2X1cCpeA==}
     engines: {node: '>=14.15.0'}
     requiresBuild: true
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.1
-      node-addon-api: 5.1.0
+      node-addon-api: 6.0.0
       prebuild-install: 7.1.1
       semver: 7.3.8
       simple-get: 4.0.1
@@ -11600,19 +11592,19 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  github.com/withastro/site-kit/2d76bd831104768c174324a0156e3fc9880a450e(@types/node@18.15.11)(eslint@8.36.0)(postcss@8.4.21)(prettier@2.8.7)(typescript@5.0.2):
-    resolution: {tarball: https://codeload.github.com/withastro/site-kit/tar.gz/2d76bd831104768c174324a0156e3fc9880a450e}
-    id: github.com/withastro/site-kit/2d76bd831104768c174324a0156e3fc9880a450e
+  github.com/withastro/site-kit/420973ee39a572febe35976eefaccc6d27ec43d3(@types/node@18.15.11)(eslint@8.36.0)(prettier@2.8.7)(tailwindcss@3.3.0)(typescript@5.0.2):
+    resolution: {tarball: https://codeload.github.com/withastro/site-kit/tar.gz/420973ee39a572febe35976eefaccc6d27ec43d3}
+    id: github.com/withastro/site-kit/420973ee39a572febe35976eefaccc6d27ec43d3
     name: '@astrojs/site-kit'
-    version: 1.0.0
+    version: 2.0.0
     peerDependencies:
       eslint: '>=8'
+      tailwindcss: '>=3.3'
     dependencies:
-      '@astrojs/image': 0.16.3(astro@2.1.8)(sharp@0.31.3)
-      '@tailwindcss/line-clamp': 0.4.2(tailwindcss@3.3.0)
+      '@astrojs/image': 0.16.3(astro@2.1.8)(sharp@0.32.0)
       '@typescript-eslint/eslint-plugin': 5.57.0(@typescript-eslint/parser@5.57.0)(eslint@8.36.0)(typescript@5.0.2)
       '@typescript-eslint/parser': 5.57.0(eslint@8.36.0)(typescript@5.0.2)
-      astro: 2.1.8(@types/node@18.15.11)(sharp@0.31.3)
+      astro: 2.1.8(@types/node@18.15.11)(sharp@0.32.0)
       eslint: 8.36.0
       eslint-config-prettier: 8.8.0(eslint@8.36.0)
       eslint-plugin-astro: 0.26.1(eslint@8.36.0)
@@ -11620,7 +11612,7 @@ packages:
       eslint-plugin-prettier: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.36.0)(prettier@2.8.7)
       prettier-plugin-astro: 0.8.0
       prettier-plugin-tailwindcss: 0.2.5(prettier-plugin-astro@0.8.0)(prettier@2.8.7)
-      sharp: 0.31.3
+      sharp: 0.32.0
       smartypants: 0.1.6
       tailwindcss: 3.3.0(postcss@8.4.21)
     transitivePeerDependencies:
@@ -11632,7 +11624,6 @@ packages:
       - '@trivago/prettier-plugin-sort-imports'
       - '@types/node'
       - less
-      - postcss
       - prettier
       - prettier-plugin-css-order
       - prettier-plugin-import-sort
@@ -11647,6 +11638,5 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - ts-node
       - typescript
     dev: true
