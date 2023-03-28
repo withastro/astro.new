@@ -4,9 +4,12 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
+import { Icon } from "astro-icon"
+import AstroLogo from "../components/AstroLogo.astro"
 import Card, { type Props as CardProps } from "../components/Card.astro"
 import Outlinks from "../components/Outlinks.astro"
 import PageTitle from "../components/PageTitle.astro"
+import { mainSiteLink, socialLinks } from "../data/links"
 import type { Example } from "../utils/index"
 import { TOP_SECTION } from "../utils/index"
 
@@ -16,7 +19,7 @@ const { examples: groups } = Astro.props as Props
 const pathname = Astro.url.pathname.replace(/\/$/, "")
 ---
 
-<html lang="en">
+<html lang="en" class="bg-astro-gray-700 text-astro-gray-100">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -56,12 +59,40 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 	</head>
 
 	<body>
+		<header
+			class="noise-panel flex h-24 items-center gap-6 border-b border-astro-gray-500 px-8"
+		>
+			<a href="/" class="transition hover:opacity-75" title="Home">
+				<AstroLogo class="h-14 w-10 translate-y-1 object-top" />
+			</a>
+			<div class="h-10 border-r border-white/25"></div>
+			<a href="/" class="transition hover:opacity-75">
+				<h1 class="-translate-y-0.5 font-obviously-wide text-xl tracking-wider">
+					astro.new
+				</h1>
+			</a>
+			<div class="flex-1"></div>
+			{
+				socialLinks.map((link) => (
+					<a
+						href={link.href}
+						title={link.title}
+						class="transition hover:opacity-75"
+					>
+						<Icon name={link.icon} class="s-8" />
+					</a>
+				))
+			}
+			<a href={mainSiteLink} class="button button-primary font-medium">
+				Visit astro.build
+			</a>
+		</header>
 		<PageTitle>
 			<Fragment slot="title">
 				<span>astro.new</span>{
 					pathname !== "" && (
 						<>
-							<span class="px-[0.1em] font-normal text-secondary-300">/</span>
+							<span class="text-secondary-300 px-[0.1em] font-normal">/</span>
 							<span>{pathname.substring(1)}</span>
 						</>
 					)
@@ -117,12 +148,6 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 		</main>
 	</body>
 </html>
-
-<style>
-	body {
-		@apply bg-neutral-50 text-neutral-900;
-	}
-</style>
 
 <script>
 	// find all internal links, this will pickup all redirects handled by the redirect function
