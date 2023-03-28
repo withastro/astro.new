@@ -1,5 +1,9 @@
 ---
 import "@astrojs/site-kit/tailwind.css"
+import "@fontsource/inter/variable.css"
+import "../styles/fonts.css"
+
+import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
 import Card, { type Props as CardProps } from "../components/Card.astro"
 import Outlinks from "../components/Outlinks.astro"
 import PageTitle from "../components/PageTitle.astro"
@@ -17,6 +21,25 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+
+		<link
+			rel="preload"
+			href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+
+		<link
+			rel="preload"
+			href="/fonts/MD IO/Web/MDIO0.5-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+
+		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
+
 		<meta name="viewport" content="width=device-width" />
 		<title>astro.new{pathname}</title>
 		<meta

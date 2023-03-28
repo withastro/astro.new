@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^2.2.0",
+    "@fontsource/inter": "^4.5.15",
     "title": "^3.5.3"
   },
   "devDependencies": {
