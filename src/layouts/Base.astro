@@ -4,6 +4,7 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
+import houstonOmg from "../assets/houston-omg.webp"
 import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
 import Card, { type Props as CardProps } from "../components/Card.astro"
 import Header from "../components/Header.astro"
@@ -40,6 +41,13 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			crossorigin
 		/>
 		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
+		<link
+			rel="preload"
+			href={houstonOmg}
+			as="image"
+			type="image/webp"
+			crossorigin
+		/>
 
 		<title>astro.new{pathname}</title>
 		<meta
