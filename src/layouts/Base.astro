@@ -1,6 +1,11 @@
 ---
 import "@astrojs/site-kit/tailwind.css"
+import "@fontsource/inter/variable.css"
+import "../styles/fonts.css"
+
+import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
 import Card, { type Props as CardProps } from "../components/Card.astro"
+import Header from "../components/Header.astro"
 import Outlinks from "../components/Outlinks.astro"
 import PageTitle from "../components/PageTitle.astro"
 import type { Example } from "../utils/index"
@@ -12,12 +17,28 @@ const { examples: groups } = Astro.props as Props
 const pathname = Astro.url.pathname.replace(/\/$/, "")
 ---
 
-<html lang="en">
+<html lang="en" class="bg-astro-gray-700 text-astro-gray-100">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,intial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<link
+			rel="preload"
+			href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/fonts/MD IO/Web/MDIO0.5-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
+
 		<title>astro.new{pathname}</title>
 		<meta
 			name="description"
@@ -33,6 +54,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 	</head>
 
 	<body>
+		<Header />
+
 		<PageTitle>
 			<Fragment slot="title">
 				<span>astro.new</span>{
@@ -94,12 +117,6 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 		</main>
 	</body>
 </html>
-
-<style>
-	body {
-		@apply bg-neutral-50 text-neutral-900;
-	}
-</style>
 
 <script>
 	// find all internal links, this will pickup all redirects handled by the redirect function
