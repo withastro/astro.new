@@ -4,9 +4,11 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
+import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
 import Card, { type Props as CardProps } from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
+import NoiseContainer from "../components/NoiseContainer.astro"
 import Outlinks from "../components/Outlinks.astro"
 import type { Example } from "../utils/index"
 import { TOP_SECTION } from "../utils/index"
@@ -17,7 +19,7 @@ const { examples: groups } = Astro.props as Props
 const pathname = Astro.url.pathname.replace(/\/$/, "")
 ---
 
-<html lang="en" class="bg-astro-gray-700 text-astro-gray-100">
+<html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,intial-scale=1" />
@@ -55,44 +57,67 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 
 	<body>
 		<Header />
-		<Hero />
+		<NoiseContainer>
+			<BackgroundGridContainer>
+				<div
+					class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
+				>
+				</div>
+				<div
+					class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
+				>
+				</div>
+				<div class="container">
+					<Hero />
+				</div>
+			</BackgroundGridContainer>
 
-		<main
-			class="mx-auto flex max-w-screen-xl flex-col px-4 pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16"
-		>
-			<ul class="templates mb-24 flex flex-col gap-24">
-				{
-					groups.map(([category, examples]) => {
-						return (
-							<li class="flex flex-col gap-8">
-								<h2
-									class:list={[
-										"text-2xl",
-										{ "sr-only": category === TOP_SECTION },
-									]}
-								>
-									{category}
-								</h2>
-								<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-									{examples.map(
-										(
-											example: astroHTML.JSX.IntrinsicAttributes & CardProps,
-										) => (
-											<li>
-												<Card {...example} />
-											</li>
-										),
-									)}
-									{category === TOP_SECTION && <Outlinks />}
-								</ul>
-							</li>
-						)
-					})
-				}
-			</ul>
-		</main>
+			<main
+				class="container flex flex-col pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16"
+			>
+				<ul class="templates mb-24 flex flex-col gap-24">
+					{
+						groups.map(([category, examples]) => {
+							return (
+								<li class="flex flex-col gap-8">
+									<h2
+										class:list={[
+											"text-2xl",
+											{ "sr-only": category === TOP_SECTION },
+										]}
+									>
+										{category}
+									</h2>
+									<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+										{examples.map(
+											(
+												example: astroHTML.JSX.IntrinsicAttributes & CardProps,
+											) => (
+												<li>
+													<Card {...example} />
+												</li>
+											),
+										)}
+										{category === TOP_SECTION && <Outlinks />}
+									</ul>
+								</li>
+							)
+						})
+					}
+				</ul>
+			</main>
+		</NoiseContainer>
 	</body>
 </html>
+
+<style>
+	.container {
+		@apply mx-auto max-w-screen-xl px-4 md:px-8;
+	}
+	.bg-radial-gradient {
+		background-image: radial-gradient(closest-side, var(--tw-gradient-stops));
+	}
+</style>
 
 <script>
 	// find all internal links, this will pickup all redirects handled by the redirect function
