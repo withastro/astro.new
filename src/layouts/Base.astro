@@ -6,13 +6,14 @@ import "../styles/fonts.css"
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
 import houstonOmg from "../assets/houston-omg.webp"
 import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
-import Card, { type Props as CardProps } from "../components/Card.astro"
+import Card from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
 import NoiseContainer from "../components/NoiseContainer.astro"
-import Outlinks from "../components/Outlinks.astro"
+import Tab from "../components/Tab.astro"
+import TabContent from "../components/TabContent.astro"
+import TabPanel from "../components/TabPanel.astro"
 import type { Example } from "../utils/index"
-import { TOP_SECTION } from "../utils/index"
 
 type Props = { examples: Array<[string, Example[]]> }
 const { examples: groups } = Astro.props as Props
@@ -65,6 +66,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 
 	<body>
 		<Header />
+
 		<NoiseContainer>
 			<BackgroundGridContainer>
 				<div
@@ -80,39 +82,27 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 				</div>
 			</BackgroundGridContainer>
 
-			<main
-				class="container flex flex-col pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16"
-			>
-				<ul class="templates mb-24 flex flex-col gap-24">
+			<main class="container">
+				<TabPanel>
 					{
-						groups.map(([category, examples]) => {
-							return (
-								<li class="flex flex-col gap-8">
-									<h2
-										class:list={[
-											"text-2xl",
-											{ "sr-only": category === TOP_SECTION },
-										]}
-									>
-										{category}
-									</h2>
-									<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-										{examples.map(
-											(
-												example: astroHTML.JSX.IntrinsicAttributes & CardProps,
-											) => (
-												<li>
-													<Card {...example} />
-												</li>
-											),
-										)}
-										{category === TOP_SECTION && <Outlinks />}
-									</ul>
-								</li>
-							)
-						})
+						groups.map(([category], index) => (
+							<Tab id={category} label={category} default={index === 0} />
+						))
 					}
-				</ul>
+				</TabPanel>
+				{
+					groups.map(([category, examples], index) => (
+						<TabContent id={category} default={index === 0}>
+							<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+								{examples.map((example) => (
+									<li>
+										<Card {...example} />
+									</li>
+								))}
+							</ul>
+						</TabContent>
+					))
+				}
 			</main>
 		</NoiseContainer>
 	</body>

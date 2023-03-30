@@ -17,7 +17,7 @@ const TITLES = new Map([
 	["minimal", "Empty Project"],
 ])
 // this heading is hidden from the page
-export const TOP_SECTION = "Featured Starters"
+export const TOP_SECTION = "Getting Started"
 const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"]
 
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"])
