@@ -16,7 +16,6 @@ const TITLES = new Map([
 	["basics", "Just the Basics"],
 	["minimal", "Empty Project"],
 ])
-// this heading is hidden from the page
 export const TOP_SECTION = "Getting Started"
 const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"]
 
