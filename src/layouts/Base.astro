@@ -127,6 +127,15 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 	}
 </style>
 
+<style is:global>
+	:focus {
+		outline: none;
+	}
+	:focus-visible {
+		@apply ring-2 ring-astro-purple;
+	}
+</style>
+
 <script>
 	// find all internal links, this will pickup all redirects handled by the redirect function
 	document
