@@ -4,19 +4,26 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
+import { posix } from "node:path"
 import houstonOmg from "../assets/houston-omg.webp"
 import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
 import Card from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
 import NoiseContainer from "../components/NoiseContainer.astro"
-import Tab from "../components/Tab.astro"
-import TabContent from "../components/TabContent.astro"
-import TabPanel from "../components/TabPanel.astro"
-import type { Example } from "../utils/index"
+import { TOP_SECTION, type Example } from "../utils"
 
-type Props = { examples: Array<[string, Example[]]> }
-const { examples: groups } = Astro.props as Props
+export type Props = {
+	examples: Map<string, Example[]>
+	currentExample?: string | undefined
+	basePath: string
+}
+
+const currentExample = Astro.props.currentExample || TOP_SECTION
+const exampleList = Astro.props.examples.get(currentExample)
+if (!exampleList) {
+	throw new Error(`No examples found for "${currentExample}"`)
+}
 
 const pathname = Astro.url.pathname.replace(/\/$/, "")
 ---
@@ -83,26 +90,29 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			</BackgroundGridContainer>
 
 			<main class="container">
-				<TabPanel>
+				<nav class="flex flex-wrap border-b border-astro-gray-500">
 					{
-						groups.map(([category], index) => (
-							<Tab id={category} label={category} default={index === 0} />
+						[...Astro.props.examples.entries()].map(([category]) => (
+							<a
+								href={posix.join(Astro.props.basePath, category)}
+								data-active={category === currentExample || undefined}
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+							>
+								{category}
+							</a>
 						))
 					}
-				</TabPanel>
-				{
-					groups.map(([category, examples], index) => (
-						<TabContent id={category} default={index === 0}>
-							<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-								{examples.map((example) => (
-									<li>
-										<Card {...example} />
-									</li>
-								))}
-							</ul>
-						</TabContent>
-					))
-				}
+				</nav>
+
+				<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+					{
+						exampleList.map((example) => (
+							<li>
+								<Card {...example} />
+							</li>
+						))
+					}
+				</ul>
 			</main>
 		</NoiseContainer>
 	</body>

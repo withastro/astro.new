@@ -4,7 +4,7 @@ import { getExamples } from "../utils/index.js"
 
 export const prerender = true
 
-const examples = await getExamples("latest")
+const examples = await getExamples()
 ---
 
-<Layout examples={examples} />
+<Layout examples={examples} basePath="" />

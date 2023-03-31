@@ -68,10 +68,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
 	}
 }
 
-function groupExamplesByCategory(
-	examples: ExampleData[],
-	ref: string,
-): Array<[string, Example[]]> {
+function groupExamplesByCategory(examples: ExampleData[], ref: string) {
 	const groups: {
 		[TOP_SECTION]: Example[]
 		Frameworks: Example[]
@@ -112,7 +109,7 @@ function groupExamplesByCategory(
 	groups["Frameworks"] = groups["Frameworks"].sort(
 		sortExamplesByOrder(FRAMEWORK_ORDER),
 	)
-	return Object.entries(groups)
+	return new Map(Object.entries(groups))
 }
 
 export async function getExamples(ref = "latest") {
