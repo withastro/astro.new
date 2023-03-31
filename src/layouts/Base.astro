@@ -4,7 +4,6 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
-import { posix } from "node:path"
 import houstonOmg from "../assets/houston-omg.webp"
 import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
 import Card from "../components/Card.astro"
@@ -12,6 +11,7 @@ import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
 import NoiseContainer from "../components/NoiseContainer.astro"
 import { TOP_SECTION, type Example } from "../utils"
+import { joinPath } from "../utils/path"
 
 export type Props = {
 	examples: Map<string, Example[]>
@@ -94,7 +94,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 					{
 						[...Astro.props.examples.entries()].map(([category]) => (
 							<a
-								href={posix.join(Astro.props.basePath, category)}
+								href={joinPath(Astro.props.basePath, category)}
 								data-active={category === currentExample || undefined}
 								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
