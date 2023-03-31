@@ -10,18 +10,18 @@ import Card from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
 import NoiseContainer from "../components/NoiseContainer.astro"
-import { TOP_SECTION, type Example } from "../utils"
-import { joinPath } from "../utils/path"
+import type { ExampleGroup } from "../data/examples.js"
+import { joinPath } from "../utils/path.js"
 
 export type Props = {
-	examples: Map<string, Example[]>
+	examples: Map<string, ExampleGroup>
 	currentExample?: string | undefined
 	basePath: string
 }
 
-const currentExample = Astro.props.currentExample || TOP_SECTION
-const exampleList = Astro.props.examples.get(currentExample)
-if (!exampleList) {
+const currentExample = Astro.props.currentExample || "getting-started"
+const exampleGroup = Astro.props.examples.get(currentExample)
+if (!exampleGroup) {
 	throw new Error(`No examples found for "${currentExample}"`)
 }
 
@@ -92,13 +92,13 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			<main class="container">
 				<nav class="flex flex-wrap border-b border-astro-gray-500">
 					{
-						[...Astro.props.examples.entries()].map(([category]) => (
+						[...Astro.props.examples.values()].map((group) => (
 							<a
-								href={joinPath(Astro.props.basePath, category)}
-								data-active={category === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+								href={joinPath(Astro.props.basePath, group.slug)}
+								data-active={group.slug === currentExample || undefined}
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
-								{category}
+								{group.title}
 							</a>
 						))
 					}
@@ -106,7 +106,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 
 				<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
 					{
-						exampleList.map((example) => (
+						exampleGroup.items.map((example) => (
 							<li>
 								<Card {...example} />
 							</li>

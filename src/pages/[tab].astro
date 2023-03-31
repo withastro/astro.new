@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro"
+import { type ExampleGroup, getExamples } from "../data/examples.js"
 import Layout from "../layouts/Base.astro"
-import { getExamples, type Example } from "../utils/index.js"
 
 export type Props = {
-	examples: Map<string, Example[]>
+	examples: Map<string, ExampleGroup>
 }
 
 export const prerender = true
