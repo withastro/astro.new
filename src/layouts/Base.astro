@@ -5,11 +5,9 @@ import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
 import houstonOmg from "../assets/houston-omg.webp"
-import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
 import Card from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
-import NoiseContainer from "../components/NoiseContainer.astro"
 import type { ExampleGroup } from "../data/examples.js"
 import { joinPath } from "../utils/path.js"
 
@@ -31,7 +29,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 <html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,intial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
 		<link
@@ -74,20 +72,27 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 	<body>
 		<Header />
 
-		<NoiseContainer>
-			<BackgroundGridContainer>
+		<div class="noise-container overflow-x-hidden">
+			<div class="noise"></div>
+
+			<div class="relative">
 				<div
-					class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
-				>
-				</div>
-				<div
-					class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
+					class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"
 				>
 				</div>
 				<div class="container">
 					<Hero />
 				</div>
-			</BackgroundGridContainer>
+			</div>
+
+			<div
+				class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
+			>
+			</div>
+			<div
+				class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
+			>
+			</div>
 
 			<main class="container">
 				<nav class="flex flex-wrap border-b border-astro-gray-500">
@@ -114,7 +119,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 					}
 				</ul>
 			</main>
-		</NoiseContainer>
+		</div>
 	</body>
 </html>
 
