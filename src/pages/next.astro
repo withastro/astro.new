@@ -1,10 +1,10 @@
 ---
+import { getExamples } from "../data/examples.js"
 import Layout from "../layouts/Base.astro"
-import { getExamples } from "../utils/index.js"
 
 export const prerender = true
 
 const examples = await getExamples("main")
 ---
 
-<Layout examples={examples} />
+<Layout examples={examples} basePath="/next" />

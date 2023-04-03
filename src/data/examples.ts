@@ -16,8 +16,7 @@ const TITLES = new Map([
 	["basics", "Just the Basics"],
 	["minimal", "Empty Project"],
 ])
-// this heading is hidden from the page
-export const TOP_SECTION = "Featured Starters"
+export const TOP_SECTION = "Getting Started"
 const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"]
 
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"])
@@ -69,51 +68,61 @@ function toExample({ name }: ExampleData, ref: string): Example {
 	}
 }
 
-function groupExamplesByCategory(
-	examples: ExampleData[],
-	ref: string,
-): Array<[string, Example[]]> {
-	const groups: {
-		[TOP_SECTION]: Example[]
-		Frameworks: Example[]
-		Integrations: Example[]
-		Templates: Example[]
-	} = {
-		[TOP_SECTION]: [],
-		Frameworks: [],
-		Integrations: [],
-		Templates: [],
-	}
+export type ExampleGroup = {
+	title: string
+	slug: string
+	items: Example[]
+}
+
+function groupExamplesByCategory(examples: ExampleData[], ref: string) {
+	const gettingStartedItems: Example[] = []
+	const frameworks: Example[] = []
+	const integrations: Example[] = []
+	const templates: Example[] = []
+
 	for (const example of examples) {
 		if (example.size !== 0) continue
+
 		const data = toExample(example, ref)
-		switch (true) {
-			case TOP_SECTION_ORDER.includes(example.name):
-				groups[TOP_SECTION].push(data)
-				break
-			case example.name.startsWith("with-"):
-				if (FEATURED_INTEGRATIONS.has(example.name.replace("with-", ""))) {
-					groups["Integrations"].splice(0, 0, data)
-				} else {
-					groups["Integrations"].push(data)
-				}
-				break
-			case example.name.startsWith("framework-"):
-				groups["Frameworks"].push(data)
-				break
-			default: {
-				groups["Templates"].push(data)
-				break
+		if (TOP_SECTION_ORDER.includes(example.name)) {
+			gettingStartedItems.push(data)
+		} else if (example.name.startsWith("with-")) {
+			if (FEATURED_INTEGRATIONS.has(example.name.replace("with-", ""))) {
+				integrations.splice(0, 0, data)
+			} else {
+				integrations.push(data)
 			}
+		} else if (example.name.startsWith("framework-")) {
+			frameworks.push(data)
+		} else {
+			templates.push(data)
 		}
 	}
-	groups[TOP_SECTION] = groups[TOP_SECTION].sort(
-		sortExamplesByOrder(TOP_SECTION_ORDER),
+
+	return new Map(
+		Object.entries({
+			"getting-started": {
+				title: TOP_SECTION,
+				slug: "getting-started",
+				items: gettingStartedItems.sort(sortExamplesByOrder(TOP_SECTION_ORDER)),
+			},
+			frameworks: {
+				title: "Frameworks",
+				slug: "frameworks",
+				items: frameworks.sort(sortExamplesByOrder(FRAMEWORK_ORDER)),
+			},
+			integrations: {
+				title: "Integrations",
+				slug: "integrations",
+				items: integrations,
+			},
+			templates: {
+				title: "Templates",
+				slug: "templates",
+				items: templates,
+			},
+		}),
 	)
-	groups["Frameworks"] = groups["Frameworks"].sort(
-		sortExamplesByOrder(FRAMEWORK_ORDER),
-	)
-	return Object.entries(groups)
 }
 
 export async function getExamples(ref = "latest") {

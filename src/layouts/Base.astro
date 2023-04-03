@@ -5,17 +5,23 @@ import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
 import houstonOmg from "../assets/houston-omg.webp"
-import BackgroundGridContainer from "../components/BackgroundGridContainer.astro"
-import Card, { type Props as CardProps } from "../components/Card.astro"
+import Card from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
-import NoiseContainer from "../components/NoiseContainer.astro"
-import Outlinks from "../components/Outlinks.astro"
-import type { Example } from "../utils/index"
-import { TOP_SECTION } from "../utils/index"
+import type { ExampleGroup } from "../data/examples.js"
+import { joinPath } from "../utils/path.js"
 
-type Props = { examples: Array<[string, Example[]]> }
-const { examples: groups } = Astro.props as Props
+export type Props = {
+	examples: Map<string, ExampleGroup>
+	currentExample?: string | undefined
+	basePath: string
+}
+
+const currentExample = Astro.props.currentExample || "getting-started"
+const exampleGroup = Astro.props.examples.get(currentExample)
+if (!exampleGroup) {
+	throw new Error(`No examples found for "${currentExample}"`)
+}
 
 const pathname = Astro.url.pathname.replace(/\/$/, "")
 ---
@@ -23,7 +29,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 <html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width,intial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
 		<link
@@ -65,56 +71,55 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 
 	<body>
 		<Header />
-		<NoiseContainer>
-			<BackgroundGridContainer>
+
+		<div class="noise-container overflow-x-hidden">
+			<div class="noise"></div>
+
+			<div class="relative">
 				<div
-					class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
-				>
-				</div>
-				<div
-					class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
+					class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"
 				>
 				</div>
 				<div class="container">
 					<Hero />
 				</div>
-			</BackgroundGridContainer>
+			</div>
 
-			<main
-				class="container flex flex-col pt-8 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16"
+			<div
+				class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
 			>
-				<ul class="templates mb-24 flex flex-col gap-24">
+			</div>
+			<div
+				class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
+			>
+			</div>
+
+			<main class="container">
+				<nav class="flex flex-wrap border-b border-astro-gray-500">
 					{
-						groups.map(([category, examples]) => {
-							return (
-								<li class="flex flex-col gap-8">
-									<h2
-										class:list={[
-											"text-2xl",
-											{ "sr-only": category === TOP_SECTION },
-										]}
-									>
-										{category}
-									</h2>
-									<ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-										{examples.map(
-											(
-												example: astroHTML.JSX.IntrinsicAttributes & CardProps,
-											) => (
-												<li>
-													<Card {...example} />
-												</li>
-											),
-										)}
-										{category === TOP_SECTION && <Outlinks />}
-									</ul>
-								</li>
-							)
-						})
+						[...Astro.props.examples.values()].map((group) => (
+							<a
+								href={joinPath(Astro.props.basePath, group.slug)}
+								data-active={group.slug === currentExample || undefined}
+								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+							>
+								{group.title}
+							</a>
+						))
+					}
+				</nav>
+
+				<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+					{
+						exampleGroup.items.map((example) => (
+							<li>
+								<Card {...example} />
+							</li>
+						))
 					}
 				</ul>
 			</main>
-		</NoiseContainer>
+		</div>
 	</body>
 </html>
 
@@ -124,6 +129,15 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 	}
 	.bg-radial-gradient {
 		background-image: radial-gradient(closest-side, var(--tw-gradient-stops));
+	}
+</style>
+
+<style is:global>
+	:focus {
+		outline: none;
+	}
+	:focus-visible {
+		@apply ring-2 ring-astro-purple;
 	}
 </style>
 
