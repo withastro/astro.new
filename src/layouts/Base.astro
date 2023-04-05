@@ -4,7 +4,8 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
-import houstonOmg from "../assets/houston-omg.webp"
+import houstonHappy from "../assets/houston_happy.webp"
+import houstonOmg from "../assets/houston_omg.webp"
 import Card from "../components/Card.astro"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
@@ -101,7 +102,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 							<a
 								href={joinPath(Astro.props.basePath, group.slug)}
 								data-active={group.slug === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
 								{group.title}
 							</a>
@@ -118,6 +119,11 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 						))
 					}
 				</ul>
+
+				<section>
+					<img src={houstonHappy} alt="" />
+					<h2>Houston, we have resources</h2>
+				</section>
 			</main>
 		</div>
 	</body>
