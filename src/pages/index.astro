@@ -1,10 +1,3 @@
 ---
-import { getExamples } from "../data/examples.js"
-import Layout from "../layouts/Base.astro"
-
-export const prerender = true
-
-const examples = await getExamples()
+return Astro.redirect("/latest")
 ---
-
-<Layout examples={examples} basePath="" />
