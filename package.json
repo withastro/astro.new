@@ -29,6 +29,7 @@
     "@astrojs/site-kit": "github:withastro/site-kit#v2.0.0",
     "@astrojs/tailwind": "^3.1.1",
     "@netlify/functions": "^1.4.0",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^18.15.11",
     "@types/title": "^3.4.1",
     "astro": "^2.1.8",
