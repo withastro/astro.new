@@ -1,0 +1,39 @@
+---
+export type Props = {
+	class?: string
+	title: string
+	description: string
+	link: {
+		href: string
+		text: string
+	}
+}
+---
+
+<div class="h-full @container">
+	<article
+		class="noise-container relative flex h-full w-full flex-col justify-end gap-4 overflow-hidden bg-transparent px-6 py-4 text-center @sm:pt-16 @sm:text-left"
+	>
+		<div class="noise"></div>
+		<div
+			aria-hidden="true"
+			class="noise-underlay right-0 top-0 flex flex-1 items-center self-center @sm:absolute @sm:block"
+		>
+			<slot name="icon" />
+		</div>
+		<h3 class="heading-3 whitespace-pre-line">{Astro.props.title}</h3>
+		<p class="text-astro-gray-100">
+			{Astro.props.description}
+		</p>
+		<a
+			href={Astro.props.link.href}
+			class="button self-start self-center border-0 bg-white hover:bg-astro-gray-200 @sm:self-start"
+		>
+			<span
+				class="inline-block bg-blue-purple-gradient bg-clip-text leading-normal text-transparent"
+			>
+				{Astro.props.link.text}
+			</span>
+		</a>
+	</article>
+</div>
