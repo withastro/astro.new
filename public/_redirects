@@ -1,3 +1,2 @@
-/      /index.html 200
-/next  /next.html 200
+/      /latest.html 200
 /fonts/*                https://fonts-cdn.astro.build/:splat 200
