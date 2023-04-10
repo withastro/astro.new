@@ -4,10 +4,13 @@ import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
-import houstonOmg from "../assets/houston-omg.webp"
-import Card from "../components/Card.astro"
+import Icon from "astro-icon"
+import houstonHappy from "../assets/houston_happy.webp"
+import houstonOmg from "../assets/houston_omg.webp"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
+import RepoCard from "../components/RepoCard.astro"
+import ResourceCard from "../components/ResourceCard.astro"
 import type { ExampleGroup } from "../data/examples.js"
 import { joinPath } from "../utils/path.js"
 
@@ -109,15 +112,71 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 					}
 				</nav>
 
-				<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+				<ul
+					class="mb-24 mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+				>
 					{
 						exampleGroup.items.map((example) => (
 							<li>
-								<Card {...example} />
+								<RepoCard {...example} />
 							</li>
 						))
 					}
 				</ul>
+
+				<section class="flex flex-col items-center">
+					<img src={houstonHappy} alt="" />
+					<h2 class="heading-2 text-center">Houston, we have resources</h2>
+					<div
+						class="my-16 flex w-full flex-wrap gap-4 children:flex-1 children:basis-72"
+					>
+						<div class="border border-astro-gray-400 bg-red-pink-gradient">
+							<ResourceCard
+								title="Learn more\nin our docs"
+								description="Thanks to our wonderful contributors, our docs are the best place to learn, troubleshoot, and explore Astro."
+								link={{ text: "Start learning", href: "/" }}
+							>
+								<Icon
+									slot="icon"
+									name="pages"
+									size={120}
+									class="@sm:mr-4 @sm:mt-4"
+								/>
+							</ResourceCard>
+						</div>
+
+						<div class="border border-astro-gray-400 bg-blue-green-gradient">
+							<ResourceCard
+								title="Get started\nwith themes"
+								description="Explore our official and community themes to get started on your next project. Portfolios, docs, blogs, marketing sites, and more."
+								link={{ text: "Find a theme", href: "/" }}
+							>
+								<Icon
+									slot="icon"
+									name="pulse"
+									size={100}
+									class="@sm:mr-4 @sm:mt-4"
+								/>
+							</ResourceCard>
+						</div>
+
+						<div class="border border-astro-gray-400 bg-blue-purple-gradient">
+							<ResourceCard
+								title="Join our\ncommunity"
+								description="Get support, get involved, and join our community of 5000+ developers—it all happens on Discord."
+								link={{ text: "Join our Discord", href: "/" }}
+							>
+								<Icon
+									slot="icon"
+									name="community-circle"
+									width={190}
+									height={176}
+									class="@sm:-mr-8 @sm:-mt-12"
+								/>
+							</ResourceCard>
+						</div>
+					</div>
+				</section>
 			</main>
 		</div>
 	</body>

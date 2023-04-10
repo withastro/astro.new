@@ -21,6 +21,9 @@ devDependencies:
   '@netlify/functions':
     specifier: ^1.4.0
     version: 1.4.0
+  '@tailwindcss/container-queries':
+    specifier: ^0.1.1
+    version: 0.1.1(tailwindcss@3.3.0)
   '@types/node':
     specifier: ^18.15.11
     version: 18.15.11
@@ -1712,6 +1715,14 @@ packages:
     engines: {node: '>=14.16'}
     dependencies:
       defer-to-connect: 2.0.1
+    dev: true
+
+  /@tailwindcss/container-queries@0.1.1(tailwindcss@3.3.0):
+    resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
+    peerDependencies:
+      tailwindcss: '>=3.2.0'
+    dependencies:
+      tailwindcss: 3.3.0(postcss@8.4.21)
     dev: true
 
   /@trysound/sax@0.2.0:
