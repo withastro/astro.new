@@ -1,14 +1,8 @@
 ---
 import { Icon } from "astro-icon"
+import type { Example } from "../data/examples.js"
 
-export type Props = {
-	title: string
-	sourceUrl: string
-	stackblitzUrl: string
-	codesandboxUrl: string
-	gitpodUrl: string
-	previewImage: string | null
-}
+export type Props = Example
 
 const {
 	title,
