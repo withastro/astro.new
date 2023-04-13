@@ -129,9 +129,10 @@ export async function getExamples(ref = "latest") {
 	const headers: Headers = new Headers({
 		Accept: "application/vnd.github.v3+json",
 	})
-	if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN === "undefined") {
+	if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN !== "string") {
 		console.warn(
-			`PUBLIC_VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`,
+			`PUBLIC_VITE_GITHUB_TOKEN is ${typeof import.meta.env
+				.PUBLIC_VITE_GITHUB_TOKEN}. You may run into rate-limiting issues.`,
 		)
 	} else {
 		headers.set(
@@ -152,7 +153,7 @@ export async function getExamples(ref = "latest") {
 		)
 		throw new Error(`GITHUB_TOKEN appears to be misconfigured`)
 	}
-	return groupExamplesByCategory(examples, ref)
+	return groupExamplesByCategory(examples as ExampleData[], ref)
 }
 
 function sortExamplesByOrder(order: string[]) {
