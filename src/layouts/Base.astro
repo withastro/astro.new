@@ -68,7 +68,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 
 		<SEO
 			name="astro.new"
-			title={`astro.new${pathname}`}
+			title={exampleGroup.title}
 			description="Quickly launch example Astro projects in your favorite browser IDE!"
 			image={{ src: seoBanner, alt: "" }}
 			canonicalURL={new URL(pathname, `https://astro.new`)}
@@ -114,7 +114,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 							<a
 								href={joinPath(Astro.props.basePath, group.slug)}
 								data-active={group.slug === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
 								{group.title}
 							</a>
