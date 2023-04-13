@@ -3,10 +3,12 @@ import "@astrojs/site-kit/tailwind.css"
 import "@fontsource/inter/variable.css"
 import "../styles/fonts.css"
 
+import { SEO } from "@astrojs/site-kit/components"
 import Inter from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2"
 import Icon from "astro-icon"
 import houstonHappy from "../assets/houston_happy.webp"
 import houstonOmg from "../assets/houston_omg.webp"
+import seoBanner from "../assets/seo-banner.webp"
 import Header from "../components/Header.astro"
 import Hero from "../components/Hero.astro"
 import RepoCard from "../components/RepoCard.astro"
@@ -62,6 +64,14 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 		<meta
 			name="description"
 			content="Quickly launch example Astro projects in your favorite browser IDE!"
+		/>
+
+		<SEO
+			name="astro.new"
+			title={`astro.new${pathname}`}
+			description="Quickly launch example Astro projects in your favorite browser IDE!"
+			image={{ src: seoBanner, alt: "" }}
+			canonicalURL={new URL(pathname, `https://astro.new`)}
 		/>
 
 		<!-- Fathom - beautiful, simple website analytics -->
@@ -193,45 +203,47 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 				</section>
 			</main>
 		</div>
+		<style>
+			.container {
+				@apply mx-auto max-w-screen-xl px-4 md:px-8;
+			}
+			.bg-radial-gradient {
+				background-image: radial-gradient(
+					closest-side,
+					var(--tw-gradient-stops)
+				);
+			}
+		</style>
+
+		<style is:global>
+			:focus {
+				outline: none;
+			}
+			:focus-visible {
+				@apply ring-2 ring-astro-purple;
+			}
+		</style>
+
+		<script>
+			// find all internal links, this will pickup all redirects handled by the redirect function
+			document
+				.querySelectorAll<HTMLAnchorElement>("a[href^='/']")
+				.forEach((link) => {
+					link.addEventListener("click", () => {
+						window.fathom.trackPageview({
+							url: link.href,
+						})
+					})
+				})
+
+			declare global {
+				// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+				interface Window {
+					fathom: {
+						trackPageview: (options: { url: string }) => void
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
-
-<style>
-	.container {
-		@apply mx-auto max-w-screen-xl px-4 md:px-8;
-	}
-	.bg-radial-gradient {
-		background-image: radial-gradient(closest-side, var(--tw-gradient-stops));
-	}
-</style>
-
-<style is:global>
-	:focus {
-		outline: none;
-	}
-	:focus-visible {
-		@apply ring-2 ring-astro-purple;
-	}
-</style>
-
-<script>
-	// find all internal links, this will pickup all redirects handled by the redirect function
-	document
-		.querySelectorAll<HTMLAnchorElement>("a[href^='/']")
-		.forEach((link) => {
-			link.addEventListener("click", () => {
-				window.fathom.trackPageview({
-					url: link.href,
-				})
-			})
-		})
-
-	declare global {
-		// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-		interface Window {
-			fathom: {
-				trackPageview: (options: { url: string }) => void
-			}
-		}
-	}
-</script>
