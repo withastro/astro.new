@@ -16,18 +16,18 @@ const {
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
-	previewImage,
+	previewImage = "/previews/minimal.webp",
 } = Astro.props
 ---
 
 <article class="relative border border-astro-gray-500 bg-astro-gray-600">
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
-		{
-			!!previewImage && (
-				<img src={previewImage} alt="" class="object-cover s-full" />
-			)
-		}
+		<img
+			src={previewImage}
+			alt=""
+			class="object-cover object-left-top s-full"
+		/>
 	</div>
 	<div class="flex flex-col gap-4 p-5">
 		<h3 class="heading-4">{title}</h3>

@@ -44,7 +44,7 @@ export type Example = {
 	stackblitzUrl: string
 	codesandboxUrl: string
 	gitpodUrl: string
-	previewImage: string | null
+	previewImage: string | undefined
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
@@ -63,7 +63,9 @@ function toExample({ name }: ExampleData, ref: string): Example {
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
-		previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : null,
+		previewImage: previewImageSlugs.has(name)
+			? `/previews/${name}.webp`
+			: undefined,
 		title,
 	}
 }
