@@ -33,8 +33,14 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 
 <html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<SEO
+			name="astro.new"
+			title={exampleGroup.title}
+			description="Quickly launch example Astro projects in your favorite browser IDE!"
+			image={{ src: seoBanner, alt: "" }}
+			canonicalURL={new URL(pathname, `https://astro.new`)}
+		/>
+
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
 		<link
@@ -58,20 +64,6 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			as="image"
 			type="image/webp"
 			crossorigin
-		/>
-
-		<title>astro.new{pathname}</title>
-		<meta
-			name="description"
-			content="Quickly launch example Astro projects in your favorite browser IDE!"
-		/>
-
-		<SEO
-			name="astro.new"
-			title={exampleGroup.title}
-			description="Quickly launch example Astro projects in your favorite browser IDE!"
-			image={{ src: seoBanner, alt: "" }}
-			canonicalURL={new URL(pathname, `https://astro.new`)}
 		/>
 
 		<!-- Fathom - beautiful, simple website analytics -->
@@ -114,7 +106,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 							<a
 								href={joinPath(Astro.props.basePath, group.slug)}
 								data-active={group.slug === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
 								{group.title}
 							</a>
