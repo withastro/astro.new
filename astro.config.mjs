@@ -13,4 +13,9 @@ export default defineConfig({
 	],
 	output: "server",
 	adapter: netlify(),
+	vite: {
+		ssr: {
+			noExternal: ["smartypants"],
+		},
+	},
 })
