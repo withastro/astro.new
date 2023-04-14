@@ -106,7 +106,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 							<a
 								href={joinPath(Astro.props.basePath, group.slug)}
 								data-active={group.slug === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
 								{group.title}
 							</a>
@@ -206,7 +206,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 				Terms and Conditions
 			</a>
 			<address class="not-italic text-astro-gray-200 sm:ml-auto">
-				&copy; {new Date().getFullYear()} Astro, Inc.
+				MIT License &copy; {new Date().getFullYear()} Astro Contributors
 			</address>
 		</footer>
 
