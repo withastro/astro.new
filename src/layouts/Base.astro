@@ -106,7 +106,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 							<a
 								href={joinPath(Astro.props.basePath, group.slug)}
 								data-active={group.slug === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+								class="from-astro-blue/50 inline-block rounded-t-lg to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
 								{group.title}
 							</a>
@@ -195,6 +195,21 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 				</section>
 			</main>
 		</div>
+
+		<footer
+			class="container flex flex-col items-center gap-x-8 gap-y-2 border-t border-astro-gray-500 p-8 sm:flex-row sm:px-12"
+		>
+			<a href="https://astro.build/privacy" class="link text-astro-gray-200">
+				Privacy Policy
+			</a>
+			<a href="https://astro.build/terms" class="link text-astro-gray-200">
+				Terms and Conditions
+			</a>
+			<address class="not-italic text-astro-gray-200 sm:ml-auto">
+				&copy; {new Date().getFullYear()} Astro, Inc.
+			</address>
+		</footer>
+
 		<style>
 			.container {
 				@apply mx-auto max-w-screen-xl px-4 md:px-8;
