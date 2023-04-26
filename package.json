@@ -1,9 +1,14 @@
 {
   "name": "@example/minimal",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@8.0.0",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "netlify dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -11,29 +16,31 @@
     "format:prettier": "prettier -w --plugin-search-dir=. .",
     "format:eslint": "eslint --fix \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
     "lint": "run-s --print-label --continue-on-error lint:*",
-    "lint:prettier": "prettier --check --plugin-search-dir=. .",
     "lint:eslint": "eslint \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
     "lint:tsc": "tsc --noEmit",
-    "lint:astro": "cd src && astro check"
+    "lint:astro": "astro check"
   },
   "dependencies": {
+    "@astrojs/netlify": "^2.2.2",
+    "@fontsource/inter": "^4.5.15",
     "title": "^3.5.3"
   },
   "devDependencies": {
-    "@astrojs/site-kit": "withastro/site-kit#v1.0.0",
+    "@astrojs/site-kit": "github:withastro/site-kit#v5.0.0",
     "@astrojs/tailwind": "^3.1.1",
     "@netlify/functions": "^1.4.0",
-    "@types/node": "^18.15.5",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@types/node": "^18.15.11",
     "@types/title": "^3.4.1",
-    "astro": "^2.1.5",
+    "astro": "^2.2.3",
     "astro-icon": "^0.8.0",
-    "eslint": "^8.36.0",
+    "eslint": "^8.38.0",
     "install": "^0.13.0",
-    "node-fetch": "^3.3.1",
+    "netlify-cli": "^13.2.2",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.6",
-    "tailwindcss": "^3.2.7",
-    "typescript": "^5.0.2"
+    "prettier": "^2.8.7",
+    "tailwindcss": "^3.3.1",
+    "typescript": "^5.0.4"
   },
   "license": "MIT"
 }

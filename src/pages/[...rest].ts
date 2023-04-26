@@ -1,10 +1,20 @@
-import type { Handler, HandlerEvent } from "@netlify/functions"
-import fetch from "node-fetch"
+import type { APIContext, APIRoute } from "astro"
 
-const examplesCache = new Map()
+type CachedExample = {
+	name: string
+	github: string
+	netlify: string
+	stackblitz: string
+	codesandbox: string
+	gitpod: string
+}
+
+const examplesCache = new Map<string, CachedExample[]>()
+
 async function getExamples(ref = "latest") {
-	if (examplesCache.has(ref)) {
-		return examplesCache.get(ref)
+	const existing = examplesCache.get(ref)
+	if (existing) {
+		return existing
 	}
 
 	const headers: HeadersInit = {
@@ -17,12 +27,17 @@ async function getExamples(ref = "latest") {
 	} else {
 		headers["Authorization"] = `token ${process.env.VITE_GITHUB_TOKEN}`
 	}
-	const examples = await fetch(
+	const examplesResponse = await fetch(
 		`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
 		{
 			headers,
 		},
-	).then((res: { json: () => any }) => res.json())
+	)
+	const examples = (await examplesResponse.json()) as Array<{
+		name: string
+		size: number
+		html_url: string
+	}>
 
 	if (!Array.isArray(examples)) {
 		console.error(
@@ -32,20 +47,18 @@ async function getExamples(ref = "latest") {
 		throw new Error(`Unable to fetch templates from GitHub`)
 	}
 
-	const values = examples
-		.map((example) =>
-			example.size > 0
-				? null
-				: {
-						name: example.name,
-						github: example.html_url,
-						netlify: "https://astro.build",
-						stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-						codesandbox: `https://codesandbox.io/p/sandbox/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-						gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
-				  },
-		)
-		.filter((x) => x)
+	const values = examples.flatMap((example) =>
+		example.size > 0
+			? []
+			: {
+					name: example.name,
+					github: example.html_url,
+					netlify: "https://astro.build",
+					stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
+					codesandbox: `https://codesandbox.io/p/sandbox/github/withastro/astro/tree/${ref}/examples/${example.name}`,
+					gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
+			  },
+	)
 
 	examplesCache.set(ref, values)
 
@@ -96,20 +109,21 @@ async function validateRef(name: string) {
 	)
 }
 
+type Platform = typeof PLATFORMS extends Set<infer T> ? T : never
 const PLATFORMS = new Set([
 	"stackblitz",
 	"codesandbox",
 	"netlify",
 	"github",
 	"gitpod",
-])
-function isPlatform(name: string) {
-	return PLATFORMS.has(name)
+] as const)
+function isPlatform(name: string): name is Platform {
+	return PLATFORMS.has(name as Platform)
 }
 
-async function parseReq(event: HandlerEvent) {
-	const platform = event.queryStringParameters?.["on"] ?? "stackblitz"
-	const path = event.path.slice(1)
+async function parseReq(context: APIContext) {
+	const platform = context.url.searchParams.get("on") ?? "stackblitz"
+	const path = context.params.rest?.replace(/^\//, "") ?? ""
 
 	if (!isPlatform(platform)) {
 		throw new Error(
@@ -146,40 +160,28 @@ async function parseReq(event: HandlerEvent) {
 	return value
 }
 
-const handler: Handler = async (event) => {
+export const get: APIRoute = async (context) => {
+	if (context.url.pathname === "/") {
+		return context.redirect("/latest")
+	}
+
 	try {
-		const { ref, template, platform } = await parseReq(event)
+		const { ref, template, platform } = await parseReq(context)
 
 		const examples = await getExamples(ref)
-		const example = examples.find((x: { name: string }) => x.name === template)
+		const example = examples.find((x) => x.name === template)
 
 		if (!example) {
-			return {
-				statusCode: 404,
-				body: `Unable to find ${template}! Supported templates are:\n  - ${examples
-					.map((x: { name: any }) => x.name)
-					.join(`\n  - `)}`,
-			}
+			const supportedTemplates = examples.map((x) => x.name).join(`\n  - `)
+			return new Response(
+				`Unable to find ${template}! Supported templates are:\n  - ${supportedTemplates}`,
+				{ status: 404 },
+			)
 		}
 
-		return {
-			statusCode: 302,
-			headers: {
-				Location: example[platform],
-			},
-		}
-	} catch (e) {
-		if (e instanceof Error) {
-			return {
-				statusCode: 400,
-				headers: {
-					"content-type": "text/html; charset=utf-8",
-				},
-				body: `${e.message}`,
-			}
-		}
-		throw e
+		return context.redirect(example[platform])
+	} catch (error) {
+		console.error(error)
+		return new Response("An internal error occurred", { status: 500 })
 	}
 }
-
-export { handler }
