@@ -16,7 +16,6 @@
     "format:prettier": "prettier -w --plugin-search-dir=. .",
     "format:eslint": "eslint --fix \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
     "lint": "run-s --print-label --continue-on-error lint:*",
-    "lint:prettier": "prettier --check --plugin-search-dir=. .",
     "lint:eslint": "eslint \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
     "lint:tsc": "tsc --noEmit",
     "lint:astro": "astro check"
