@@ -1,4 +1,5 @@
 import toTitle from "title"
+import { toStarlightName } from "../utils/constants.js"
 import {
 	astroContentUrl,
 	githubRequest,
@@ -21,14 +22,14 @@ const TITLES = new Map([
 	["with-markdown-plugins", "Markdown (Remark Plugins)"],
 	["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
 	["basics", "Just the Basics"],
-	["starlight-basics", "Starlight"],
+	[toStarlightName("basics"), "Starlight"],
 	["minimal", "Empty Project"],
 ])
 export const TOP_SECTION = "Getting Started"
 const TOP_SECTION_ORDER = [
 	"basics",
 	"blog",
-	"starlight-basics",
+	toStarlightName("basics"),
 	"portfolio",
 	"minimal",
 ]
@@ -139,11 +140,11 @@ export async function getExamples(ref = "latest") {
 			fetch(githubRequest(astroContentUrl(ref))).then((res) => res.json()),
 			fetch(githubRequest(starlightContentUrl()))
 				.then((res) => res.json())
-				// prefix starlight examples with "starlight-" to differentiate duplicate example names
+				// prefix starlight example names to differentiate duplicate example names
 				.then((examples: ExampleData[]) =>
 					examples.map((example) => ({
 						...example,
-						name: `starlight-${example.name}`,
+						name: toStarlightName(example.name),
 					})),
 				),
 		])

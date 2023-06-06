@@ -1,4 +1,5 @@
 import type { APIContext, APIRoute } from "astro"
+import { fromStarlightName, isStarlightName } from "../utils/constants.js"
 import {
 	astroContentUrl,
 	githubRequest,
@@ -126,10 +127,6 @@ function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform)
 }
 
-function isStarlightExample(name: string) {
-	return name.startsWith("starlight-")
-}
-
 async function parseReq(context: APIContext) {
 	const platform = context.url.searchParams.get("on") ?? "stackblitz"
 	const path = context.params.rest?.replace(/^\//, "") ?? ""
@@ -151,9 +148,9 @@ async function parseReq(context: APIContext) {
 		platform,
 	}
 
-	if (isStarlightExample(path)) {
+	if (isStarlightName(path)) {
 		value.repo = "starlight"
-		value.template = path.slice(`starlight-`.length)
+		value.template = fromStarlightName(path)
 	}
 
 	if (path.indexOf("@") > -1) {
