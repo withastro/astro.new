@@ -14,10 +14,17 @@ const TITLES = new Map([
 	["with-markdown-plugins", "Markdown (Remark Plugins)"],
 	["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
 	["basics", "Just the Basics"],
+	["starlight-basics", "Starlight"],
 	["minimal", "Empty Project"],
 ])
 export const TOP_SECTION = "Getting Started"
-const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"]
+const TOP_SECTION_ORDER = [
+	"basics",
+	"blog",
+	"starlight-basics",
+	"portfolio",
+	"minimal",
+]
 
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"])
 const FRAMEWORK_ORDER = [
@@ -142,12 +149,31 @@ export async function getExamples(ref = "latest") {
 			`token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`,
 		)
 	}
-	const examples = await fetch(
-		`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
-		{
-			headers,
-		},
-	).then((res) => res.json())
+
+	const examples = (
+		await Promise.all([
+			fetch(
+				`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
+				{
+					headers,
+				},
+			).then((res) => res.json()),
+			fetch(
+				`https://api.github.com/repos/withastro/starlight/contents/examples`,
+				{
+					headers,
+				},
+			)
+				.then((res) => res.json())
+				.then((examples) =>
+					examples.map((example) => ({
+						...example,
+						name: `starlight-${example.name}`,
+					})),
+				),
+		])
+	).flat()
+
 	if (!Array.isArray(examples)) {
 		console.error(
 			`GITHUB_TOKEN appears to be misconfigured. Expected array, got:`,
