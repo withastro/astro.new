@@ -134,7 +134,7 @@ function groupExamplesByCategory(examples: ExampleData[], ref: string) {
 	)
 }
 
-export async function getExamples(ref = "latest") {
+function githubRequest(url: string) {
 	const headers: Headers = new Headers({
 		Accept: "application/vnd.github.v3+json",
 	})
@@ -150,21 +150,24 @@ export async function getExamples(ref = "latest") {
 		)
 	}
 
+	return new Request(url, { headers })
+}
+
+export async function getExamples(ref = "latest") {
 	const examples = (
 		await Promise.all([
 			fetch(
-				`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
-				{
-					headers,
-				},
+				githubRequest(
+					`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
+				),
 			).then((res) => res.json()),
 			fetch(
-				`https://api.github.com/repos/withastro/starlight/contents/examples`,
-				{
-					headers,
-				},
+				githubRequest(
+					`https://api.github.com/repos/withastro/starlight/contents/examples`,
+				),
 			)
 				.then((res) => res.json())
+				// prefix starlight examples with "starlight-" to differentiate duplicate example names
 				.then((examples: ExampleData[]) =>
 					examples.map((example) => ({
 						...example,
