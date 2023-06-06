@@ -165,7 +165,7 @@ export async function getExamples(ref = "latest") {
 				},
 			)
 				.then((res) => res.json())
-				.then((examples) =>
+				.then((examples: ExampleData[]) =>
 					examples.map((example) => ({
 						...example,
 						name: `starlight-${example.name}`,
