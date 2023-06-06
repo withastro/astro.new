@@ -1,4 +1,10 @@
 import type { APIContext, APIRoute } from "astro"
+import {
+	astroContentUrl,
+	githubRequest,
+	starlightContentUrl,
+	type ExampleData,
+} from "../utils/github.js"
 
 type CachedExample = {
 	name: string
@@ -10,34 +16,54 @@ type CachedExample = {
 }
 
 const examplesCache = new Map<string, CachedExample[]>()
+let starlightExamplesCache: CachedExample[] | undefined = undefined
+
+function toCachedExample({ name, html_url }: ExampleData): CachedExample {
+	const githubUrl = new URL(html_url)
+	return {
+		name,
+		github: html_url,
+		netlify: "https://astro.build",
+		stackblitz: `https://stackblitz.com/github${githubUrl.pathname}`,
+		codesandbox: `https://codesandbox.io/p/sandbox/github${githubUrl.pathname}`,
+		gitpod: `https://gitpod.io/#${html_url}`,
+	}
+}
+
+async function getStarlightExamples() {
+	if (starlightExamplesCache) {
+		return starlightExamplesCache
+	}
+
+	const examples: ExampleData[] = await fetch(
+		githubRequest(starlightContentUrl()),
+	).then((res) => res.json())
+
+	if (!Array.isArray(examples)) {
+		console.error(
+			`Unable to fetch templates from GitHub. Expected array, got:`,
+			examples,
+		)
+		throw new Error(`Unable to fetch templates from GitHub`)
+	}
+
+	starlightExamplesCache = examples.flatMap((example) =>
+		example.size > 0 ? [] : toCachedExample(example),
+	)
+
+	return starlightExamplesCache
+}
 
 async function getExamples(ref = "latest") {
 	const existing = examplesCache.get(ref)
+
 	if (existing) {
 		return existing
 	}
 
-	const headers: HeadersInit = {
-		Accept: "application/vnd.github.v3+json",
-	}
-	if (typeof process.env.VITE_GITHUB_TOKEN === "undefined") {
-		console.warn(
-			`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`,
-		)
-	} else {
-		headers["Authorization"] = `token ${process.env.VITE_GITHUB_TOKEN}`
-	}
-	const examplesResponse = await fetch(
-		`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
-		{
-			headers,
-		},
-	)
-	const examples = (await examplesResponse.json()) as Array<{
-		name: string
-		size: number
-		html_url: string
-	}>
+	const examples: ExampleData[] = await fetch(
+		githubRequest(astroContentUrl(ref)),
+	).then((res) => res.json())
 
 	if (!Array.isArray(examples)) {
 		console.error(
@@ -48,16 +74,7 @@ async function getExamples(ref = "latest") {
 	}
 
 	const values = examples.flatMap((example) =>
-		example.size > 0
-			? []
-			: {
-					name: example.name,
-					github: example.html_url,
-					netlify: "https://astro.build",
-					stackblitz: `https://stackblitz.com/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-					codesandbox: `https://codesandbox.io/p/sandbox/github/withastro/astro/tree/${ref}/examples/${example.name}`,
-					gitpod: `https://gitpod.io/#https://github.com/withastro/astro/tree/${ref}/examples/${example.name}`,
-			  },
+		example.size > 0 ? [] : toCachedExample(example),
 	)
 
 	examplesCache.set(ref, values)
@@ -71,22 +88,10 @@ async function getRelease(ref: string) {
 		return releaseCache.get(ref)
 	}
 
-	const headers: HeadersInit = {
-		Accept: "application/vnd.github.v3+json",
-	}
-	if (typeof process.env.VITE_GITHUB_TOKEN === "undefined") {
-		console.warn(
-			`VITE_GITHUB_TOKEN is undefined. You may run into rate-limiting issues.`,
-		)
-	} else {
-		headers["Authorization"] = `token ${process.env.VITE_GITHUB_TOKEN}`
-	}
-
 	const release = await fetch(
-		`https://api.github.com/repos/withastro/astro/releases/tags/astro@${ref}`,
-		{
-			headers,
-		},
+		githubRequest(
+			`https://api.github.com/repos/withastro/astro/releases/tags/astro@${ref}`,
+		),
 	).then((res) => (res.status === 200 ? res.json() : null))
 
 	releaseCache.set(ref, release)
@@ -121,6 +126,10 @@ function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform)
 }
 
+function isStarlightExample(name: string) {
+	return name.startsWith("starlight-")
+}
+
 async function parseReq(context: APIContext) {
 	const platform = context.url.searchParams.get("on") ?? "stackblitz"
 	const path = context.params.rest?.replace(/^\//, "") ?? ""
@@ -137,8 +146,14 @@ async function parseReq(context: APIContext) {
 
 	const value = {
 		ref: "latest",
+		repo: "astro",
 		template: path,
 		platform,
+	}
+
+	if (isStarlightExample(path)) {
+		value.repo = "starlight"
+		value.template = path.slice(`starlight-`.length)
 	}
 
 	if (path.indexOf("@") > -1) {
@@ -166,9 +181,10 @@ export const get: APIRoute = async (context) => {
 	}
 
 	try {
-		const { ref, template, platform } = await parseReq(context)
+		const { ref, repo, template, platform } = await parseReq(context)
 
-		const examples = await getExamples(ref)
+		const examples =
+			repo === "astro" ? await getExamples(ref) : await getStarlightExamples()
 		const example = examples.find((x) => x.name === template)
 
 		if (!example) {

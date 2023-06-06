@@ -1,4 +1,11 @@
 import toTitle from "title"
+import {
+	astroContentUrl,
+	githubRequest,
+	starlightContentUrl,
+	type ExampleData,
+} from "../utils/github.js"
+
 const previewImageSlugs = new Set(
 	Object.keys(import.meta.glob("../../public/previews/*.webp")).map((key) =>
 		key
@@ -36,14 +43,6 @@ const FRAMEWORK_ORDER = [
 	"solid",
 ].map((name) => `framework-${name}`)
 
-type ExampleData = {
-	name: string
-	size: number
-	url: string
-	html_url: string
-	git_url: string
-	preview_image: string
-}
 export type Example = {
 	name: string
 	title: string
@@ -134,38 +133,11 @@ function groupExamplesByCategory(examples: ExampleData[], ref: string) {
 	)
 }
 
-function githubRequest(url: string) {
-	const headers: Headers = new Headers({
-		Accept: "application/vnd.github.v3+json",
-	})
-	if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN !== "string") {
-		console.warn(
-			`PUBLIC_VITE_GITHUB_TOKEN is ${typeof import.meta.env
-				.PUBLIC_VITE_GITHUB_TOKEN}. You may run into rate-limiting issues.`,
-		)
-	} else {
-		headers.set(
-			"Authorization",
-			`token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`,
-		)
-	}
-
-	return new Request(url, { headers })
-}
-
 export async function getExamples(ref = "latest") {
 	const examples = (
 		await Promise.all([
-			fetch(
-				githubRequest(
-					`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
-				),
-			).then((res) => res.json()),
-			fetch(
-				githubRequest(
-					`https://api.github.com/repos/withastro/starlight/contents/examples`,
-				),
-			)
+			fetch(githubRequest(astroContentUrl(ref))).then((res) => res.json()),
+			fetch(githubRequest(starlightContentUrl()))
 				.then((res) => res.json())
 				// prefix starlight examples with "starlight-" to differentiate duplicate example names
 				.then((examples: ExampleData[]) =>
