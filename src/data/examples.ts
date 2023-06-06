@@ -1,5 +1,5 @@
 import toTitle from "title"
-import { toStarlightName } from "../utils/constants.js"
+import { isStarlightName, toStarlightName } from "../utils/constants.js"
 import {
 	astroContentUrl,
 	githubRequest,
@@ -55,7 +55,8 @@ export type Example = {
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
-	const suffix = ref === "main" ? "@next" : ""
+	// ignore refs for Starlight! Those examples always come from main
+	const suffix = ref === "main" && !isStarlightName(name) ? "@next" : ""
 	let title: string
 	if (TITLES.has(name)) {
 		title = TITLES.get(name) as string // we just checked w/ `.has()` it should exist.
