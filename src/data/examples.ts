@@ -1,4 +1,12 @@
 import toTitle from "title"
+import { isStarlightName, toStarlightName } from "../utils/constants.js"
+import {
+	astroContentUrl,
+	githubRequest,
+	starlightContentUrl,
+	type ExampleData,
+} from "../utils/github.js"
+
 const previewImageSlugs = new Set(
 	Object.keys(import.meta.glob("../../public/previews/*.webp")).map((key) =>
 		key
@@ -14,10 +22,17 @@ const TITLES = new Map([
 	["with-markdown-plugins", "Markdown (Remark Plugins)"],
 	["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
 	["basics", "Just the Basics"],
+	[toStarlightName("basics"), "Starlight"],
 	["minimal", "Empty Project"],
 ])
 export const TOP_SECTION = "Getting Started"
-const TOP_SECTION_ORDER = ["basics", "blog", "docs", "portfolio", "minimal"]
+const TOP_SECTION_ORDER = [
+	"basics",
+	"blog",
+	toStarlightName("basics"),
+	"portfolio",
+	"minimal",
+]
 
 const FEATURED_INTEGRATIONS = new Set(["tailwindcss"])
 const FRAMEWORK_ORDER = [
@@ -29,14 +44,6 @@ const FRAMEWORK_ORDER = [
 	"solid",
 ].map((name) => `framework-${name}`)
 
-type ExampleData = {
-	name: string
-	size: number
-	url: string
-	html_url: string
-	git_url: string
-	preview_image: string
-}
 export type Example = {
 	name: string
 	title: string
@@ -48,7 +55,8 @@ export type Example = {
 }
 
 function toExample({ name }: ExampleData, ref: string): Example {
-	const suffix = ref === "main" ? "@next" : ""
+	// ignore refs for Starlight! Those examples always come from main
+	const suffix = ref === "main" && !isStarlightName(name) ? "@next" : ""
 	let title: string
 	if (TITLES.has(name)) {
 		title = TITLES.get(name) as string // we just checked w/ `.has()` it should exist.
@@ -128,26 +136,21 @@ function groupExamplesByCategory(examples: ExampleData[], ref: string) {
 }
 
 export async function getExamples(ref = "latest") {
-	const headers: Headers = new Headers({
-		Accept: "application/vnd.github.v3+json",
-	})
-	if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN !== "string") {
-		console.warn(
-			`PUBLIC_VITE_GITHUB_TOKEN is ${typeof import.meta.env
-				.PUBLIC_VITE_GITHUB_TOKEN}. You may run into rate-limiting issues.`,
-		)
-	} else {
-		headers.set(
-			"Authorization",
-			`token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`,
-		)
-	}
-	const examples = await fetch(
-		`https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`,
-		{
-			headers,
-		},
-	).then((res) => res.json())
+	const examples = (
+		await Promise.all([
+			fetch(githubRequest(astroContentUrl(ref))).then((res) => res.json()),
+			fetch(githubRequest(starlightContentUrl()))
+				.then((res) => res.json())
+				// prefix starlight example names to differentiate duplicate example names
+				.then((examples: ExampleData[]) =>
+					examples.map((example) => ({
+						...example,
+						name: toStarlightName(example.name),
+					})),
+				),
+		])
+	).flat()
+
 	if (!Array.isArray(examples)) {
 		console.error(
 			`GITHUB_TOKEN appears to be misconfigured. Expected array, got:`,
