@@ -217,6 +217,12 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 					var(--tw-gradient-stops)
 				);
 			}
+
+			@media (forced-colors: active) {
+				a[data-active] {
+					background-color: Highlight;
+				}
+			}
 		</style>
 
 		<style is:global>
