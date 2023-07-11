@@ -14,5 +14,5 @@ Instantly generate a new Astro project on StackBlitz or CodeSandbox.
 - From `latest` branch 👉 [astro.new/basics](https://astro.new/basics)
 - From `main` branch 👉 [astro.new/minimal@next](https://astro.new/minimal@next)
 - From a specific tag 👉 [astro.new/blog@0.21.0-next.1](https://astro.new/blog@0.21.0-next.1)
-- On StackBlitz (default) 👉 [astro.new/docs?on=stackblitz](https://astro.new/docs?on=stackblitz)
-- On CodeSandbox 👉 [astro.new/docs?on=codesandbox](https://astro.new/docs?on=codesandbox)
+- On StackBlitz (default) 👉 [astro.new/minimal?on=stackblitz](https://astro.new/minimal?on=stackblitz)
+- On CodeSandbox 👉 [astro.new/minimal?on=codesandbox](https://astro.new/minimal?on=codesandbox)
