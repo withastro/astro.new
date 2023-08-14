@@ -54,9 +54,15 @@ export type Example = {
 	previewImage: string | undefined
 }
 
-function toExample({ name }: ExampleData, ref: string): Example {
+function getSuffix(name: string, ref: string): string {
 	// ignore refs for Starlight! Those examples always come from main
-	const suffix = ref === "main" && !isStarlightName(name) ? "@next" : ""
+	if (ref === 'main' && !isStarlightName(name)) return '@next';
+	if (ref === 'next' && !isStarlightName(name)) return '@next';
+	return '';
+}
+
+function toExample({ name }: ExampleData, ref: string): Example {
+	const suffix = getSuffix(name, ref);
 	let title: string
 	if (TITLES.has(name)) {
 		title = TITLES.get(name) as string // we just checked w/ `.has()` it should exist.
