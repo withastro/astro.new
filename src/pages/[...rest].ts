@@ -160,10 +160,8 @@ async function parseReq(context: APIContext) {
 		}
 		await validateRef(ref)
 		value.template = template
-		if (ref === "next") {
-			value.ref = "main"
-		} else if (ref === "latest") {
-			value.ref = "latest"
+		if (ref === "next" || ref === "latest") {
+			value.ref = ref
 		} else {
 			value.ref = `astro@${ref}`
 		}

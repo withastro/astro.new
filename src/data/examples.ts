@@ -136,6 +136,14 @@ function groupExamplesByCategory(examples: ExampleData[], ref: string) {
 }
 
 export async function getExamples(ref = "latest") {
+	if (ref === 'next') {
+		try {
+			await fetch(githubRequest(astroContentUrl(ref)))
+		} catch (e) {
+			// `next` branch is missing, fallback to `main`
+			ref = 'main'
+		}
+	}
 	const examples = (
 		await Promise.all([
 			fetch(githubRequest(astroContentUrl(ref))).then((res) => res.json()),
