@@ -37,7 +37,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, "")
 			name="astro.new"
 			title={exampleGroup.title}
 			description="Quickly launch example Astro projects in your favorite browser IDE!"
-			image={{ src: seoBanner, alt: "" }}
+			image={{ src: `https://astro.new${seoBanner}`, alt: "" }}
 			canonicalURL={new URL(pathname, `https://astro.new`)}
 		/>
 
