@@ -17,243 +17,245 @@ import type { ExampleGroup } from "../data/examples.js"
 import { joinPath } from "../utils/path.js"
 
 export type Props = {
-	examples: Map<string, ExampleGroup>
-	currentExample?: string | undefined
-	basePath: string
+  examples: Map<string, ExampleGroup>
+  currentExample?: string | undefined
+  basePath: string
 }
 
 const currentExample = Astro.props.currentExample || "getting-started"
 const exampleGroup = Astro.props.examples.get(currentExample)
 if (!exampleGroup) {
-	throw new Error(`No examples found for "${currentExample}"`)
+  throw new Error(`No examples found for "${currentExample}"`)
 }
 
 const pathname = Astro.url.pathname.replace(/\/$/, "")
+
+const resolvedSeoBanner = new URL(seoBanner, Astro.site).toString()
 ---
 
 <html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
-	<head>
-		<SEO
-			name="astro.new"
-			title={exampleGroup.title}
-			description="Quickly launch example Astro projects in your favorite browser IDE!"
-			image={{ src: seoBanner, alt: "" }}
-			canonicalURL={new URL(pathname, `https://astro.new`)}
-		/>
+  <head>
+    <SEO
+      name="astro.new"
+      title={exampleGroup.title}
+      description="Quickly launch example Astro projects in your favorite browser IDE!"
+      image={{ src: resolvedSeoBanner, alt: "" }}
+      canonicalURL={new URL(pathname, `https://astro.new`)}
+    />
 
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
-		<link
-			rel="preload"
-			href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
-			as="font"
-			type="font/woff2"
-			crossorigin
-		/>
-		<link
-			rel="preload"
-			href="/fonts/MD IO/Web/MDIO0.5-Regular.woff2"
-			as="font"
-			type="font/woff2"
-			crossorigin
-		/>
-		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
-		<link
-			rel="preload"
-			href={houstonOmg}
-			as="image"
-			type="image/webp"
-			crossorigin
-		/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="preload"
+      href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/MD IO/Web/MDIO0.5-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href={houstonOmg}
+      as="image"
+      type="image/webp"
+      crossorigin
+    />
 
-		<!-- Fathom - beautiful, simple website analytics -->
-		<script src="https://cdn.usefathom.com/script.js" data-site="EZBHTSIG" defer
-		></script>
-	</head>
+    <!-- Fathom - beautiful, simple website analytics -->
+    <script src="https://cdn.usefathom.com/script.js" data-site="EZBHTSIG" defer
+    ></script>
+  </head>
 
-	<body>
-		<Header />
+  <body>
+    <Header />
 
-		<div class="noise-container overflow-x-hidden">
-			<div class="noise"></div>
+    <div class="noise-container overflow-x-hidden">
+      <div class="noise"></div>
 
-			<div class="relative">
-				<div
-					class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"
-				>
-				</div>
-				<div class="container">
-					<Hero />
-				</div>
-			</div>
+      <div class="relative">
+        <div
+          class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"
+        >
+        </div>
+        <div class="container">
+          <Hero />
+        </div>
+      </div>
 
-			<div
-				class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
-			>
-			</div>
-			<div
-				class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
-			>
-			</div>
+      <div
+        class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
+      >
+      </div>
+      <div
+        class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
+      >
+      </div>
 
-			<main class="container">
-				<nav class="flex flex-wrap border-b border-astro-gray-500">
-					{
-						[...Astro.props.examples.values()].map((group) => (
-							<a
-								href={joinPath(Astro.props.basePath, group.slug)}
-								data-active={group.slug === currentExample || undefined}
-								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
-							>
-								{group.title}
-							</a>
-						))
-					}
-				</nav>
+      <main class="container">
+        <nav class="flex flex-wrap border-b border-astro-gray-500">
+          {
+            [...Astro.props.examples.values()].map((group) => (
+              <a
+                href={joinPath(Astro.props.basePath, group.slug)}
+                data-active={group.slug === currentExample || undefined}
+                class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
+              >
+                {group.title}
+              </a>
+            ))
+          }
+        </nav>
 
-				<ul
-					class="mb-24 mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
-				>
-					{
-						exampleGroup.items.map((example) => (
-							<li>
-								<RepoCard {...example} />
-							</li>
-						))
-					}
-				</ul>
+        <ul
+          class="mb-24 mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+        >
+          {
+            exampleGroup.items.map((example) => (
+              <li>
+                <RepoCard {...example} />
+              </li>
+            ))
+          }
+        </ul>
 
-				<section class="flex flex-col items-center">
-					<img src={houstonHappy} alt="" width="148" height="148" />
-					<h2 class="heading-3 text-center sm:heading-2">
-						Houston, we have resources
-					</h2>
-					<div
-						class="my-16 flex w-full flex-wrap gap-4 children:flex-1 children:basis-72"
-					>
-						<div class="border border-astro-gray-400 bg-red-pink-gradient">
-							<ResourceCard
-								title="Learn more\nin our docs"
-								description="Thanks to our wonderful contributors, our docs are the best place to learn, troubleshoot, and explore Astro."
-								link={{
-									text: "Start learning",
-									href: "https://docs.astro.build",
-								}}
-							>
-								<Icon
-									slot="icon"
-									name="pages"
-									size={120}
-									class="@sm:mr-4 @sm:mt-4"
-									aria-hidden="true"
-								/>
-							</ResourceCard>
-						</div>
+        <section class="flex flex-col items-center">
+          <img src={houstonHappy} alt="" width="148" height="148" />
+          <h2 class="heading-3 text-center sm:heading-2">
+            Houston, we have resources
+          </h2>
+          <div
+            class="my-16 flex w-full flex-wrap gap-4 children:flex-1 children:basis-72"
+          >
+            <div class="border border-astro-gray-400 bg-red-pink-gradient">
+              <ResourceCard
+                title="Learn more\nin our docs"
+                description="Thanks to our wonderful contributors, our docs are the best place to learn, troubleshoot, and explore Astro."
+                link={{
+                  text: "Start learning",
+                  href: "https://docs.astro.build",
+                }}
+              >
+                <Icon
+                  slot="icon"
+                  name="pages"
+                  size={120}
+                  class="@sm:mr-4 @sm:mt-4"
+                  aria-hidden="true"
+                />
+              </ResourceCard>
+            </div>
 
-						<div class="border border-astro-gray-400 bg-blue-green-gradient">
-							<ResourceCard
-								title="Get started\nwith themes"
-								description="Explore our official and community themes to get started on your next project. Portfolios, docs, blogs, marketing sites, and more."
-								link={{
-									text: "Find a theme",
-									href: "https://astro.build/themes",
-								}}
-							>
-								<Icon
-									slot="icon"
-									name="pulse"
-									size={100}
-									class="@sm:mr-4 @sm:mt-4"
-									aria-hidden="true"
-								/>
-							</ResourceCard>
-						</div>
+            <div class="border border-astro-gray-400 bg-blue-green-gradient">
+              <ResourceCard
+                title="Get started\nwith themes"
+                description="Explore our official and community themes to get started on your next project. Portfolios, docs, blogs, marketing sites, and more."
+                link={{
+                  text: "Find a theme",
+                  href: "https://astro.build/themes",
+                }}
+              >
+                <Icon
+                  slot="icon"
+                  name="pulse"
+                  size={100}
+                  class="@sm:mr-4 @sm:mt-4"
+                  aria-hidden="true"
+                />
+              </ResourceCard>
+            </div>
 
-						<div class="border border-astro-gray-400 bg-blue-purple-gradient">
-							<ResourceCard
-								title="Join our\ncommunity"
-								description="Get support, get involved, and join our community of 5000+ developers—it all happens on Discord."
-								link={{
-									text: "Join our Discord",
-									href: "https://astro.build/chat",
-								}}
-							>
-								<Icon
-									slot="icon"
-									name="community-circle"
-									width={190}
-									height={176}
-									class="@sm:-mr-8 @sm:-mt-12"
-									aria-hidden="true"
-								/>
-							</ResourceCard>
-						</div>
-					</div>
-				</section>
-			</main>
-		</div>
+            <div class="border border-astro-gray-400 bg-blue-purple-gradient">
+              <ResourceCard
+                title="Join our\ncommunity"
+                description="Get support, get involved, and join our community of 5000+ developers—it all happens on Discord."
+                link={{
+                  text: "Join our Discord",
+                  href: "https://astro.build/chat",
+                }}
+              >
+                <Icon
+                  slot="icon"
+                  name="community-circle"
+                  width={190}
+                  height={176}
+                  class="@sm:-mr-8 @sm:-mt-12"
+                  aria-hidden="true"
+                />
+              </ResourceCard>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
 
-		<footer
-			class="container flex flex-col items-center gap-x-8 gap-y-2 border-t border-astro-gray-500 p-8 sm:flex-row sm:px-12"
-		>
-			<a href="https://astro.build/privacy" class="link text-astro-gray-200">
-				Privacy Policy
-			</a>
-			<a href="https://astro.build/terms" class="link text-astro-gray-200">
-				Terms and Conditions
-			</a>
-			<address class="not-italic text-astro-gray-200 sm:ml-auto">
-				MIT License &copy; {new Date().getFullYear()} Astro Contributors
-			</address>
-		</footer>
+    <footer
+      class="container flex flex-col items-center gap-x-8 gap-y-2 border-t border-astro-gray-500 p-8 sm:flex-row sm:px-12"
+    >
+      <a href="https://astro.build/privacy" class="link text-astro-gray-200">
+        Privacy Policy
+      </a>
+      <a href="https://astro.build/terms" class="link text-astro-gray-200">
+        Terms and Conditions
+      </a>
+      <address class="not-italic text-astro-gray-200 sm:ml-auto">
+        MIT License &copy; {new Date().getFullYear()} Astro Contributors
+      </address>
+    </footer>
 
-		<style>
-			.container {
-				@apply mx-auto max-w-screen-xl px-4 md:px-8;
-			}
-			.bg-radial-gradient {
-				background-image: radial-gradient(
-					closest-side,
-					var(--tw-gradient-stops)
-				);
-			}
+    <style>
+      .container {
+        @apply mx-auto max-w-screen-xl px-4 md:px-8;
+      }
+      .bg-radial-gradient {
+        background-image: radial-gradient(
+          closest-side,
+          var(--tw-gradient-stops)
+        );
+      }
 
-			@media (forced-colors: active) {
-				a[data-active] {
-					background-color: Highlight;
-				}
-			}
-		</style>
+      @media (forced-colors: active) {
+        a[data-active] {
+          background-color: Highlight;
+        }
+      }
+    </style>
 
-		<style is:global>
-			:focus {
-				outline: none;
-			}
-			:focus-visible {
-				@apply ring-2 ring-astro-purple;
-			}
-		</style>
+    <style is:global>
+      :focus {
+        outline: none;
+      }
+      :focus-visible {
+        @apply ring-2 ring-astro-purple;
+      }
+    </style>
 
-		<script>
-			// find all internal links, this will pickup all redirects handled by the redirect function
-			document
-				.querySelectorAll<HTMLAnchorElement>("a[href^='/']")
-				.forEach((link) => {
-					link.addEventListener("click", () => {
-						window.fathom.trackPageview({
-							url: link.href,
-						})
-					})
-				})
+    <script>
+      // find all internal links, this will pickup all redirects handled by the redirect function
+      document
+        .querySelectorAll<HTMLAnchorElement>("a[href^='/']")
+        .forEach((link) => {
+          link.addEventListener("click", () => {
+            window.fathom.trackPageview({
+              url: link.href,
+            })
+          })
+        })
 
-			declare global {
-				// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-				interface Window {
-					fathom: {
-						trackPageview: (options: { url: string }) => void
-					}
-				}
-			}
-		</script>
-	</body>
+      declare global {
+        // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+        interface Window {
+          fathom: {
+            trackPageview: (options: { url: string }) => void
+          }
+        }
+      }
+    </script>
+  </body>
 </html>
