@@ -1,8 +1,8 @@
 // @ts-check
 // @ts-expect-error: no type defs yet
-const config = require("@astrojs/site-kit/tailwind")
-const plugin = require("tailwindcss/plugin")
-const colors = require("tailwindcss/colors")
+const config = require('@astrojs/site-kit/tailwind');
+const plugin = require('tailwindcss/plugin');
+const colors = require('tailwindcss/colors');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -22,9 +22,9 @@ module.exports = {
 	},
 	plugins: [
 		...config.plugins,
-		require("@tailwindcss/container-queries"),
+		require('@tailwindcss/container-queries'),
 		plugin(function childrenPlugin(api) {
-			api.addVariant("children", "& > *")
+			api.addVariant('children', '& > *');
 		}),
 	],
-}
+};
