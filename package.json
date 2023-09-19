@@ -1,9 +1,8 @@
 {
-  "name": "@example/minimal",
+  "name": "astro.new",
   "type": "module",
-  "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@8.0.0",
+  "packageManager": "pnpm@8.7.6",
   "engines": {
     "node": "18"
   },
@@ -15,18 +14,23 @@
     "format": "run-s format:*",
     "format:prettier": "prettier -w --plugin-search-dir=. .",
     "format:eslint": "eslint --fix \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
-    "lint": "run-s --print-label --continue-on-error lint:*",
-    "lint:eslint": "eslint \"**/*.{js,ts,jsx,tsx,mjs,cjs,astro}\"",
-    "lint:tsc": "tsc --noEmit",
-    "lint:astro": "astro check"
+    "lint": "astro sync && run-s --continue-on-error lint:*",
+    "lint:eslint": "eslint . --fix --cache --cache-location node_modules/.cache/.eslintcache --report-unused-disable-directives",
+    "lint:types": "tsc -b",
+    "lint:astro": "astro check",
+    "lint:prettier": "prettier . \"**/*.astro\" --write --cache --list-different"
   },
+  "eslintConfig": {
+    "extends": "./node_modules/@astrojs/site-kit/eslint.config.cjs"
+  },
+  "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
     "@astrojs/netlify": "^2.2.2",
     "@fontsource/inter": "^4.5.15",
     "title": "^3.5.3"
   },
   "devDependencies": {
-    "@astrojs/site-kit": "github:withastro/site-kit#v5.0.0",
+    "@astrojs/site-kit": "github:withastro/site-kit",
     "@astrojs/tailwind": "^3.1.1",
     "@netlify/functions": "^1.4.0",
     "@tailwindcss/container-queries": "^0.1.1",
@@ -34,13 +38,13 @@
     "@types/title": "^3.4.1",
     "astro": "^2.2.3",
     "astro-icon": "^0.8.0",
-    "eslint": "^8.38.0",
+    "eslint": "^8.49.0",
     "install": "^0.13.0",
     "netlify-cli": "^13.2.2",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.7",
-    "tailwindcss": "^3.3.1",
-    "typescript": "^5.0.4"
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2"
   },
   "license": "MIT"
 }
