@@ -1,3 +1,4 @@
+// @ts-expect-error: module types don't work in this version
 import netlify from '@astrojs/netlify/functions';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig } from 'astro/config';
