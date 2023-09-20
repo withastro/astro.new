@@ -1,25 +1,21 @@
 ---
-import type { GetStaticPaths } from "astro"
-import { getExamples, type ExampleGroup } from "../../data/examples.js"
-import Layout from "../../layouts/Base.astro"
+import type { GetStaticPaths } from 'astro';
+import { getExamples, type ExampleGroup } from '../../data/examples.js';
+import Layout from '../../layouts/Base.astro';
 
 export type Props = {
-  examples: Map<string, ExampleGroup>
-}
+	examples: Map<string, ExampleGroup>;
+};
 
-export const prerender = true
+export const prerender = true;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const examples = await getExamples("next")
-  return [...examples.entries()].map(([tab]) => ({
-    params: { tab },
-    props: { examples },
-  }))
-}
+	const examples = await getExamples('next');
+	return [...examples.entries()].map(([tab]) => ({
+		params: { tab },
+		props: { examples },
+	}));
+};
 ---
 
-<Layout
-  examples={Astro.props.examples}
-  currentExample={Astro.params.tab}
-  basePath="/next"
-/>
+<Layout examples={Astro.props.examples} currentExample={Astro.params.tab} basePath="/next" />

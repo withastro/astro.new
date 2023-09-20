@@ -1,8 +1,7 @@
 {
-  "extends": "astro/tsconfigs/strictest",
+  "extends": "@astrojs/site-kit/tsconfig.json",
   "compilerOptions": {
     "skipLibCheck": true
   },
-  "include": ["**/*", ".eslintrc.cjs"],
-  "exclude": ["node_modules", "dist", "public"]
+  "exclude": ["node_modules", "dist", ".netlify"]
 }
