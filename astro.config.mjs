@@ -1,26 +1,28 @@
-import netlify from "@astrojs/netlify/functions"
+import vercel from "@astrojs/vercel/serverless"
 import tailwind from "@astrojs/tailwind"
 import { defineConfig } from "astro/config"
 
-/* https://docs.netlify.com/configure-builds/environment-variables/#read-only-variables */
-const NETLIFY_PREVIEW_SITE =
-	process.env.CONTEXT !== "production" && process.env.DEPLOY_PRIME_URL
+/* https://vercel.com/docs/projects/environment-variables/system-environment-variables#system-environment-variables */
+const VERCEL_PREVIEW_SITE =
+    process.env.VERCEL_ENV !== "production" &&
+    process.env.VERCEL_URL &&
+    `https://${process.env.VERCEL_URL}`
 
 // https://astro.build/config
 export default defineConfig({
-	site: NETLIFY_PREVIEW_SITE || "https://astro.new",
-	integrations: [
-		tailwind({
-			config: {
-				applyBaseStyles: false,
-			},
-		}),
-	],
-	output: "server",
-	adapter: netlify(),
-	vite: {
-		ssr: {
-			noExternal: ["smartypants"],
-		},
-	},
+    site: VERCEL_PREVIEW_SITE || "https://astro.new",
+    integrations: [
+        tailwind({
+            config: {
+                applyBaseStyles: false,
+            },
+        }),
+    ],
+    output: "server",
+    adapter: vercel(),
+    vite: {
+        ssr: {
+            noExternal: ["smartypants"],
+        },
+    },
 })
