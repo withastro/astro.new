@@ -2,7 +2,6 @@
 /// <reference types="astro/client" />
 interface ImportMetaEnv {
     readonly GITHUB_TOKEN: string;
-    readonly NIGHTLY_BUILD_HOOK: string;
 }
 
 interface ImportMeta {
