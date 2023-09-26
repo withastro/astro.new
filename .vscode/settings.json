@@ -3,10 +3,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.rulers": [80],
   "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": [
-    "source.organizeImports",
-    "source.fixAll.eslint"
-  ],
+  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll.eslint"],
   "javascript.preferences.importModuleSpecifierEnding": "js",
-  "typescript.preferences.importModuleSpecifierEnding": "js"
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

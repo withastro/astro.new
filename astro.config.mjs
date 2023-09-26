@@ -1,6 +1,6 @@
-import vercel from "@astrojs/vercel/serverless"
-import tailwind from "@astrojs/tailwind"
-import { defineConfig } from "astro/config"
+import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel/serverless";
+import { defineConfig } from "astro/config";
 
 /* https://vercel.com/docs/projects/environment-variables/system-environment-variables#system-environment-variables */
 const VERCEL_PREVIEW_SITE =
@@ -11,18 +11,19 @@ const VERCEL_PREVIEW_SITE =
 // https://astro.build/config
 export default defineConfig({
     site: VERCEL_PREVIEW_SITE || "https://astro.new",
-    integrations: [
-        tailwind({
-            config: {
-                applyBaseStyles: false,
-            },
-        }),
-    ],
-    output: "server",
-    adapter: vercel(),
-    vite: {
-        ssr: {
-            noExternal: ["smartypants"],
-        },
-    },
-})
+	integrations: [
+		tailwind({
+			config: {
+				path: './tailwind.config.mjs',
+				applyBaseStyles: false,
+			},
+		}),
+	],
+	output: 'server',
+	adapter: vercel(),
+	vite: {
+		ssr: {
+			noExternal: ['smartypants'],
+		},
+	},
+});

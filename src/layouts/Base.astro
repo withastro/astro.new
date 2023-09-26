@@ -22,8 +22,8 @@ export type Props = {
   basePath: string
 }
 
-const currentExample = Astro.props.currentExample || "getting-started"
-const exampleGroup = Astro.props.examples.get(currentExample)
+const currentExample = Astro.props.currentExample || 'getting-started';
+const exampleGroup = Astro.props.examples.get(currentExample);
 if (!exampleGroup) {
   throw new Error(`No examples found for "${currentExample}"`)
 }
@@ -79,15 +79,12 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString()
     <div class="noise-container overflow-x-hidden">
       <div class="noise"></div>
 
-      <div class="relative">
-        <div
-          class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"
-        >
-        </div>
-        <div class="container">
-          <Hero />
-        </div>
-      </div>
+			<div class="relative">
+				<div class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"></div>
+				<div class="container">
+					<Hero />
+				</div>
+			</div>
 
       <div
         class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
@@ -236,26 +233,24 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString()
       }
     </style>
 
-    <script>
-      // find all internal links, this will pickup all redirects handled by the redirect function
-      document
-        .querySelectorAll<HTMLAnchorElement>("a[href^='/']")
-        .forEach((link) => {
-          link.addEventListener("click", () => {
-            window.fathom.trackPageview({
-              url: link.href,
-            })
-          })
-        })
+		<script>
+			// find all internal links, this will pickup all redirects handled by the redirect function
+			document.querySelectorAll<HTMLAnchorElement>("a[href^='/']").forEach((link) => {
+				link.addEventListener('click', () => {
+					window.fathom.trackPageview({
+						url: link.href,
+					});
+				});
+			});
 
-      declare global {
-        // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-        interface Window {
-          fathom: {
-            trackPageview: (options: { url: string }) => void
-          }
-        }
-      }
-    </script>
-  </body>
+			declare global {
+				// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+				interface Window {
+					fathom: {
+						trackPageview: (options: { url: string }) => void;
+					};
+				}
+			}
+		</script>
+	</body>
 </html>

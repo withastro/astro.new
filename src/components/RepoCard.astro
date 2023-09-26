@@ -1,8 +1,8 @@
 ---
-import { Icon } from "astro-icon"
-import type { Example } from "../data/examples.js"
+import { Icon } from 'astro-icon';
+import type { Example } from '../data/examples.js';
 
-export type Props = Example
+export type Props = Example;
 
 const {
 	title,
@@ -10,26 +10,21 @@ const {
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
-	previewImage = "/previews/minimal.webp",
-} = Astro.props
+	previewImage = '/previews/minimal.webp',
+} = Astro.props;
 ---
 
 <article class="relative border border-astro-gray-500 bg-astro-gray-600">
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
-		<img
-			src={previewImage}
-			alt=""
-			class="object-cover object-left-top s-full"
-		/>
+		<img src={previewImage} alt="" class="object-cover object-left-top s-full" />
 	</div>
 	<div class="flex flex-col gap-4 p-5">
 		<h3 class="heading-4">{title}</h3>
 		<p>
 			<a href={sourceUrl} class="inline-flex items-center gap-1">
 				<Icon name="github" size={16} />
-				<span
-					class="text-sm text-astro-gray-200 underline underline-offset-[3px]"
+				<span class="text-sm text-astro-gray-200 underline underline-offset-[3px]"
 					>View repo on GitHub</span
 				>
 			</a>
@@ -75,77 +70,68 @@ const {
 </article>
 
 <script>
-	const dropdowns = document.querySelectorAll<HTMLDetailsElement>(
-		"details[data-card-options]",
-	)
+	const dropdowns = document.querySelectorAll<HTMLDetailsElement>('details[data-card-options]');
 
-	window.addEventListener("click", (event) => {
+	window.addEventListener('click', (event) => {
 		for (const dropdown of dropdowns) {
 			if (dropdown.open && !dropdown.contains(event.target as Node)) {
-				dropdown.open = false
+				dropdown.open = false;
 			}
 		}
-	})
+	});
 
 	for (const dropdown of dropdowns) {
-		const summary = dropdown.querySelector("summary") as HTMLElement
-		const focusableItems = dropdown.querySelectorAll<HTMLElement>("a, button")
+		const summary = dropdown.querySelector('summary') as HTMLElement;
+		const focusableItems = dropdown.querySelectorAll<HTMLElement>('a, button');
 
-		dropdown.addEventListener("keydown", (event) => {
-			const previouslyHadFocus = dropdown.contains(document.activeElement)
-			if (event.key === "Escape") {
-				dropdown.open = !dropdown.open
+		dropdown.addEventListener('keydown', (event) => {
+			const previouslyHadFocus = dropdown.contains(document.activeElement);
+			if (event.key === 'Escape') {
+				dropdown.open = !dropdown.open;
 				if (previouslyHadFocus) {
-					summary.focus()
+					summary.focus();
 				}
 			}
-		})
+		});
 
-		dropdown.addEventListener("keydown", (event) => {
+		dropdown.addEventListener('keydown', (event) => {
 			const currentIndex = Array.from(focusableItems).indexOf(
 				document.activeElement as HTMLElement,
-			)
+			);
 
-			const modLooped = (n: number, m: number) => ((n % m) + m) % m
+			const modLooped = (n: number, m: number) => ((n % m) + m) % m;
 
-			if (event.key === "ArrowDown") {
-				event.preventDefault()
-				focusableItems[
-					modLooped(currentIndex + 1, focusableItems.length)
-				]?.focus()
+			if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				focusableItems[modLooped(currentIndex + 1, focusableItems.length)]?.focus();
 			}
-			if (event.key === "ArrowUp") {
-				event.preventDefault()
-				focusableItems[
-					modLooped(currentIndex - 1, focusableItems.length)
-				]?.focus()
+			if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				focusableItems[modLooped(currentIndex - 1, focusableItems.length)]?.focus();
 			}
-		})
+		});
 
-		summary.addEventListener("keydown", (event) => {
-			if (event.key === "ArrowDown") {
-				event.preventDefault()
-				event.stopPropagation()
-				dropdown.open = true
-				focusableItems[0]?.focus()
+		summary.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				event.stopPropagation();
+				dropdown.open = true;
+				focusableItems[0]?.focus();
 			}
-			if (event.key === "ArrowUp") {
-				event.preventDefault()
-				event.stopPropagation()
-				dropdown.open = true
-				focusableItems[focusableItems.length - 1]?.focus()
+			if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				event.stopPropagation();
+				dropdown.open = true;
+				focusableItems[focusableItems.length - 1]?.focus();
 			}
-		})
+		});
 
 		for (const item of focusableItems) {
-			item.addEventListener("blur", (event) => {
-				if (
-					!dropdown.contains(event.relatedTarget as Node) ||
-					event.relatedTarget === summary
-				) {
-					dropdown.open = false
+			item.addEventListener('blur', (event) => {
+				if (!dropdown.contains(event.relatedTarget as Node) || event.relatedTarget === summary) {
+					dropdown.open = false;
 				}
-			})
+			});
 		}
 	}
 </script>

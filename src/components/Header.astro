@@ -1,12 +1,10 @@
 ---
-import { Icon } from "astro-icon"
-import AstroLogo from "../components/AstroLogo.astro"
-import { mainSiteLink, socialLinks } from "../data/links"
+import { Icon } from 'astro-icon';
+import AstroLogo from '../components/AstroLogo.astro';
+import { mainSiteLink, socialLinks } from '../data/links';
 ---
 
-<header
-	class="noise-container flex h-24 items-center gap-6 border-b border-astro-gray-500 px-8"
->
+<header class="noise-container flex h-24 items-center gap-6 border-b border-astro-gray-500 px-8">
 	<div class="noise"></div>
 	<a href="/" class="transition hover:opacity-75" title="Home">
 		<AstroLogo class="h-14 w-10 translate-y-1 object-top" />
@@ -15,9 +13,7 @@ import { mainSiteLink, socialLinks } from "../data/links"
 	<div class="hidden md:contents">
 		<div class="h-10 border-r border-white/25"></div>
 		<a href="/" class="transition hover:opacity-75">
-			<h1 class="-translate-y-0.5 font-obviously-wide text-xl tracking-wider">
-				astro.new
-			</h1>
+			<h1 class="-translate-y-0.5 font-obviously-wide text-xl tracking-wider">astro.new</h1>
 		</a>
 	</div>
 
@@ -26,17 +22,11 @@ import { mainSiteLink, socialLinks } from "../data/links"
 	<div class="hidden items-center gap-4 sm:flex">
 		{
 			socialLinks.map((link) => (
-				<a
-					href={link.href}
-					title={link.title}
-					class="transition hover:opacity-75"
-				>
+				<a href={link.href} title={link.title} class="transition hover:opacity-75">
 					<Icon name={link.icon} class="s-8" aria-hidden="true" />
 				</a>
 			))
 		}
 	</div>
-	<a href={mainSiteLink} class="button button-primary font-medium">
-		Visit astro.build
-	</a>
+	<a href={mainSiteLink} class="button button-primary font-medium"> Visit astro.build</a>
 </header>

@@ -1,20 +1,20 @@
 export type ExampleData = {
-	name: string
-	size: number
-	url: string
-	html_url: string
-	git_url: string
-	preview_image: string
-}
+	name: string;
+	size: number;
+	url: string;
+	html_url: string;
+	git_url: string;
+	preview_image: string;
+};
 export type Example = {
-	name: string
-	title: string
-	sourceUrl: string
-	stackblitzUrl: string
-	codesandboxUrl: string
-	gitpodUrl: string
-	previewImage: string | undefined
-}
+	name: string;
+	title: string;
+	sourceUrl: string;
+	stackblitzUrl: string;
+	codesandboxUrl: string;
+	gitpodUrl: string;
+	previewImage: string | undefined;
+};
 
 export function githubRequest(url: string) {
 	const headers: Headers = new Headers({
@@ -32,13 +32,13 @@ export function githubRequest(url: string) {
 		)
 	}
 
-	return new Request(url, { headers })
+	return new Request(url, { headers });
 }
 
 export function astroContentUrl(ref: string) {
-	return `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`
+	return `https://api.github.com/repos/withastro/astro/contents/examples?ref=${ref}`;
 }
 
 export function starlightContentUrl() {
-	return `https://api.github.com/repos/withastro/starlight/contents/examples`
+	return `https://api.github.com/repos/withastro/starlight/contents/examples`;
 }

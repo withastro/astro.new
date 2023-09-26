@@ -1,58 +1,48 @@
-import toTitle from "title"
-import { isStarlightName, toStarlightName } from "../utils/constants.js"
+import toTitle from 'title';
+import { isStarlightName, toStarlightName } from '../utils/constants.js';
 import {
 	astroContentUrl,
 	githubRequest,
 	starlightContentUrl,
 	type ExampleData,
-} from "../utils/github.js"
+} from '../utils/github.js';
 
 const previewImageSlugs = new Set(
-	Object.keys(import.meta.glob("../../public/previews/*.webp")).map((key) =>
-		key
-			.split("/")
-			.pop()
-			?.replace(/\.webp$/, ""),
+	Object.keys(import.meta.glob('../../public/previews/*.webp')).map(
+		(key) =>
+			key
+				.split('/')
+				.pop()
+				?.replace(/\.webp$/, ''),
 	),
-)
+);
 
 const TITLES = new Map([
-	["with-tailwindcss", "Tailwind CSS"],
-	["blog-multiple-authors", "Blog (Complex)"],
-	["with-markdown-plugins", "Markdown (Remark Plugins)"],
-	["framework-multiple", "Kitchen Sink (Multiple Frameworks)"],
-	["basics", "Just the Basics"],
-	[toStarlightName("basics"), "Starlight"],
-	["minimal", "Empty Project"],
-])
-export const TOP_SECTION = "Getting Started"
-const TOP_SECTION_ORDER = [
-	"basics",
-	"blog",
-	toStarlightName("basics"),
-	"portfolio",
-	"minimal",
-]
+	['with-tailwindcss', 'Tailwind CSS'],
+	['blog-multiple-authors', 'Blog (Complex)'],
+	['with-markdown-plugins', 'Markdown (Remark Plugins)'],
+	['framework-multiple', 'Kitchen Sink (Multiple Frameworks)'],
+	['basics', 'Just the Basics'],
+	[toStarlightName('basics'), 'Starlight'],
+	['minimal', 'Empty Project'],
+]);
+export const TOP_SECTION = 'Getting Started';
+const TOP_SECTION_ORDER = ['basics', 'blog', toStarlightName('basics'), 'portfolio', 'minimal'];
 
-const FEATURED_INTEGRATIONS = new Set(["tailwindcss"])
-const FRAMEWORK_ORDER = [
-	"react",
-	"preact",
-	"vue",
-	"svelte",
-	"lit",
-	"solid",
-].map((name) => `framework-${name}`)
+const FEATURED_INTEGRATIONS = new Set(['tailwindcss']);
+const FRAMEWORK_ORDER = ['react', 'preact', 'vue', 'svelte', 'lit', 'solid'].map(
+	(name) => `framework-${name}`,
+);
 
 export type Example = {
-	name: string
-	title: string
-	sourceUrl: string
-	stackblitzUrl: string
-	codesandboxUrl: string
-	gitpodUrl: string
-	previewImage: string | undefined
-}
+	name: string;
+	title: string;
+	sourceUrl: string;
+	stackblitzUrl: string;
+	codesandboxUrl: string;
+	gitpodUrl: string;
+	previewImage: string | undefined;
+};
 
 function getSuffix(name: string, ref: string): string {
 	// ignore refs for Starlight! Those examples always come from main
@@ -63,13 +53,11 @@ function getSuffix(name: string, ref: string): string {
 
 function toExample({ name }: ExampleData, ref: string): Example {
 	const suffix = getSuffix(name, ref);
-	let title: string
+	let title: string;
 	if (TITLES.has(name)) {
-		title = TITLES.get(name) as string // we just checked w/ `.has()` it should exist.
+		title = TITLES.get(name)!; // we just checked w/ `.has()` it should exist.
 	} else {
-		title = toTitle(
-			name.replace(/^(with|framework)/, "").replace(/-/g, " "),
-		).trim()
+		title = toTitle(name.replace(/^(with|framework)/, '').replace(/-/g, ' ')).trim();
 	}
 	return {
 		name,
@@ -77,77 +65,75 @@ function toExample({ name }: ExampleData, ref: string): Example {
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
-		previewImage: previewImageSlugs.has(name)
-			? `/previews/${name}.webp`
-			: undefined,
+		previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : undefined,
 		title,
-	}
+	};
 }
 
 export type ExampleGroup = {
-	title: string
-	slug: string
-	items: Example[]
-}
+	title: string;
+	slug: string;
+	items: Example[];
+};
 
 function groupExamplesByCategory(examples: ExampleData[], ref: string) {
-	const gettingStartedItems: Example[] = []
-	const frameworks: Example[] = []
-	const integrations: Example[] = []
-	const templates: Example[] = []
+	const gettingStartedItems: Example[] = [];
+	const frameworks: Example[] = [];
+	const integrations: Example[] = [];
+	const templates: Example[] = [];
 
 	for (const example of examples) {
-		if (example.size !== 0) continue
+		if (example.size !== 0) continue;
 
-		const data = toExample(example, ref)
+		const data = toExample(example, ref);
 		if (TOP_SECTION_ORDER.includes(example.name)) {
-			gettingStartedItems.push(data)
-		} else if (example.name.startsWith("with-")) {
-			if (FEATURED_INTEGRATIONS.has(example.name.replace("with-", ""))) {
-				integrations.splice(0, 0, data)
+			gettingStartedItems.push(data);
+		} else if (example.name.startsWith('with-')) {
+			if (FEATURED_INTEGRATIONS.has(example.name.replace('with-', ''))) {
+				integrations.splice(0, 0, data);
 			} else {
-				integrations.push(data)
+				integrations.push(data);
 			}
-		} else if (example.name.startsWith("framework-")) {
-			frameworks.push(data)
+		} else if (example.name.startsWith('framework-')) {
+			frameworks.push(data);
 		} else {
-			templates.push(data)
+			templates.push(data);
 		}
 	}
 
 	return new Map(
 		Object.entries({
-			"getting-started": {
+			'getting-started': {
 				title: TOP_SECTION,
-				slug: "getting-started",
+				slug: 'getting-started',
 				items: gettingStartedItems.sort(sortExamplesByOrder(TOP_SECTION_ORDER)),
 			},
 			frameworks: {
-				title: "Frameworks",
-				slug: "frameworks",
+				title: 'Frameworks',
+				slug: 'frameworks',
 				items: frameworks.sort(sortExamplesByOrder(FRAMEWORK_ORDER)),
 			},
 			integrations: {
-				title: "Integrations",
-				slug: "integrations",
+				title: 'Integrations',
+				slug: 'integrations',
 				items: integrations,
 			},
 			templates: {
-				title: "Templates",
-				slug: "templates",
+				title: 'Templates',
+				slug: 'templates',
 				items: templates,
 			},
 		}),
-	)
+	);
 }
 
-export async function getExamples(ref = "latest") {
+export async function getExamples(ref = 'latest') {
 	if (ref === 'next') {
 		try {
-			await fetch(githubRequest(astroContentUrl(ref)))
+			await fetch(githubRequest(astroContentUrl(ref)));
 		} catch (e) {
 			// `next` branch is missing, fallback to `main`
-			ref = 'main'
+			ref = 'main';
 		}
 	}
 	const examples = (
@@ -163,30 +149,27 @@ export async function getExamples(ref = "latest") {
 					})),
 				),
 		])
-	).flat()
+	).flat();
 
 	if (!Array.isArray(examples)) {
-		console.error(
-			`GITHUB_TOKEN appears to be misconfigured. Expected array, got:`,
-			examples,
-		)
-		throw new Error(`GITHUB_TOKEN appears to be misconfigured`)
+		console.error(`GITHUB_TOKEN appears to be misconfigured. Expected array, got:`, examples);
+		throw new Error(`GITHUB_TOKEN appears to be misconfigured`);
 	}
-	return groupExamplesByCategory(examples as ExampleData[], ref)
+	return groupExamplesByCategory(examples as ExampleData[], ref);
 }
 
 function sortExamplesByOrder(order: string[]) {
 	return (a: Example, b: Example) => {
-		let aIndex = order.indexOf(a.name)
-		let bIndex = order.indexOf(b.name)
+		let aIndex = order.indexOf(a.name);
+		let bIndex = order.indexOf(b.name);
 		if (aIndex === -1) {
-			aIndex = Infinity
+			aIndex = Infinity;
 		}
 		if (bIndex === -1) {
-			bIndex = Infinity
+			bIndex = Infinity;
 		}
-		if (aIndex > bIndex) return 1
-		if (aIndex < bIndex) return -1
-		return 0
-	}
+		if (aIndex > bIndex) return 1;
+		if (aIndex < bIndex) return -1;
+		return 0;
+	};
 }
