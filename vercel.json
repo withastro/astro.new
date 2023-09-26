@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/fonts/:splat*",
+      "destination": "https://fonts-cdn.astro.build/:splat*"
+    }
+  ]
+}
