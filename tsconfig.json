@@ -1,7 +1,7 @@
 {
-  "extends": "@astrojs/site-kit/typescript",
+  "extends": "@astrojs/site-kit/tsconfig.json",
   "compilerOptions": {
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", ".vercel"]
+  "exclude": ["node_modules", "dist", ".netlify"]
 }
