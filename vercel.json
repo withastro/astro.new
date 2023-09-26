@@ -1,9 +1,9 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
-    "crons": [
+    "rewrites": [
         {
-            "path": "/api/cron/nightly",
-            "schedule": "0 8 * * *"
+          "source": "/fonts/:splat*",
+          "destination": "https://fonts-cdn.astro.build/:splat*"
         }
     ]
 }
