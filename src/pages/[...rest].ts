@@ -153,8 +153,8 @@ async function parseReq(context: APIContext) {
 }
 
 export const GET: APIRoute = async (context) => {
-	if (context.url.pathname === "/") {
-		return context.redirect("/latest")
+	if (context.url.pathname === '/') {
+		return context.redirect('/latest');
 	}
 
 	try {

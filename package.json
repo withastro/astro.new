@@ -21,7 +21,7 @@
     "lint:prettier": "prettier . \"**/*.astro\" --write --cache --list-different"
   },
   "eslintConfig": {
-    "extends": "./node_modules/@astrojs/site-kit/.eslintrc.cjs"
+    "extends": "./node_modules/@astrojs/site-kit/eslint.config.cjs"
   },
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {

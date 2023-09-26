@@ -18,18 +18,15 @@ export type Example = {
 
 export function githubRequest(url: string) {
 	const headers: Headers = new Headers({
-		Accept: "application/vnd.github.v3+json",
-	})
-	if (typeof import.meta.env.GITHUB_TOKEN !== "string") {
+		Accept: 'application/vnd.github.v3+json',
+	});
+	if (typeof import.meta.env.GITHUB_TOKEN !== 'string') {
 		console.warn(
 			`GITHUB_TOKEN is ${typeof import.meta.env
 				.GITHUB_TOKEN}. You may run into rate-limiting issues.`,
-		)
+		);
 	} else {
-		headers.set(
-			"Authorization",
-			`token ${import.meta.env.GITHUB_TOKEN}`,
-		)
+		headers.set('Authorization', `token ${import.meta.env.GITHUB_TOKEN}`);
 	}
 
 	return new Request(url, { headers });
