@@ -21,17 +21,17 @@
     "lint:prettier": "prettier . \"**/*.astro\" --write --cache --list-different"
   },
   "eslintConfig": {
-    "extends": "./node_modules/@astrojs/site-kit/eslint.config.cjs"
+    "extends": "./node_modules/@astrojs/site-kit/.eslintrc.cjs"
   },
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
+    "@astrojs/check": "^0.2.0",
     "@astrojs/vercel": "^5.0.1",
     "@fontsource-variable/inter": "^5.0.8",
-    "@fontsource/inter": "^5.0.8",
     "title": "^3.5.3"
   },
   "devDependencies": {
-    "@astrojs/site-kit": "github:withastro/site-kit#v5.0.0",
+    "@astrojs/site-kit": "github:withastro/site-kit",
     "@astrojs/tailwind": "^5.0.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^20.6.5",
@@ -43,6 +43,8 @@
     "netlify-cli": "^16.4.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0",
+    "prettier-plugin-tailwindcss": "^0.5.4",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
   },

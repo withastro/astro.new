@@ -3,5 +3,5 @@
   "compilerOptions": {
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", ".netlify"]
+  "exclude": ["node_modules", "dist", ".vercel"]
 }
