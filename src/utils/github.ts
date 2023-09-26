@@ -20,15 +20,15 @@ export function githubRequest(url: string) {
 	const headers: Headers = new Headers({
 		Accept: "application/vnd.github.v3+json",
 	})
-	if (typeof import.meta.env.PUBLIC_VITE_GITHUB_TOKEN !== "string") {
+	if (typeof import.meta.env.GITHUB_TOKEN !== "string") {
 		console.warn(
-			`PUBLIC_VITE_GITHUB_TOKEN is ${typeof import.meta.env
-				.PUBLIC_VITE_GITHUB_TOKEN}. You may run into rate-limiting issues.`,
+			`GITHUB_TOKEN is ${typeof import.meta.env
+				.GITHUB_TOKEN}. You may run into rate-limiting issues.`,
 		)
 	} else {
 		headers.set(
 			"Authorization",
-			`token ${import.meta.env.PUBLIC_VITE_GITHUB_TOKEN}`,
+			`token ${import.meta.env.GITHUB_TOKEN}`,
 		)
 	}
 
