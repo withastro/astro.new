@@ -152,7 +152,7 @@ async function parseReq(context: APIContext) {
 	return value;
 }
 
-export const GET: APIRoute = async (context) => {
+export const get: APIRoute = async (context) => {
 	if (context.url.pathname === '/') {
 		return context.redirect('/latest');
 	}

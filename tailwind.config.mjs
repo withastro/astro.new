@@ -1,4 +1,4 @@
-import preset from '@astrojs/site-kit/tailwind';
+import preset from '@astrojs/site-kit/tailwind-preset';
 import containerQueries from '@tailwindcss/container-queries';
 import colors from 'tailwindcss/colors.js';
 import plugin from 'tailwindcss/plugin.js';
