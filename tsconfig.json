@@ -1,5 +1,5 @@
 {
-  "extends": "@astrojs/site-kit/tsconfig.json",
+  "extends": "@astrojs/site-kit/typescript",
   "compilerOptions": {
     "skipLibCheck": true
   },
