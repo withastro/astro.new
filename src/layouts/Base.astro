@@ -1,10 +1,10 @@
 ---
 import '@astrojs/site-kit/tailwind.css';
-import '@fontsource/inter/variable.css';
+import '@fontsource-variable/inter';
 import '../styles/fonts.css';
 
 import { SEO } from '@astrojs/site-kit/components';
-import Inter from '@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2';
+import Inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
 import Icon from 'astro-icon';
 import houstonHappy from '../assets/houston_happy.webp';
 import houstonOmg from '../assets/houston_omg.webp';
@@ -30,7 +30,7 @@ if (!exampleGroup) {
 
 const pathname = Astro.url.pathname.replace(/\/$/, '');
 
-const resolvedSeoBanner = new URL(seoBanner, Astro.site).toString();
+const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 ---
 
 <html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
@@ -60,7 +60,7 @@ const resolvedSeoBanner = new URL(seoBanner, Astro.site).toString();
 			crossorigin
 		/>
 		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href={houstonOmg} as="image" type="image/webp" crossorigin />
+		<link rel="preload" href={houstonOmg.src} as="image" type="image/webp" crossorigin />
 
 		<!-- Fathom - beautiful, simple website analytics -->
 		<script src="https://cdn.usefathom.com/script.js" data-site="EZBHTSIG" defer></script>
@@ -114,7 +114,7 @@ const resolvedSeoBanner = new URL(seoBanner, Astro.site).toString();
 				</ul>
 
 				<section class="flex flex-col items-center">
-					<img src={houstonHappy} alt="" width="148" height="148" />
+					<img src={houstonHappy.src} alt="" width="148" height="148" />
 					<h2 class="heading-3 text-center sm:heading-2">Houston, we have resources</h2>
 					<div class="my-16 flex w-full flex-wrap gap-4 children:flex-1 children:basis-72">
 						<div class="border border-astro-gray-400 bg-red-pink-gradient">
@@ -158,7 +158,7 @@ const resolvedSeoBanner = new URL(seoBanner, Astro.site).toString();
 						<div class="border border-astro-gray-400 bg-blue-purple-gradient">
 							<ResourceCard
 								title="Join our\ncommunity"
-								description="Get support, get involved, and join our community of 20,000+ developers—it all happens on Discord."
+								description="Get support, get involved, and join our community of 5000+ developers—it all happens on Discord."
 								link={{
 									text: 'Join our Discord',
 									href: 'https://astro.build/chat',
