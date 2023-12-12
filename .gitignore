@@ -1,6 +1,6 @@
 # build output
 dist
-.netlify
+.vercel
 
 # dependencies
 node_modules/
