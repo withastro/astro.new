@@ -6,6 +6,7 @@ import '../styles/fonts.css';
 import { SEO } from '@astrojs/site-kit/components';
 import Inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
 import Icon from 'astro-icon';
+import { ViewTransitions } from 'astro:transitions';
 import houstonHappy from '../assets/houston_happy.webp';
 import houstonOmg from '../assets/houston_omg.webp';
 import seoBanner from '../assets/seo-banner.webp';
@@ -42,6 +43,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 			image={{ src: resolvedSeoBanner, alt: '' }}
 			canonicalURL={new URL(pathname, `https://astro.new`)}
 		/>
+		<ViewTransitions />
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />

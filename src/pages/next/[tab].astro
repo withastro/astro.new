@@ -18,4 +18,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 ---
 
-<Layout examples={Astro.props.examples} currentExample={Astro.params.tab} basePath="/next" />
+<Layout
+	examples={Astro.props.examples}
+	currentExample={Astro.params.tab != null ? String(Astro.params.tab) : undefined}
+	basePath="/next"
+/>
