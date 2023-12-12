@@ -1,9 +1,9 @@
-import preset from '@astrojs/site-kit/tailwind';
+import preset from '@astrojs/site-kit/tailwind-preset';
 import containerQueries from '@tailwindcss/container-queries';
+import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors.js';
 import plugin from 'tailwindcss/plugin.js';
 
-/** @type {import('tailwindcss').Config} */
 export default {
 	presets: [preset],
 	content: ['./src/**/*.{astro,js,ts,jsx,tsx}'],
@@ -23,4 +23,4 @@ export default {
 			api.addVariant('children', '& > *');
 		}),
 	],
-};
+} satisfies Config;
