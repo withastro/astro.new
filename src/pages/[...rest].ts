@@ -1,10 +1,10 @@
 import type { APIContext, APIRoute } from 'astro';
 import { fromStarlightName, isStarlightName } from '../utils/constants.js';
 import {
+	type ExampleData,
 	astroContentUrl,
 	githubRequest,
 	starlightContentUrl,
-	type ExampleData,
 } from '../utils/github.js';
 
 type CachedExample = {

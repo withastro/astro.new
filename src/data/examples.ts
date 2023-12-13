@@ -1,10 +1,10 @@
 import toTitle from 'title';
 import { isStarlightName, toStarlightName } from '../utils/constants.js';
 import {
+	type ExampleData,
 	astroContentUrl,
 	githubRequest,
 	starlightContentUrl,
-	type ExampleData,
 } from '../utils/github.js';
 
 const previewImageSlugs = new Set(
