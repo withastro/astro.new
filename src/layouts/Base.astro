@@ -97,6 +97,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 							<a
 								href={joinPath(Astro.props.basePath, group.slug)}
 								data-active={group.slug === currentExample || undefined}
+								data-astro-prefetch
 								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 data-[active]:bg-gradient-to-tr"
 							>
 								{group.title}

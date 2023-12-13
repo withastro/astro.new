@@ -11,9 +11,9 @@ const VERCEL_PREVIEW_SITE =
 // https://astro.build/config
 export default defineConfig({
 	site: VERCEL_PREVIEW_SITE || 'https://astro.new',
+	prefetch: true,
 	integrations: [
 		tailwind({
-			configFile: './tailwind.config.mjs',
 			applyBaseStyles: false,
 		}),
 	],
