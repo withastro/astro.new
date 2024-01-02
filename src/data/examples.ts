@@ -140,6 +140,7 @@ export async function getExamples(ref = 'latest') {
 		try {
 			await fetch(githubRequest(astroContentUrl(ref)));
 		} catch (e) {
+			console.error(`Failed to fetch examples for ref "${ref}" -`, e);
 			// `next` branch is missing, fallback to `main`
 			ref = 'main';
 		}
