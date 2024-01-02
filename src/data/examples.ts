@@ -24,10 +24,18 @@ const TITLES = new Map([
 	['framework-multiple', 'Kitchen Sink (Multiple Frameworks)'],
 	['basics', 'Just the Basics'],
 	[toStarlightName('basics'), 'Starlight'],
+	['starlog', 'Starlog'],
 	['minimal', 'Empty Project'],
 ]);
 export const TOP_SECTION = 'Getting Started';
-const TOP_SECTION_ORDER = ['basics', 'blog', toStarlightName('basics'), 'portfolio', 'minimal'];
+const TOP_SECTION_ORDER = [
+	'basics',
+	'blog',
+	toStarlightName('basics'),
+	'starlog',
+	'portfolio',
+	'minimal',
+];
 
 const FEATURED_INTEGRATIONS = new Set(['tailwindcss']);
 const FRAMEWORK_ORDER = ['react', 'preact', 'vue', 'svelte', 'lit', 'solid'].map(
@@ -90,7 +98,7 @@ function groupExamplesByCategory(examples: ExampleData[], ref: string) {
 			gettingStartedItems.push(data);
 		} else if (example.name.startsWith('with-')) {
 			if (FEATURED_INTEGRATIONS.has(example.name.replace('with-', ''))) {
-				integrations.splice(0, 0, data);
+				integrations.unshift(data);
 			} else {
 				integrations.push(data);
 			}
@@ -132,6 +140,7 @@ export async function getExamples(ref = 'latest') {
 		try {
 			await fetch(githubRequest(astroContentUrl(ref)));
 		} catch (e) {
+			console.error(`Failed to fetch examples for ref "${ref}" -`, e);
 			// `next` branch is missing, fallback to `main`
 			ref = 'main';
 		}
