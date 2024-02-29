@@ -40,4 +40,4 @@ jobs:
         run: pnpm run format
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
