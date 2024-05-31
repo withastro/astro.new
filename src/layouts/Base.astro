@@ -14,10 +14,12 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import RepoCard from '../components/RepoCard.astro';
 import ResourceCard from '../components/ResourceCard.astro';
+import Favicon from '../components/Favicon.astro';
 import type { ExampleGroup } from '../data/examples.js';
 import { joinPath } from '../utils/path.js';
 
 export type Props = {
+	
 	examples: Map<string, ExampleGroup>;
 	currentExample?: string | undefined;
 	basePath: string;
@@ -45,8 +47,8 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 		/>
 		<ViewTransitions />
 
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+		<Favicon />
+		<link rel="mask-icon" href="/favicon.svg" color="#8D46E7" />
 		<link
 			rel="preload"
 			href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
