@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@8.12.0",
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "scripts": {
     "dev": "astro dev",
@@ -22,7 +22,7 @@
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
     "@astrojs/check": "^0.3.2",
-    "@astrojs/vercel": "^6.0.2",
+    "@astrojs/netlify": "^5.3.5",
     "@fontsource-variable/inter": "^5.0.16",
     "title": "^3.5.3"
   },
