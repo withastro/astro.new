@@ -1,4 +1,4 @@
-import netlify from '@astrojs/netlify/functions';
+import netlify from '@astrojs/netlify';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig } from 'astro/config';
 
