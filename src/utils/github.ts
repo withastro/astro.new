@@ -1,12 +1,20 @@
-export type ExampleData = {
+/**
+ * GitHub REST API data for a directory.
+ *
+ * @see https://docs.github.com/en/rest/repos/contents#get-repository-content
+ */
+export interface ExampleData {
 	name: string;
+	path: string;
+	sha: string;
 	size: number;
 	url: string;
 	html_url: string;
 	git_url: string;
-	preview_image: string;
-};
-export type Example = {
+	type: 'dir' | 'file';
+}
+
+export interface Example {
 	name: string;
 	title: string;
 	sourceUrl: string;
@@ -14,7 +22,7 @@ export type Example = {
 	codesandboxUrl: string;
 	gitpodUrl: string;
 	previewImage: string | undefined;
-};
+}
 
 export function githubRequest(url: string) {
 	const headers: Headers = new Headers({

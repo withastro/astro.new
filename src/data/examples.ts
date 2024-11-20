@@ -145,7 +145,7 @@ export async function getExamples(ref = 'latest') {
 			ref = 'main';
 		}
 	}
-	const examples = (
+	const examples: ExampleData[] = (
 		await Promise.all([
 			fetch(githubRequest(astroContentUrl(ref))).then((res) => res.json()),
 			fetch(githubRequest(starlightContentUrl()))
@@ -159,12 +159,7 @@ export async function getExamples(ref = 'latest') {
 				),
 		])
 	).flat();
-
-	if (!Array.isArray(examples)) {
-		console.error(`GITHUB_TOKEN appears to be misconfigured. Expected array, got:`, examples);
-		throw new Error(`GITHUB_TOKEN appears to be misconfigured`);
-	}
-	return groupExamplesByCategory(examples as ExampleData[], ref);
+	return groupExamplesByCategory(examples, ref);
 }
 
 function sortExamplesByOrder(order: string[]) {
