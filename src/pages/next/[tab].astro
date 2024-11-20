@@ -7,8 +7,6 @@ export type Props = {
 	examples: Map<string, ExampleGroup>;
 };
 
-export const prerender = true;
-
 export const getStaticPaths: GetStaticPaths = async () => {
 	const examples = await getExamples('next');
 	return [...examples.entries()].map(([tab]) => ({

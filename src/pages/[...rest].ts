@@ -7,6 +7,8 @@ import {
 	starlightContentUrl,
 } from '../utils/github.js';
 
+export const prerender = false;
+
 type CachedExample = {
 	name: string;
 	github: string;
