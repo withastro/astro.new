@@ -3,6 +3,9 @@ dist
 .vercel
 .netlify
 
+# generated types
+.astro/
+
 # dependencies
 node_modules/
 .snowpack/

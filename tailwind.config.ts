@@ -1,3 +1,4 @@
+// @ts-expect-error — site-kit doesn’t provide types
 import preset from '@astrojs/site-kit/tailwind-preset';
 import containerQueries from '@tailwindcss/container-queries';
 import type { Config } from 'tailwindcss';
