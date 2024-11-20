@@ -16,15 +16,14 @@
     "format:biome": "biome check . --apply",
     "lint": "astro sync && run-s --continue-on-error lint:*",
     "lint:biome": "biome lint .",
-    "lint:types": "tsc -b",
     "lint:astro": "astro check"
   },
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
-    "@astrojs/check": "^0.3.4",
+    "@astrojs/check": "^0.9.4",
     "@astrojs/netlify": "^5.5.4",
     "@fontsource-variable/inter": "^5.1.0",
-    "title": "^3.5.3"
+    "title": "^4.0.1"
   },
   "devDependencies": {
     "@astrojs/site-kit": "github:withastro/site-kit",
@@ -37,8 +36,8 @@
     "astro-icon": "^0.8.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
-    "prettier-plugin-astro": "^0.12.3",
-    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.6.3"
   },
