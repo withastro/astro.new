@@ -14,5 +14,8 @@
   },
   "formatter": {
     "enabled": false
+  },
+  "files": {
+    "ignore": ["dist"]
   }
 }
