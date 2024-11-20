@@ -3,18 +3,18 @@ import '@astrojs/site-kit/tailwind.css';
 import '@fontsource-variable/inter';
 import '../styles/fonts.css';
 
+import { ViewTransitions } from 'astro:transitions';
 import { SEO } from '@astrojs/site-kit/components';
 import Inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
 import Icon from 'astro-icon';
-import { ViewTransitions } from 'astro:transitions';
 import houstonHappy from '../assets/houston_happy.webp';
 import houstonOmg from '../assets/houston_omg.webp';
 import seoBanner from '../assets/seo-banner.webp';
+import Favicon from '../components/Favicon.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import RepoCard from '../components/RepoCard.astro';
 import ResourceCard from '../components/ResourceCard.astro';
-import Favicon from '../components/Favicon.astro';
 import type { ExampleGroup } from '../data/examples.js';
 import { joinPath } from '../utils/path.js';
 

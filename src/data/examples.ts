@@ -8,12 +8,11 @@ import {
 } from '../utils/github.js';
 
 const previewImageSlugs = new Set(
-	Object.keys(import.meta.glob('../../public/previews/*.webp')).map(
-		(key) =>
-			key
-				.split('/')
-				.pop()
-				?.replace(/\.webp$/, ''),
+	Object.keys(import.meta.glob('../../public/previews/*.webp')).map((key) =>
+		key
+			.split('/')
+			.pop()
+			?.replace(/\.webp$/, ''),
 	),
 );
 
