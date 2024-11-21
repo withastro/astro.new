@@ -1,0 +1,58 @@
+---
+import Icon from 'astro-icon';
+import RepoCardLink from './RepoCardLink.astro';
+
+interface Props {
+	createAstroTemplate: string;
+}
+
+const { createAstroTemplate } = Astro.props;
+const command = `npm create astro -- --template ${createAstroTemplate}`;
+---
+
+<cli-copy-button data-copy-text={command}>
+	<RepoCardLink as="button">
+		<Icon name="clipboard" size={16} />
+		<span>Copy CLI command</span>
+		<span
+			aria-live="assertive"
+			class="absolute bottom-[calc(100%+8px)] left-1/2 w-[200%] max-w-max -translate-x-1/2 rounded bg-black/90 p-2 text-sm leading-none text-astro-gray-100 empty:opacity-0"
+		></span>
+	</RepoCardLink>
+</cli-copy-button>
+
+<script>
+	class CopyButton extends HTMLElement {
+		static tagName = 'cli-copy-button';
+
+		connectedCallback() {
+			const { copyText } = this.dataset;
+			const button = this.querySelector('button');
+			if (!button || !copyText) return;
+
+			/** Tooltip and `aria-live` region to announce success/failure of the copy operation. */
+			const tooltip = button.querySelector('[aria-live]');
+
+			let timeout: ReturnType<typeof setTimeout> | undefined;
+			const displayTooltip = (message: string) => {
+				if (!tooltip) return;
+				tooltip.textContent = message;
+				clearTimeout(timeout);
+				timeout = setTimeout(() => {
+					tooltip.textContent = '';
+				}, 2000);
+			};
+
+			button.addEventListener('click', () => {
+				navigator.clipboard
+					.writeText(copyText)
+					.then(() => displayTooltip('Copied!'))
+					.catch(() => displayTooltip('Something went wrong…'));
+			});
+		}
+	}
+
+	if (!customElements.get(CopyButton.tagName)) {
+		customElements.define(CopyButton.tagName, CopyButton);
+	}
+</script>
