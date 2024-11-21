@@ -1,14 +1,16 @@
 ---
+import { Icon } from 'astro-icon';
 import type { Polymorphic } from 'astro/types';
 
-type Props<Tag extends 'a' | 'button'> = Polymorphic<{ as: Tag }>;
+type Props<Tag extends 'a' | 'button'> = Polymorphic<{ as: Tag }> & { icon?: string };
 
-const { as: Tag, ...props } = Astro.props;
+const { as: Tag, icon, ...props } = Astro.props;
 ---
 
 <Tag
 	class="relative inline-flex items-center gap-1 text-sm text-astro-gray-200 underline underline-offset-[3px] hover:text-astro-gray-100 focus-visible:text-astro-gray-100"
 	{...props}
 >
+	{icon && <Icon name={icon} size={16} aria-hidden="true" />}
 	<slot />
 </Tag>

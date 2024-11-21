@@ -25,10 +25,7 @@ const {
 	<div class="flex flex-col gap-4 p-5">
 		<h3 class="heading-4">{title}</h3>
 		<p class="flex flex-wrap gap-2">
-			<RepoCardLink as="a" href={sourceUrl}>
-				<Icon name="github" size={16} />
-				<span>Source code</span>
-			</RepoCardLink>
+			<RepoCardLink as="a" href={sourceUrl} icon="github">Source code</RepoCardLink>
 			<CopyButton {createAstroTemplate} />
 		</p>
 		<hr class="border-astro-gray-500" />

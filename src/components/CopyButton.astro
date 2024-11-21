@@ -1,5 +1,4 @@
 ---
-import Icon from 'astro-icon';
 import RepoCardLink from './RepoCardLink.astro';
 
 interface Props {
@@ -11,9 +10,8 @@ const command = `npm create astro -- --template ${createAstroTemplate}`;
 ---
 
 <cli-copy-button data-copy-text={command}>
-	<RepoCardLink as="button">
-		<Icon name="clipboard" size={16} />
-		<span>Copy CLI command</span>
+	<RepoCardLink as="button" icon="clipboard">
+		Copy CLI command
 		<span
 			aria-live="assertive"
 			class="absolute bottom-[calc(100%+8px)] left-1/2 w-[200%] max-w-max -translate-x-1/2 rounded bg-black/90 p-2 text-sm leading-none text-astro-gray-100 empty:opacity-0"
