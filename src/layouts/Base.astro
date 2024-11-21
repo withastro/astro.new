@@ -129,7 +129,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 					<img src={houstonHappy.src} alt="" width="148" height="148" />
 					<h2 class="heading-3 text-center sm:heading-2">Houston, we have resources</h2>
 					<div class="my-16 flex w-full flex-wrap gap-4 children:flex-1 children:basis-72">
-						<div class="border border-astro-gray-400 bg-red-pink-gradient">
+						<div>
 							<ResourceCard
 								title="Learn more\nin our docs"
 								description="Thanks to our wonderful contributors, our docs are the best place to learn, troubleshoot, and explore Astro."
@@ -137,6 +137,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 									text: 'Start learning',
 									href: 'https://docs.astro.build',
 								}}
+								iconBg="red-pink"
 							>
 								<Icon
 									slot="icon"
@@ -148,7 +149,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 							</ResourceCard>
 						</div>
 
-						<div class="border border-astro-gray-400 bg-blue-green-gradient">
+						<div>
 							<ResourceCard
 								title="Get started\nwith themes"
 								description="Explore our official and community themes to get started on your next project. Portfolios, docs, blogs, marketing sites, and more."
@@ -156,6 +157,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 									text: 'Find a theme',
 									href: 'https://astro.build/themes',
 								}}
+								iconBg="blue-green"
 							>
 								<Icon
 									slot="icon"
@@ -167,7 +169,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 							</ResourceCard>
 						</div>
 
-						<div class="border border-astro-gray-400 bg-blue-purple-gradient">
+						<div>
 							<ResourceCard
 								title="Join our\ncommunity"
 								description="Get support, get involved, and join our community of 5000+ developers—it all happens on Discord."
@@ -175,6 +177,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 									text: 'Join our Discord',
 									href: 'https://astro.build/chat',
 								}}
+								iconBg="blue-purple"
 							>
 								<Icon
 									slot="icon"

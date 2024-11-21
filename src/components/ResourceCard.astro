@@ -1,5 +1,5 @@
 ---
-export type Props = {
+export interface Props {
 	class?: string;
 	title: string;
 	description: string;
@@ -7,33 +7,42 @@ export type Props = {
 		href: string;
 		text: string;
 	};
-};
+	iconBg: 'red-pink' | 'blue-green' | 'blue-purple';
+}
+
+const { title, description, link, iconBg } = Astro.props;
 ---
 
 <div class="h-full @container">
 	<article
-		class="noise-container relative flex h-full w-full flex-col justify-end gap-4 overflow-hidden bg-transparent px-6 py-4 text-center @sm:pt-16 @sm:text-left"
+		class="noise-container relative flex h-full w-full flex-col justify-end gap-6 overflow-hidden bg-astro-gray-600 bg-transparent p-6 text-center outline outline-1 -outline-offset-1 outline-astro-gray-100/10 @sm:pt-16 @sm:text-left"
 	>
-		<div class="noise"></div>
+		<div class="noise opacity-20"></div>
 		<div
 			aria-hidden="true"
-			class="noise-underlay right-0 top-0 flex flex-1 items-center self-center @sm:absolute @sm:block"
+			class:list={[
+				'noise-underlay relative right-0 top-0 flex flex-1 items-center self-center',
+				'before:absolute before:inset-0 before:-z-10 before:blur-3xl @sm:absolute @sm:block',
+				{
+					'red-pink': 'before:bg-red-pink-gradient',
+					'blue-purple': 'before:bg-blue-purple-gradient',
+					'blue-green': 'before:bg-blue-green-gradient',
+				}[iconBg],
+			]}
 		>
 			<slot name="icon" />
 		</div>
-		<h3 class="heading-3 whitespace-pre-line">{Astro.props.title}</h3>
-		<p class="text-astro-gray-100">
-			{Astro.props.description}
-		</p>
+		<div class="flex flex-col gap-4">
+			<h3 class="heading-3 whitespace-pre-line">{title}</h3>
+			<p class="text-astro-gray-100 mix-blend-overlay">
+				{description}
+			</p>
+		</div>
 		<a
-			href={Astro.props.link.href}
-			class="button self-start self-center border-0 bg-white hover:bg-astro-gray-200 @sm:self-start"
+			href={link.href}
+			class="button self-center border-0 bg-white leading-normal text-astro-blue hover:bg-astro-gray-200 focus-visible:ring-4 @sm:self-start"
 		>
-			<span
-				class="inline-block bg-blue-purple-gradient bg-clip-text leading-normal text-transparent"
-			>
-				{Astro.props.link.text}
-			</span>
+			{link.text}
 		</a>
 	</article>
 </div>
