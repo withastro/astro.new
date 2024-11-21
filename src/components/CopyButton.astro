@@ -9,7 +9,7 @@ const { createAstroTemplate } = Astro.props;
 const command = `npm create astro -- --template ${createAstroTemplate}`;
 ---
 
-<cli-copy-button data-copy-text={command}>
+<cli-copy-button data-copy-text={command} class="contents">
 	<RepoCardLink as="button" icon="clipboard">
 		Copy CLI command
 		<span
