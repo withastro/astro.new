@@ -39,14 +39,14 @@ const {
 				rel="noopener noreferrer"
 				class="flex items-center gap-2 rounded-l-full px-4 text-sm transition hover:backdrop-brightness-75"
 			>
-				<Icon name="stackblitz" size={16} /> Open in StackBlitz
+				<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
 			</a>
 			<details class="relative z-10" data-card-options>
 				<summary
 					class="flex h-full cursor-pointer list-none items-center rounded-r-full px-2 transition hover:backdrop-brightness-75"
-					title="More options"
 				>
-					<Icon name="chevron-down" size={20} />
+					<span class="sr-only">More options</span>
+					<Icon name="chevron-down" size={20} aria-hidden="true" />
 				</summary>
 				<ul
 					class="absolute right-0 top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md"
@@ -55,13 +55,13 @@ const {
 						href={gitpodUrl}
 						class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
 					>
-						<Icon name="gitpod" size={20} /> Open in Gitpod
+						<Icon name="gitpod" size={20} aria-hidden="true" /> Open in Gitpod
 					</a>
 					<a
 						href={codesandboxUrl}
 						class="flex flex-row items-center gap-2 rounded-sm px-3 py-1.5 hover:bg-blue-purple-gradient hover:text-white"
 					>
-						<Icon name="codesandbox" size={20} /> Open in CodeSandbox
+						<Icon name="codesandbox" size={20} aria-hidden="true" /> Open in CodeSandbox
 					</a>
 				</ul>
 			</details>
