@@ -98,7 +98,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 			</div>
 
 			<main class="container" aria-labelledby="main-heading">
-				<nav class="flex flex-wrap border-b border-astro-gray-500">
+				<nav class="flex flex-wrap border-b border-astro-gray-100/20">
 					{
 						[...Astro.props.examples.values()].map((group) => (
 							<a
@@ -195,7 +195,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 		</div>
 
 		<footer
-			class="container flex flex-col items-center gap-x-8 gap-y-2 border-t border-astro-gray-500 p-8 sm:flex-row sm:px-12"
+			class="container flex flex-col items-center gap-x-8 gap-y-2 border-t border-astro-gray-100/20 p-8 sm:flex-row sm:px-12"
 		>
 			<a href="https://astro.build/privacy" class="link text-astro-gray-200"> Privacy Policy</a>
 			<a href="https://astro.build/terms" class="link text-astro-gray-200"> Terms and Conditions</a>

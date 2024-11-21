@@ -14,7 +14,9 @@ const {
 } = Astro.props;
 ---
 
-<article class="relative border border-astro-gray-500 bg-astro-gray-600">
+<article
+	class="relative bg-astro-gray-600 outline outline-1 -outline-offset-1 outline-astro-gray-100/10"
+>
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
 		<img src={previewImage} alt="" class="object-cover object-left-top s-full" />
@@ -29,7 +31,7 @@ const {
 				>
 			</a>
 		</p>
-		<hr class="border-astro-gray-500" />
+		<hr class="border-astro-gray-100/10" />
 		<div
 			class="flex h-10 w-max min-w-0 max-w-full divide-x divide-astro-gray-600 rounded-full bg-blue-purple-gradient"
 		>
