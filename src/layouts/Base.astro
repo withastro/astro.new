@@ -72,7 +72,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 	<body>
 		<Header />
 
-		<div class="noise-container overflow-x-hidden">
+		<div class="noise-container overflow-x-hidden supports-[overflow-x:clip]:overflow-x-clip">
 			<div class="noise"></div>
 
 			<div class="relative">
