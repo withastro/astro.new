@@ -70,6 +70,12 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 	</head>
 
 	<body>
+		<a
+			href="#main-heading"
+			class="sr-only left-2 top-2 z-50 inline-flex justify-center rounded-full border border-astro-gray-100/20 bg-astro-gray-700 font-semibold text-white focus:not-sr-only focus:absolute focus:w-fit focus:px-4 focus:py-2"
+		>
+			Skip to content
+		</a>
 		<Header />
 
 		<div class="noise-container overflow-x-hidden supports-[overflow-x:clip]:overflow-x-clip">
