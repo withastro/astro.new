@@ -91,7 +91,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 			>
 			</div>
 
-			<main class="container">
+			<main class="container" aria-labelledby="main-heading">
 				<nav class="flex flex-wrap border-b border-astro-gray-500">
 					{
 						[...Astro.props.examples.values()].map((group) => (
@@ -106,6 +106,8 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 						))
 					}
 				</nav>
+
+				<h1 id="main-heading" class="sr-only">{exampleGroup.title}</h1>
 
 				<ul class="mb-24 mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
 					{
