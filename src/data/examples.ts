@@ -64,7 +64,21 @@ function getSuffix(name: string, ref: string): string {
 	return '';
 }
 
-function toExample({ name, repo, path }: ExampleDataWithRepo, ref: string): Example {
+function toTemplateName({ repo, name, path }: ExampleDataWithRepo): string {
+	if (repo === 'withastro/astro') {
+		// Examples in the core monorepo work with just their directory name.
+		return name;
+	} else if (repo === 'withastro/starlight') {
+		// Examples in the Starlight monorepo support a shorthand syntax
+		return path === 'examples/basics' ? 'starlight' : `starlight/${path.replace('examples/', '')}`;
+	} else {
+		// Other repositories require the full GitHub identifier, e.g. `username/repo/path/to/template`
+		return `${repo}/${path}`;
+	}
+}
+
+function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
+	const { name } = exampleData;
 	const suffix = getSuffix(name, ref);
 	let title: string;
 	if (TITLES.has(name)) {
@@ -78,7 +92,7 @@ function toExample({ name, repo, path }: ExampleDataWithRepo, ref: string): Exam
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
-		createAstroTemplate: repo === 'withastro/astro' ? name : `${repo}/${path}`,
+		createAstroTemplate: toTemplateName(exampleData),
 		previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : undefined,
 		title,
 	};
