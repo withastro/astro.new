@@ -1,0 +1,14 @@
+---
+import type { Polymorphic } from 'astro/types';
+
+type Props<Tag extends 'a' | 'button'> = Polymorphic<{ as: Tag }>;
+
+const { as: Tag, ...props } = Astro.props;
+---
+
+<Tag
+	class="relative inline-flex items-center gap-1 text-sm text-astro-gray-200 underline underline-offset-[3px] hover:text-astro-gray-100 focus-visible:text-astro-gray-100"
+	{...props}
+>
+	<slot />
+</Tag>
