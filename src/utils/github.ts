@@ -14,16 +14,6 @@ export interface ExampleData {
 	type: 'dir' | 'file';
 }
 
-export interface Example {
-	name: string;
-	title: string;
-	sourceUrl: string;
-	stackblitzUrl: string;
-	codesandboxUrl: string;
-	gitpodUrl: string;
-	previewImage: string | undefined;
-}
-
 export function githubRequest(url: string) {
 	const headers: Headers = new Headers({
 		Accept: 'application/vnd.github.v3+json',

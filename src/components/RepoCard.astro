@@ -1,6 +1,8 @@
 ---
 import { Icon } from 'astro-icon';
 import type { Example } from '../data/examples.js';
+import CopyButton from './CopyButton.astro';
+import RepoCardLink from './RepoCardLink.astro';
 
 export type Props = Example;
 
@@ -10,26 +12,26 @@ const {
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
+	createAstroTemplate,
 	previewImage = '/previews/minimal.webp',
 } = Astro.props;
+
+const headingId = `template-${createAstroTemplate}`;
 ---
 
 <article
 	class="relative bg-astro-gray-600 outline outline-1 -outline-offset-1 outline-astro-gray-100/10"
+	aria-labelledby={headingId}
 >
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
 		<img src={previewImage} alt="" class="object-cover object-left-top s-full" />
 	</div>
 	<div class="flex flex-col gap-4 p-5">
-		<h2 class="heading-4">{title}</h2>
-		<p>
-			<a href={sourceUrl} class="inline-flex items-center gap-1">
-				<Icon name="github" size={16} />
-				<span class="text-sm text-astro-gray-200 underline underline-offset-[3px]"
-					>View repo on GitHub</span
-				>
-			</a>
+		<h2 class="heading-4" id={headingId}>{title}</h2>
+		<p class="flex flex-wrap gap-2">
+			<RepoCardLink as="a" href={sourceUrl} icon="github">Source code</RepoCardLink>
+			<CopyButton {createAstroTemplate} />
 		</p>
 		<hr class="border-astro-gray-100/10" />
 		<div
@@ -39,13 +41,13 @@ const {
 				href={stackblitzUrl}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="flex items-center gap-2 rounded-l-full bg-black/15 px-4 text-sm transition hover:backdrop-brightness-75"
+				class="bg-black/15 flex items-center gap-2 rounded-l-full px-4 text-sm transition hover:backdrop-brightness-75"
 			>
 				<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
 			</a>
 			<details class="relative z-10" data-card-options>
 				<summary
-					class="flex h-full cursor-pointer list-none items-center rounded-r-full bg-black/15 px-2 transition hover:backdrop-brightness-75"
+					class="bg-black/15 flex h-full cursor-pointer list-none items-center rounded-r-full px-2 transition hover:backdrop-brightness-75"
 				>
 					<span class="sr-only">More options</span>
 					<Icon name="chevron-down" size={20} aria-hidden="true" />

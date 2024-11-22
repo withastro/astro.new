@@ -7,12 +7,17 @@ import {
 	starlightContentUrl,
 } from '../utils/github.js';
 
+interface ExampleDataWithRepo extends ExampleData {
+	repo: string;
+}
+
 const previewImageSlugs = new Set(
-	Object.keys(import.meta.glob('../../public/previews/*.webp')).map((key) =>
-		key
-			.split('/')
-			.pop()
-			?.replace(/\.webp$/, ''),
+	Object.keys(import.meta.glob('../../public/previews/*.webp')).map(
+		(key) =>
+			key
+				.split('/')
+				.pop()
+				?.replace(/\.webp$/, ''),
 	),
 );
 
@@ -41,15 +46,16 @@ const FRAMEWORK_ORDER = ['react', 'preact', 'vue', 'svelte', 'lit', 'solid'].map
 	(name) => `framework-${name}`,
 );
 
-export type Example = {
+export interface Example {
 	name: string;
 	title: string;
 	sourceUrl: string;
 	stackblitzUrl: string;
 	codesandboxUrl: string;
 	gitpodUrl: string;
+	createAstroTemplate: string;
 	previewImage: string | undefined;
-};
+}
 
 function getSuffix(name: string, ref: string): string {
 	// ignore refs for Starlight! Those examples always come from main
@@ -58,7 +64,21 @@ function getSuffix(name: string, ref: string): string {
 	return '';
 }
 
-function toExample({ name }: ExampleData, ref: string): Example {
+function toTemplateName({ repo, name, path }: ExampleDataWithRepo): string {
+	if (repo === 'withastro/astro') {
+		// Examples in the core monorepo work with just their directory name.
+		return name;
+	} else if (repo === 'withastro/starlight') {
+		// Examples in the Starlight monorepo support a shorthand syntax
+		return path === 'examples/basics' ? 'starlight' : path.replace('examples/', 'starlight/');
+	} else {
+		// Other repositories require the full GitHub identifier, e.g. `username/repo/path/to/template`
+		return `${repo}/${path}`;
+	}
+}
+
+function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
+	const { name } = exampleData;
 	const suffix = getSuffix(name, ref);
 	let title: string;
 	if (TITLES.has(name)) {
@@ -72,6 +92,7 @@ function toExample({ name }: ExampleData, ref: string): Example {
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
+		createAstroTemplate: toTemplateName(exampleData),
 		previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : undefined,
 		title,
 	};
@@ -83,7 +104,7 @@ export type ExampleGroup = {
 	items: Example[];
 };
 
-function groupExamplesByCategory(examples: ExampleData[], ref: string) {
+function groupExamplesByCategory(examples: ExampleDataWithRepo[], ref: string) {
 	const gettingStartedItems: Example[] = [];
 	const frameworks: Example[] = [];
 	const integrations: Example[] = [];
@@ -144,9 +165,16 @@ export async function getExamples(ref = 'latest') {
 			ref = 'main';
 		}
 	}
-	const examples: ExampleData[] = (
+	const examples: ExampleDataWithRepo[] = (
 		await Promise.all([
-			fetch(githubRequest(astroContentUrl(ref))).then((res) => res.json()),
+			fetch(githubRequest(astroContentUrl(ref)))
+				.then((res) => res.json())
+				.then((examples: ExampleData[]) =>
+					examples.map((example) => ({
+						...example,
+						repo: 'withastro/astro',
+					})),
+				),
 			fetch(githubRequest(starlightContentUrl()))
 				.then((res) => res.json())
 				// prefix starlight example names to differentiate duplicate example names
@@ -154,6 +182,7 @@ export async function getExamples(ref = 'latest') {
 					examples.map((example) => ({
 						...example,
 						name: toStarlightName(example.name),
+						repo: 'withastro/starlight',
 					})),
 				),
 		])
