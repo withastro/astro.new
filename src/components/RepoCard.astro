@@ -3,6 +3,8 @@ import { Icon } from 'astro-icon';
 import type { Example } from '../data/examples.js';
 import CopyButton from './CopyButton.astro';
 import RepoCardLink from './RepoCardLink.astro';
+import fallbackImage from '../assets/previews/minimal.webp';
+import { Image } from 'astro:assets';
 
 export type Props = Example;
 
@@ -13,9 +15,10 @@ const {
 	codesandboxUrl,
 	gitpodUrl,
 	createAstroTemplate,
-	previewImage = '/previews/minimal.webp',
+	loadPreviewImage = () => fallbackImage,
 } = Astro.props;
 
+const image = await loadPreviewImage();
 const headingId = `template-${createAstroTemplate}`;
 ---
 
@@ -25,7 +28,13 @@ const headingId = `template-${createAstroTemplate}`;
 >
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
-		<img src={previewImage} alt="" class="object-cover object-left-top s-full" />
+		<Image
+			src={image}
+			alt=""
+			widths={[400, 600, 900]}
+			sizes="(min-width 1280px) 390px,(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+			class="object-cover object-left-top s-full"
+		/>
 	</div>
 	<div class="flex flex-col gap-4 p-5">
 		<h2 class="heading-4" id={headingId}>{title}</h2>
@@ -41,13 +50,13 @@ const headingId = `template-${createAstroTemplate}`;
 				href={stackblitzUrl}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="flex items-center gap-2 rounded-l-full bg-black/15 px-4 text-sm transition hover:backdrop-brightness-75"
+				class="bg-black/15 flex items-center gap-2 rounded-l-full px-4 text-sm transition hover:backdrop-brightness-75"
 			>
 				<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
 			</a>
 			<details class="relative z-10" data-card-options>
 				<summary
-					class="flex h-full cursor-pointer list-none items-center rounded-r-full bg-black/15 px-2 transition hover:backdrop-brightness-75"
+					class="bg-black/15 flex h-full cursor-pointer list-none items-center rounded-r-full px-2 transition hover:backdrop-brightness-75"
 				>
 					<span class="sr-only">More options</span>
 					<Icon name="chevron-down" size={20} aria-hidden="true" />

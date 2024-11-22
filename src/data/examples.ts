@@ -11,12 +11,15 @@ interface ExampleDataWithRepo extends ExampleData {
 	repo: string;
 }
 
-const previewImageSlugs = new Set(
-	Object.keys(import.meta.glob('../../public/previews/*.webp')).map((key) =>
-		key
-			.split('/')
-			.pop()
-			?.replace(/\.webp$/, ''),
+const previewImages = new Map(
+	Object.entries(import.meta.glob<{ default: ImageMetadata }>('../assets/previews/*.webp')).map(
+		([key, value]) => [
+			key
+				.split('/')
+				.pop()
+				?.replace(/\.webp$/, ''),
+			async () => (await value()).default,
+		],
 	),
 );
 
@@ -53,7 +56,7 @@ export interface Example {
 	codesandboxUrl: string;
 	gitpodUrl: string;
 	createAstroTemplate: string;
-	previewImage: string | undefined;
+	loadPreviewImage: (() => Promise<ImageMetadata>) | undefined;
 }
 
 function getSuffix(name: string, ref: string): string {
@@ -92,7 +95,7 @@ function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
 		createAstroTemplate: toTemplateName(exampleData),
-		previewImage: previewImageSlugs.has(name) ? `/previews/${name}.webp` : undefined,
+		loadPreviewImage: previewImages.get(name),
 		title,
 	};
 }
