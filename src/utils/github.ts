@@ -20,9 +20,7 @@ export function githubRequest(url: string) {
 	});
 	const token = import.meta.env?.GITHUB_TOKEN || process.env.GITHUB_TOKEN;
 	if (typeof token !== 'string') {
-		console.warn(
-			`GITHUB_TOKEN is ${typeof token}. You may run into rate-limiting issues.`,
-		);
+		console.warn(`GITHUB_TOKEN is ${typeof token}. You may run into rate-limiting issues.`);
 	} else {
 		headers.set('Authorization', `token ${token}`);
 	}
