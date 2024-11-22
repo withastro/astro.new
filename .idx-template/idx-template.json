@@ -1,0 +1,54 @@
+{
+  "name": "astro.new",
+  "description": "Kick start your next project with Astro’s official starter templates",
+  "icon": "https://raw.githubusercontent.com/withastro/astro.build/refs/heads/main/public/assets/press/astro-icon-light-gradient.svg",
+  "params": [
+    {
+      "id": "astroTemplate",
+      "name": "Starter template",
+      "type": "enum",
+      "default": "basics",
+      "options": {
+        "basics": "Just the Basics",
+        "blog": "Blog",
+        "component": "Component",
+        "container-with-vitest": "Container with Vitest",
+        "framework-alpine": "Alpine",
+        "framework-lit": "Lit",
+        "framework-multiple": "Kitchen Sink (Multiple Frameworks)",
+        "framework-preact": "Preact",
+        "framework-react": "React",
+        "framework-solid": "Solid",
+        "framework-svelte": "Svelte",
+        "framework-vue": "Vue",
+        "hackernews": "Hackernews",
+        "integration": "Integration",
+        "minimal": "Empty Project",
+        "portfolio": "Portfolio",
+        "ssr": "SSR",
+        "starlog": "Starlog",
+        "toolbar-app": "Toolbar App",
+        "with-markdoc": "Markdoc",
+        "with-mdx": "MDX",
+        "with-nanostores": "Nanostores",
+        "with-tailwindcss": "Tailwind CSS",
+        "with-vitest": "Vitest",
+        "starlight": "Starlight",
+        "starlight/markdoc": "Starlight Markdoc",
+        "starlight/tailwind": "Starlight Tailwind"
+      },
+      "required": true
+    },
+    {
+      "id": "astroVersion",
+      "name": "Astro version",
+      "type": "enum",
+      "default": "latest",
+      "options": {
+        "latest": "Latest stable release",
+        "next": "Next experimental release"
+      },
+      "required": true
+    }
+  ]
+}
