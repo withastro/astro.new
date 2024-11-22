@@ -17,18 +17,20 @@ const {
 } = Astro.props;
 ---
 
-<article class="relative border border-astro-gray-500 bg-astro-gray-600">
+<article
+	class="relative bg-astro-gray-600 outline outline-1 -outline-offset-1 outline-astro-gray-100/10"
+>
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
 		<img src={previewImage} alt="" class="object-cover object-left-top s-full" />
 	</div>
 	<div class="flex flex-col gap-4 p-5">
-		<h3 class="heading-4">{title}</h3>
+		<h2 class="heading-4">{title}</h2>
 		<p class="flex flex-wrap gap-2">
 			<RepoCardLink as="a" href={sourceUrl} icon="github">Source code</RepoCardLink>
 			<CopyButton {createAstroTemplate} />
 		</p>
-		<hr class="border-astro-gray-500" />
+		<hr class="border-astro-gray-100/10" />
 		<div
 			class="flex h-10 w-max min-w-0 max-w-full divide-x divide-astro-gray-600 rounded-full bg-blue-purple-gradient"
 		>
@@ -36,16 +38,16 @@ const {
 				href={stackblitzUrl}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="flex items-center gap-2 rounded-l-full px-4 text-sm transition hover:backdrop-brightness-75"
+				class="bg-black/15 flex items-center gap-2 rounded-l-full px-4 text-sm transition hover:backdrop-brightness-75"
 			>
-				<Icon name="stackblitz" size={16} /> Open in StackBlitz
+				<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
 			</a>
 			<details class="relative z-10" data-card-options>
 				<summary
-					class="flex h-full cursor-pointer list-none items-center rounded-r-full px-2 transition hover:backdrop-brightness-75"
-					title="More options"
+					class="bg-black/15 flex h-full cursor-pointer list-none items-center rounded-r-full px-2 transition hover:backdrop-brightness-75"
 				>
-					<Icon name="chevron-down" size={20} />
+					<span class="sr-only">More options</span>
+					<Icon name="chevron-down" size={20} aria-hidden="true" />
 				</summary>
 				<ul
 					class="absolute right-0 top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md"
@@ -54,13 +56,13 @@ const {
 						href={gitpodUrl}
 						class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
 					>
-						<Icon name="gitpod" size={20} /> Open in Gitpod
+						<Icon name="gitpod" size={20} aria-hidden="true" /> Open in Gitpod
 					</a>
 					<a
 						href={codesandboxUrl}
 						class="flex flex-row items-center gap-2 rounded-sm px-3 py-1.5 hover:bg-blue-purple-gradient hover:text-white"
 					>
-						<Icon name="codesandbox" size={20} /> Open in CodeSandbox
+						<Icon name="codesandbox" size={20} aria-hidden="true" /> Open in CodeSandbox
 					</a>
 				</ul>
 			</details>

@@ -4,18 +4,15 @@ import AstroLogo from '../components/AstroLogo.astro';
 import { mainSiteLink, socialLinks } from '../data/links';
 ---
 
-<header class="noise-container flex h-24 items-center gap-6 border-b border-astro-gray-500 px-8">
+<header class="noise-container flex h-24 items-center gap-6 border-b border-astro-gray-100/20 px-8">
 	<div class="noise"></div>
-	<a href="/" class="transition hover:opacity-75" title="Home">
-		<AstroLogo class="h-14 w-10 translate-y-1 object-top" />
+	<a href="/" class="flex items-center gap-6 transition hover:opacity-75" title="Home">
+		<AstroLogo aria-hidden="true" class="h-14 w-10 translate-y-1 object-top" />
+		<span class="sr-only md:not-sr-only md:contents">
+			<span class="h-10 border-r border-white/25"></span>
+			<span class="-translate-y-0.5 font-obviously-wide text-xl tracking-wider">astro.new</span>
+		</span>
 	</a>
-
-	<div class="hidden md:contents">
-		<div class="h-10 border-r border-white/25"></div>
-		<a href="/" class="transition hover:opacity-75">
-			<h1 class="-translate-y-0.5 font-obviously-wide text-xl tracking-wider">astro.new</h1>
-		</a>
-	</div>
 
 	<div class="flex-1"></div>
 
@@ -23,7 +20,7 @@ import { mainSiteLink, socialLinks } from '../data/links';
 		{
 			socialLinks.map((link) => (
 				<a href={link.href} title={link.title} class="transition hover:opacity-75">
-					<Icon name={link.icon} class="s-8" aria-hidden="true" />
+					<Icon name={link.icon} class="s-8" width="32" aria-hidden="true" />
 				</a>
 			))
 		}
