@@ -27,7 +27,7 @@ const { title, description, link, iconBg } = Astro.props;
 				// When the container is big enough, place icon in the top right corner.
 				'right-0 top-0 @sm:absolute @sm:block',
 				// Add coloured glow behind icon in shade controlled by `iconBg` prop.
-				'before:absolute before:-inset-4 before:-z-10 before:rounded-full before:blur-3xl',
+				'before:absolute before:left-1/2 before:-z-10 before:h-full before:w-[150%] before:-translate-x-1/2 before:rounded-full before:blur-2xl @sm:before:blur-3xl @sm:before:saturate-150',
 				{
 					'red-pink': 'before:bg-red-pink-gradient',
 					'blue-purple': 'before:bg-blue-purple-gradient',
