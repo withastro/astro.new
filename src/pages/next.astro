@@ -1,8 +1,8 @@
 ---
-import { getExamples } from '../data/examples.js';
+import { getCategorizedExamples } from '../data/examples.js';
 import Layout from '../layouts/Base.astro';
 
-const examples = await getExamples('next');
+const examples = await getCategorizedExamples('next');
 ---
 
 <Layout examples={examples} basePath="/next" />
