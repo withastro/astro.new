@@ -16,7 +16,8 @@
     "format:biome": "biome check . --apply",
     "lint": "astro sync && run-s --continue-on-error lint:*",
     "lint:biome": "biome lint .",
-    "lint:astro": "astro check"
+    "lint:astro": "astro check",
+    "generate:idx": "pnpm dlx tsx ./scripts/generate-idx-template.ts"
   },
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {

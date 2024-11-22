@@ -38,7 +38,7 @@ jobs:
         run: pnpm run format
 
       - name: Update IDX template
-        run: pnpm dlx tsx ./scripts/generate-idx-template.ts
+        run: pnpm generate:idx
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
