@@ -5,9 +5,9 @@
   Cache-Control: immutable
 
 /assets/*
-  cache-control: max-age=86400
+  cache-control: max-age=604800
   cache-control: public
 
 /fonts/*
-  cache-control: max-age=86400
+  cache-control: max-age=604800
   cache-control: public
