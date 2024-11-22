@@ -55,15 +55,9 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 			type="font/woff2"
 			crossorigin
 		/>
-		<link
-			rel="preload"
-			href="/fonts/MD IO/Web/MDIO0.5-Regular.woff2"
-			as="font"
-			type="font/woff2"
-			crossorigin
-		/>
 		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href={houstonOmg.src} as="image" type="image/webp" crossorigin />
+		<link rel="preload" href={houstonOmg.src} as="image" type="image/webp" />
+		<link rel="preload" href="/assets/noise.webp" as="image" type="image/webp" />
 
 		<!-- Fathom - beautiful, simple website analytics -->
 		<script src="https://cdn.usefathom.com/script.js" data-site="EZBHTSIG" defer></script>
@@ -117,16 +111,16 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 
 				<ul class="mb-24 mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
 					{
-						exampleGroup.items.map((example) => (
+						exampleGroup.items.map((example, index) => (
 							<li>
-								<RepoCard {...example} />
+								<RepoCard aboveTheFold={index < 3} {...example} />
 							</li>
 						))
 					}
 				</ul>
 
 				<section class="flex flex-col items-center">
-					<img src={houstonHappy.src} alt="" width="148" height="148" />
+					<img src={houstonHappy.src} alt="" width="148" height="148" loading="lazy" />
 					<h2 class="heading-3 text-center sm:heading-2">Houston, we have resources</h2>
 					<div class="my-16 flex w-full flex-wrap gap-4 children:flex-1 children:basis-72">
 						<div>
