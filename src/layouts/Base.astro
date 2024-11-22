@@ -56,8 +56,8 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 			crossorigin
 		/>
 		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href={houstonOmg.src} as="image" type="image/webp" crossorigin />
-		<link rel="preload" href="/assets/noise.webp" as="image" type="image/webp" crossorigin />
+		<link rel="preload" href={houstonOmg.src} as="image" type="image/webp" />
+		<link rel="preload" href="/assets/noise.webp" as="image" type="image/webp" />
 
 		<!-- Fathom - beautiful, simple website analytics -->
 		<script src="https://cdn.usefathom.com/script.js" data-site="EZBHTSIG" defer></script>
