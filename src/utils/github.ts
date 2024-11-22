@@ -18,13 +18,13 @@ export function githubRequest(url: string) {
 	const headers: Headers = new Headers({
 		Accept: 'application/vnd.github.v3+json',
 	});
-	if (typeof import.meta.env?.GITHUB_TOKEN !== 'string') {
+	const token = import.meta.env?.GITHUB_TOKEN || process.env.GITHUB_TOKEN;
+	if (typeof token !== 'string') {
 		console.warn(
-			`GITHUB_TOKEN is ${typeof import.meta.env
-				?.GITHUB_TOKEN}. You may run into rate-limiting issues.`,
+			`GITHUB_TOKEN is ${typeof token}. You may run into rate-limiting issues.`,
 		);
 	} else {
-		headers.set('Authorization', `token ${import.meta.env.GITHUB_TOKEN}`);
+		headers.set('Authorization', `token ${token}`);
 	}
 
 	return new Request(url, { headers });
