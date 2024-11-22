@@ -24,7 +24,7 @@ async function generateIDXTemplate(ref: 'latest' | 'next') {
 	};
 	await writeFile(
 		`./.idx-templates/${ref}/idx-template.json`,
-		JSON.stringify(template, null, 2),
+		JSON.stringify(template, null, 2) + '\n',
 		'utf-8',
 	);
 	console.timeEnd(`Updated ${ref}/idx-template.json`);
