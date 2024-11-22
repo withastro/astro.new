@@ -14,7 +14,6 @@
         "component": "Component",
         "container-with-vitest": "Container with Vitest",
         "framework-alpine": "Alpine",
-        "framework-lit": "Lit",
         "framework-multiple": "Kitchen Sink (Multiple Frameworks)",
         "framework-preact": "Preact",
         "framework-react": "React",
@@ -25,6 +24,7 @@
         "integration": "Integration",
         "minimal": "Empty Project",
         "portfolio": "Portfolio",
+        "server-islands": "Server Islands",
         "ssr": "SSR",
         "starlog": "Starlog",
         "toolbar-app": "Toolbar App",
@@ -36,17 +36,6 @@
         "starlight": "Starlight",
         "starlight/markdoc": "Starlight Markdoc",
         "starlight/tailwind": "Starlight Tailwind"
-      },
-      "required": true
-    },
-    {
-      "id": "astroVersion",
-      "name": "Astro version",
-      "type": "enum",
-      "default": "latest",
-      "options": {
-        "latest": "Latest stable release",
-        "next": "Next experimental release"
       },
       "required": true
     }

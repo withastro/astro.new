@@ -1,7 +1,6 @@
 {
   pkgs,
   astroTemplate ? "basics",
-  astroVersion ? "latest",
   ...
 }:
 {
@@ -11,7 +10,7 @@
 
   bootstrap = ''
     mkdir "$out"
-    npm create astro@${astroVersion} "$out" -- --template ${astroTemplate} --typescript strict --git --no-install --no-houston
+    npm create astro@latest "$out" -- --ref next --template ${astroTemplate} --typescript strict --git --no-install --no-houston
 
     mkdir -p "$out"/.idx
     cp ${./dev.nix} "$out/.idx/dev.nix"
