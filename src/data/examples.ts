@@ -70,7 +70,7 @@ function toTemplateName({ repo, name, path }: ExampleDataWithRepo): string {
 		return name;
 	} else if (repo === 'withastro/starlight') {
 		// Examples in the Starlight monorepo support a shorthand syntax
-		return path === 'examples/basics' ? 'starlight' : `starlight/${path.replace('examples/', '')}`;
+		return path === 'examples/basics' ? 'starlight' : path.replace('examples/', 'starlight/');
 	} else {
 		// Other repositories require the full GitHub identifier, e.g. `username/repo/path/to/template`
 		return `${repo}/${path}`;
