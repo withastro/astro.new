@@ -6,7 +6,7 @@ await generateIDXTemplate('next');
 
 async function generateIDXTemplate(ref: 'latest' | 'next') {
 	console.time(`Updated ${ref}/idx-template.json`);
-	// .idx-templates/latest/idx-template.json 
+	// .idx-templates/latest/idx-template.json
 	const template = {
 		name: 'astro.new',
 		description: 'Kick start your next project with Astro’s official starter templates',
@@ -22,7 +22,10 @@ async function generateIDXTemplate(ref: 'latest' | 'next') {
 			},
 		],
 	};
-	await writeFile(`./.idx-templates/${ref}/idx-template.json`, JSON.stringify(template, null, 2), 'utf-8');
+	await writeFile(
+		`./.idx-templates/${ref}/idx-template.json`,
+		JSON.stringify(template, null, 2),
+		'utf-8',
+	);
 	console.timeEnd(`Updated ${ref}/idx-template.json`);
 }
-

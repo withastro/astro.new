@@ -69,8 +69,8 @@ export function toTemplateName({ repo, name, path }: ExampleDataWithRepo): strin
 }
 
 const TITLES = new Map([
-  ['with-mdx', 'MDX'],
-  ['ssr', 'SSR'],
+	['with-mdx', 'MDX'],
+	['ssr', 'SSR'],
 	['with-tailwindcss', 'Tailwind CSS'],
 	['blog-multiple-authors', 'Blog (Complex)'],
 	['with-markdown-plugins', 'Markdown (Remark Plugins)'],
