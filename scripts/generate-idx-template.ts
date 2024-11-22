@@ -8,7 +8,7 @@ async function generateIDXTemplate(ref: 'latest' | 'next') {
 	console.time(`Updated ${ref}/idx-template.json`);
 	// .idx-templates/latest/idx-template.json
 	const template = {
-		name: 'astro.new',
+		name: ref === 'next' ? 'astro.new/next' : 'astro.new',
 		description: 'Kick start your next project with Astro’s official starter templates',
 		icon: 'https://raw.githubusercontent.com/withastro/astro.build/refs/heads/main/public/assets/press/astro-icon-light-gradient.svg',
 		params: [
