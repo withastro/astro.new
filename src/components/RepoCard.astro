@@ -6,7 +6,7 @@ import RepoCardLink from './RepoCardLink.astro';
 import fallbackImage from '../assets/previews/minimal.webp';
 import { Image } from 'astro:assets';
 
-export type Props = Example;
+export type Props = Example & { aboveTheFold: boolean };
 
 const {
 	title,
@@ -16,6 +16,7 @@ const {
 	gitpodUrl,
 	createAstroTemplate,
 	loadPreviewImage = () => fallbackImage,
+	aboveTheFold,
 } = Astro.props;
 
 const image = await loadPreviewImage();
@@ -31,7 +32,7 @@ const headingId = `template-${createAstroTemplate}`;
 		<Image
 			src={image}
 			alt=""
-			loading="eager"
+			loading={aboveTheFold ? 'eager' : 'lazy'}
 			widths={[400, 600, 900]}
 			sizes="(min-width 1280px) 390px,(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
 			class="object-cover object-left-top s-full"
