@@ -1,12 +1,12 @@
 # `.idx-templates`
 
-This directory contains [custom templates](https://developers.google.com/idx/guides/custom-templates) for the IDX cloud development environment. 
+This directory contains [custom templates](https://developers.google.com/idx/guides/custom-templates) for the IDX cloud development environment.
 
 There is a template each for Astro's `latest` and `next` branches.
 
 ## Template structure
 
-Each template contains the following files: 
+Each template contains the following files:
 
 - `dev.nix` — a Nix configuration for the packages in the dev environment, setup commands to run, etc.
 - `icon.png` — the Astro logo, used in IDX’s user interface.
