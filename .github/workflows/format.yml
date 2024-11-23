@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Update IDX template
+        run: pnpm generate:idx
+
       - name: Format
         run: pnpm run format
 

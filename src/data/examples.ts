@@ -1,15 +1,10 @@
-import toTitle from 'title';
 import { isStarlightName, toStarlightName } from '../utils/constants.js';
 import {
-	type ExampleData,
-	astroContentUrl,
-	githubRequest,
-	starlightContentUrl,
-} from '../utils/github.js';
-
-interface ExampleDataWithRepo extends ExampleData {
-	repo: string;
-}
+	type ExampleDataWithRepo,
+	getExamples,
+	toTemplateName,
+	toTitle,
+} from './examples-shared.js';
 
 const previewImages = new Map(
 	Object.entries(import.meta.glob<{ default: ImageMetadata }>('../assets/previews/*.webp')).map(
@@ -23,16 +18,6 @@ const previewImages = new Map(
 	),
 );
 
-const TITLES = new Map([
-	['with-tailwindcss', 'Tailwind CSS'],
-	['blog-multiple-authors', 'Blog (Complex)'],
-	['with-markdown-plugins', 'Markdown (Remark Plugins)'],
-	['framework-multiple', 'Kitchen Sink (Multiple Frameworks)'],
-	['basics', 'Just the Basics'],
-	[toStarlightName('basics'), 'Starlight'],
-	['starlog', 'Starlog'],
-	['minimal', 'Empty Project'],
-]);
 export const TOP_SECTION = 'Getting Started';
 const TOP_SECTION_ORDER = [
 	'basics',
@@ -66,28 +51,9 @@ function getSuffix(name: string, ref: string): string {
 	return '';
 }
 
-function toTemplateName({ repo, name, path }: ExampleDataWithRepo): string {
-	if (repo === 'withastro/astro') {
-		// Examples in the core monorepo work with just their directory name.
-		return name;
-	} else if (repo === 'withastro/starlight') {
-		// Examples in the Starlight monorepo support a shorthand syntax
-		return path === 'examples/basics' ? 'starlight' : path.replace('examples/', 'starlight/');
-	} else {
-		// Other repositories require the full GitHub identifier, e.g. `username/repo/path/to/template`
-		return `${repo}/${path}`;
-	}
-}
-
 function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
 	const { name } = exampleData;
 	const suffix = getSuffix(name, ref);
-	let title: string;
-	if (TITLES.has(name)) {
-		title = TITLES.get(name)!; // we just checked w/ `.has()` it should exist.
-	} else {
-		title = toTitle(name.replace(/^(with|framework)/, '').replace(/-/g, ' ')).trim();
-	}
 	return {
 		name,
 		sourceUrl: `/${name}${suffix}?on=github`,
@@ -96,7 +62,7 @@ function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
 		createAstroTemplate: toTemplateName(exampleData),
 		loadPreviewImage: previewImages.get(name),
-		title,
+		title: toTitle(name),
 	};
 }
 
@@ -157,38 +123,8 @@ function groupExamplesByCategory(examples: ExampleDataWithRepo[], ref: string) {
 	);
 }
 
-export async function getExamples(ref = 'latest') {
-	if (ref === 'next') {
-		try {
-			await fetch(githubRequest(astroContentUrl(ref)));
-		} catch (e) {
-			console.error(`Failed to fetch examples for ref "${ref}" -`, e);
-			// `next` branch is missing, fallback to `main`
-			ref = 'main';
-		}
-	}
-	const examples: ExampleDataWithRepo[] = (
-		await Promise.all([
-			fetch(githubRequest(astroContentUrl(ref)))
-				.then((res) => res.json())
-				.then((examples: ExampleData[]) =>
-					examples.map((example) => ({
-						...example,
-						repo: 'withastro/astro',
-					})),
-				),
-			fetch(githubRequest(starlightContentUrl()))
-				.then((res) => res.json())
-				// prefix starlight example names to differentiate duplicate example names
-				.then((examples: ExampleData[]) =>
-					examples.map((example) => ({
-						...example,
-						name: toStarlightName(example.name),
-						repo: 'withastro/starlight',
-					})),
-				),
-		])
-	).flat();
+export async function getCategorizedExamples(ref = 'latest') {
+	const examples = await getExamples(ref);
 	return groupExamplesByCategory(examples, ref);
 }
 
