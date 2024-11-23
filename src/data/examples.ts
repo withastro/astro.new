@@ -124,7 +124,7 @@ function groupExamplesByCategory(examples: ExampleDataWithRepo[], ref: string) {
 }
 
 export async function getCategorizedExamples(ref = 'latest') {
-	const examples = await getExamples();
+	const examples = await getExamples(ref);
 	return groupExamplesByCategory(examples, ref);
 }
 
