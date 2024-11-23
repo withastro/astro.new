@@ -22,6 +22,20 @@ type CachedExample = {
 const examplesCache = new Map<string, CachedExample[]>();
 let starlightExamplesCache: CachedExample[] | undefined = undefined;
 
+/** Generate a placeholder workspace name for IDX. Must be no longer than 20 characters. */
+function idxProjectName(example: ExampleData, repo: string) {
+	const fullTitle = toTitle(
+		repo === 'withastro/starlight' ? toStarlightName(example.name) : example.name,
+	)
+		// Remove parentheticals
+		.replace(/\([^)]+\)/, '')
+		.trim();
+
+	if (fullTitle.length > 20) return `${fullTitle.slice(0, 19)}…`;
+	if (fullTitle.length < 13) return `Astro: ${fullTitle}`;
+	return fullTitle;
+}
+
 /**
  * Generate a URL to create a new IDX workspace for the given example.
  *
@@ -34,7 +48,7 @@ function idxUrl(example: ExampleData, repo: string, ref = 'latest') {
 	// Select the Astro template to use when starting up IDX.
 	url.searchParams.set('astroTemplate', toTemplateName({ ...example, repo }));
 	// Pre-fill the IDX wizard with a project name based on the selected template.
-	const title = `Astro: ${toTitle(repo === 'withastro/starlight' ? toStarlightName(example.name) : example.name)}`;
+	const title = idxProjectName(example, repo);
 	url.searchParams.set('name', title);
 	// Tell IDX where the template files are located. IDX parses this greedily so it MUST COME LAST.
 	const templateUrl = `https://github.com/withastro/astro.new/tree/main/.idx-templates/${ref}`;
