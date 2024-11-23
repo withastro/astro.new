@@ -1,5 +1,6 @@
 import type { APIContext, APIRoute } from 'astro';
-import { fromStarlightName, isStarlightName } from '../utils/constants.js';
+import { toTemplateName, toTitle } from '../data/examples-shared.js';
+import { fromStarlightName, isStarlightName, toStarlightName } from '../utils/constants.js';
 import {
 	type ExampleData,
 	astroContentUrl,
@@ -12,7 +13,7 @@ export const prerender = false;
 type CachedExample = {
 	name: string;
 	github: string;
-	netlify: string;
+	idx: string;
 	stackblitz: string;
 	codesandbox: string;
 	gitpod: string;
@@ -21,15 +22,42 @@ type CachedExample = {
 const examplesCache = new Map<string, CachedExample[]>();
 let starlightExamplesCache: CachedExample[] | undefined = undefined;
 
-function toCachedExample({ name, html_url }: ExampleData): CachedExample {
-	const githubUrl = new URL(html_url);
+/**
+ * Generate a URL to create a new IDX workspace for the given example.
+ *
+ * @param example GitHub REST API repository contents entry for this template.
+ * @param repo The GitHub repo identifier for this template, e.g. `withastro/astro`.
+ * @param ref The GitHub branch to use: `latest` or `next`.
+ */
+function idxUrl(example: ExampleData, repo: string, ref = 'latest') {
+	const url = new URL('https://idx.google.com/new');
+	// Select the Astro template to use when starting up IDX.
+	url.searchParams.set('astroTemplate', toTemplateName({ ...example, repo }));
+	// Pre-fill the IDX wizard with a project name based on the selected template.
+	const title = `Astro: ${toTitle(repo === 'withastro/starlight' ? toStarlightName(example.name) : example.name)}`;
+	url.searchParams.set('name', title);
+	// Tell IDX where the template files are located. IDX parses this greedily so it MUST COME LAST.
+	const templateUrl = `https://github.com/withastro/astro.new/tree/main/.idx-templates/${ref}`;
+	url.searchParams.set('template', templateUrl);
+	return url.href;
+}
+
+/**
+ * Create a map of URLs that open this example on different services.
+ *
+ * @param example GitHub REST API repository contents entry for this template.
+ * @param repo The GitHub repo identifier for this template, e.g. `withastro/astro`.
+ * @param ref The GitHub branch to use: `latest` or `next`.
+ */
+function toCachedExample(example: ExampleData, repo: string, ref: string): CachedExample {
+	const githubUrl = new URL(example.html_url);
 	return {
-		name,
-		github: html_url,
-		netlify: 'https://astro.build',
+		name: example.name,
+		github: example.html_url,
+		idx: idxUrl(example, repo, ref),
 		stackblitz: `https://stackblitz.com/github${githubUrl.pathname}`,
 		codesandbox: `https://codesandbox.io/p/sandbox/github${githubUrl.pathname}`,
-		gitpod: `https://gitpod.io/#${html_url}`,
+		gitpod: `https://gitpod.io/#${example.html_url}`,
 	};
 }
 
@@ -48,7 +76,7 @@ async function getStarlightExamples() {
 	}
 
 	starlightExamplesCache = examples.flatMap((example) =>
-		example.size > 0 ? [] : toCachedExample(example),
+		example.size > 0 ? [] : toCachedExample(example, 'withastro/starlight', 'latest'),
 	);
 
 	return starlightExamplesCache;
@@ -70,7 +98,9 @@ async function getExamples(ref = 'latest') {
 		throw new Error(`Unable to fetch templates from GitHub`);
 	}
 
-	const values = examples.flatMap((example) => (example.size > 0 ? [] : toCachedExample(example)));
+	const values = examples.flatMap((example) =>
+		example.size > 0 ? [] : toCachedExample(example, 'withastro/astro', ref),
+	);
 
 	examplesCache.set(ref, values);
 
@@ -108,7 +138,7 @@ async function validateRef(name: string) {
 }
 
 type Platform = typeof PLATFORMS extends Set<infer T> ? T : never;
-const PLATFORMS = new Set(['stackblitz', 'codesandbox', 'netlify', 'github', 'gitpod'] as const);
+const PLATFORMS = new Set(['idx', 'stackblitz', 'codesandbox', 'github', 'gitpod'] as const);
 function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform);
 }

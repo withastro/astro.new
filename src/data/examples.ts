@@ -37,6 +37,7 @@ export interface Example {
 	name: string;
 	title: string;
 	sourceUrl: string;
+	idxUrl: string;
 	stackblitzUrl: string;
 	codesandboxUrl: string;
 	gitpodUrl: string;
@@ -57,6 +58,7 @@ function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
 	return {
 		name,
 		sourceUrl: `/${name}${suffix}?on=github`,
+		idxUrl: `/${name}${suffix}?on=idx`,
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
