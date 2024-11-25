@@ -15,6 +15,7 @@ const {
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
+	previewUrl,
 	createAstroTemplate,
 	loadPreviewImage = () => fallbackImage,
 	aboveTheFold,
@@ -42,6 +43,13 @@ const headingId = `template-${createAstroTemplate}`;
 	<div class="flex flex-col gap-4 p-5">
 		<h2 class="heading-4" id={headingId}>{title}</h2>
 		<p class="flex flex-wrap gap-2">
+			{
+				previewUrl && (
+					<RepoCardLink as="a" href={previewUrl} icon="eye">
+						Preview
+					</RepoCardLink>
+				)
+			}
 			<RepoCardLink as="a" href={sourceUrl} icon="github">Source code</RepoCardLink>
 			<CopyButton {createAstroTemplate} />
 		</p>

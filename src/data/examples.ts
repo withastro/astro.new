@@ -41,6 +41,7 @@ export interface Example {
 	stackblitzUrl: string;
 	codesandboxUrl: string;
 	gitpodUrl: string;
+	previewUrl: string | null;
 	createAstroTemplate: string;
 	loadPreviewImage: (() => Promise<ImageMetadata>) | undefined;
 }
@@ -52,7 +53,7 @@ function getSuffix(name: string, ref: string): string {
 	return '';
 }
 
-function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
+function toExample(exampleData: ExampleDataWithRepo, previews: string[], ref: string): Example {
 	const { name } = exampleData;
 	const suffix = getSuffix(name, ref);
 	return {
@@ -62,6 +63,8 @@ function toExample(exampleData: ExampleDataWithRepo, ref: string): Example {
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
+		previewUrl:
+			ref === 'latest' && previews.includes(name) ? `https://preview.astro.new/${name}` : null,
 		createAstroTemplate: toTemplateName(exampleData),
 		loadPreviewImage: previewImages.get(name),
 		title: toTitle(name),
@@ -74,7 +77,7 @@ export type ExampleGroup = {
 	items: Example[];
 };
 
-function groupExamplesByCategory(examples: ExampleDataWithRepo[], ref: string) {
+function groupExamplesByCategory(examples: ExampleDataWithRepo[], previews: string[], ref: string) {
 	const gettingStartedItems: Example[] = [];
 	const frameworks: Example[] = [];
 	const integrations: Example[] = [];
@@ -83,7 +86,7 @@ function groupExamplesByCategory(examples: ExampleDataWithRepo[], ref: string) {
 	for (const example of examples) {
 		if (example.size !== 0) continue;
 
-		const data = toExample(example, ref);
+		const data = toExample(example, previews, ref);
 		if (TOP_SECTION_ORDER.includes(example.name)) {
 			gettingStartedItems.push(data);
 		} else if (example.name.startsWith('with-')) {
@@ -127,7 +130,15 @@ function groupExamplesByCategory(examples: ExampleDataWithRepo[], ref: string) {
 
 export async function getCategorizedExamples(ref = 'latest') {
 	const examples = await getExamples(ref);
-	return groupExamplesByCategory(examples, ref);
+	const previews = await getPreviews();
+	return groupExamplesByCategory(examples, previews, ref);
+}
+
+async function getPreviews() {
+	const { previews } = await fetch('https://preview.astro.new/metadata.json').then((res) =>
+		res.json(),
+	);
+	return previews as string[];
 }
 
 function sortExamplesByOrder(order: string[]) {
