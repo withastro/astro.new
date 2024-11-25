@@ -11,6 +11,7 @@ export type Props = Example & { aboveTheFold: boolean };
 const {
 	title,
 	sourceUrl,
+	idxUrl,
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
@@ -46,17 +47,17 @@ const headingId = `template-${createAstroTemplate}`;
 		</p>
 		<hr class="border-astro-gray-100/10" />
 		<div
-			class="flex h-10 w-max min-w-0 max-w-full divide-x divide-astro-gray-600 rounded-full bg-blue-purple-gradient"
+			class="relative flex h-10 w-max min-w-0 max-w-full divide-x divide-astro-gray-600 rounded-full bg-blue-purple-gradient"
 		>
 			<a
-				href={stackblitzUrl}
+				href={idxUrl}
 				target="_blank"
 				rel="noopener noreferrer"
 				class="flex items-center gap-2 rounded-l-full bg-black/15 px-4 text-sm transition hover:backdrop-brightness-75"
 			>
-				<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
+				<Icon name="idx" size={16} aria-hidden="true" /> Open in IDX
 			</a>
-			<details class="relative z-10" data-card-options>
+			<details class="z-10" data-card-options>
 				<summary
 					class="flex h-full cursor-pointer list-none items-center rounded-r-full bg-black/15 px-2 transition hover:backdrop-brightness-75"
 				>
@@ -64,8 +65,16 @@ const headingId = `template-${createAstroTemplate}`;
 					<Icon name="chevron-down" size={20} aria-hidden="true" />
 				</summary>
 				<ul
-					class="absolute right-0 top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md"
+					class="absolute left-0 top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md"
 				>
+					<li>
+						<a
+							href={stackblitzUrl}
+							class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
+						>
+							<Icon name="stackblitz" size={20} aria-hidden="true" /> Open in StackBlitz
+						</a>
+					</li>
 					<li>
 						<a
 							href={gitpodUrl}
