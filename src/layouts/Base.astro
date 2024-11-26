@@ -2,6 +2,7 @@
 import Icon from 'astro-icon';
 import houstonHappy from '../assets/houston_happy.webp';
 import seoBanner from '../assets/seo-banner.webp';
+import GridGradientsAndNoise from '../components/GridGradientsAndNoise.astro';
 import Head from '../components/Head.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
@@ -47,22 +48,10 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 		<Header />
 
 		<div class="noise-container overflow-x-hidden supports-[overflow-x:clip]:overflow-x-clip">
-			<div class="noise"></div>
+			<GridGradientsAndNoise />
 
-			<div class="relative">
-				<div class="noise-underlay bg-grid absolute inset-0 mask-linear-gradient-to-b"></div>
-				<div class="container">
-					<Hero />
-				</div>
-			</div>
-
-			<div
-				class="noise-underlay absolute left-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[-60%] rounded-full bg-blue-purple-gradient opacity-75 mask-radial-gradient"
-			>
-			</div>
-			<div
-				class="noise-underlay absolute right-0 top-[350px] h-[600px] w-[calc(max(50vw,300px))] -translate-y-1/2 translate-x-[60%] rounded-full bg-orange-yellow-gradient opacity-75 mask-radial-gradient"
-			>
+			<div class="container">
+				<Hero />
 			</div>
 
 			<main class="container" aria-labelledby="main-heading">
