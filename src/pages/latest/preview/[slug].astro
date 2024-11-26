@@ -31,8 +31,9 @@ const previewImage = await example.loadPreviewImage?.();
 
 	<body class="grid h-full grid-rows-[auto,1fr]">
 		<header
-			class="noise-container z-10 grid h-24 grid-cols-[1fr,auto,1fr] items-center gap-6 border-b border-astro-gray-100/20 px-8"
+			class="noise-container z-10 grid h-24 grid-cols-[1fr,auto,1fr] items-center gap-6 overflow-x-hidden border-b border-astro-gray-100/20 px-8 supports-[overflow-x:clip]:overflow-x-clip"
 		>
+			<div class="noise"></div>
 			<a href=`/latest/${example.category}/` class="flex items-center gap-4 justify-self-start">
 				<Icon name="arrow-left" size="32" class="s-8" aria-hidden="true" />
 				<span class="sr-only text-sm md:not-sr-only">Back</span>
