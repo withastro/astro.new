@@ -1,16 +1,8 @@
 ---
-import '@astrojs/site-kit/tailwind.css';
-import '@fontsource-variable/inter';
-import '../styles/fonts.css';
-
-import { ViewTransitions } from 'astro:transitions';
-import { SEO } from '@astrojs/site-kit/components';
-import Inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
 import Icon from 'astro-icon';
 import houstonHappy from '../assets/houston_happy.webp';
-import houstonOmg from '../assets/houston_omg.webp';
 import seoBanner from '../assets/seo-banner.webp';
-import Favicon from '../components/Favicon.astro';
+import Head from '../components/Head.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import RepoCard from '../components/RepoCard.astro';
@@ -37,30 +29,12 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 
 <html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
 	<head>
-		<SEO
-			name="astro.new"
+		<Head
 			title={exampleGroup.title}
 			description="Quickly launch example Astro projects in your favorite browser IDE!"
 			image={{ src: resolvedSeoBanner, alt: '' }}
 			canonicalURL={new URL(pathname, `https://astro.new`)}
 		/>
-		<ViewTransitions />
-
-		<Favicon />
-		<link rel="mask-icon" href="/favicon.svg" color="#8D46E7" />
-		<link
-			rel="preload"
-			href="/fonts/Obviously/Obviously Normal/Web/Obviously-Regular.woff2"
-			as="font"
-			type="font/woff2"
-			crossorigin
-		/>
-		<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
-		<link rel="preload" href={houstonOmg.src} as="image" type="image/webp" />
-		<link rel="preload" href="/assets/noise.webp" as="image" type="image/webp" />
-
-		<!-- Fathom - beautiful, simple website analytics -->
-		<script src="https://cdn.usefathom.com/script.js" data-site="EZBHTSIG" defer></script>
 	</head>
 
 	<body>
