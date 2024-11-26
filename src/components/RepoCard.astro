@@ -10,12 +10,13 @@ export type Props = Example & { aboveTheFold: boolean };
 
 const {
 	title,
+	name,
 	sourceUrl,
 	idxUrl,
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
-	previewUrl,
+	previewEmbedUrl,
 	createAstroTemplate,
 	loadPreviewImage = () => fallbackImage,
 	aboveTheFold,
@@ -32,20 +33,22 @@ const headingId = `template-${createAstroTemplate}`;
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
 		<Image
+			transition:name={name}
+			transition:animate="initial"
 			src={image}
 			alt=""
 			loading={aboveTheFold ? 'eager' : 'lazy'}
 			widths={[400, 600, 900]}
 			sizes="(min-width 1280px) 390px,(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-			class="object-cover object-left-top s-full"
+			class="object-cover object-left-top outline outline-1 -outline-offset-1 outline-astro-gray-100/10 s-full"
 		/>
 	</div>
 	<div class="flex flex-col gap-4 p-5">
 		<h2 class="heading-4" id={headingId}>{title}</h2>
 		<p class="flex flex-wrap gap-2">
 			{
-				previewUrl && (
-					<RepoCardLink as="a" href={previewUrl} icon="eye">
+				previewEmbedUrl && (
+					<RepoCardLink as="a" href={previewEmbedUrl} icon="eye">
 						Preview
 					</RepoCardLink>
 				)
