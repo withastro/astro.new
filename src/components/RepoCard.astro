@@ -48,7 +48,7 @@ const headingId = `template-${createAstroTemplate}`;
 		<p class="flex flex-wrap gap-2">
 			{
 				previewEmbedUrl && (
-					<RepoCardLink as="a" href={previewEmbedUrl} icon="eye">
+					<RepoCardLink as="a" href={previewEmbedUrl} icon="eye" data-astro-prefetch>
 						Preview
 					</RepoCardLink>
 				)
