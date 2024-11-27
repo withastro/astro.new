@@ -52,7 +52,7 @@ const previewImage = await example.loadPreviewImage?.();
 		</header>
 
 		<main
-			class="md:md-y:pb-8 lg:md-y:p-14 noise-container overflow-x-hidden bg-gradient-to-b from-transparent via-transparent to-astro-purple/5 supports-[overflow-x:clip]:overflow-x-clip md:p-8 md:pb-0"
+			class="noise-container overflow-x-hidden bg-gradient-to-b from-transparent via-transparent to-astro-purple/5 supports-[overflow-x:clip]:overflow-x-clip md:p-8 md:pb-0 md:md-y:pb-8 lg:md-y:p-14"
 			aria-labelledby="site-preview"
 		>
 			<GridGradientsAndNoise />
@@ -62,7 +62,7 @@ const previewImage = await example.loadPreviewImage?.();
 				title=`Preview of ${example.title} template`
 				transition:name={example.name}
 				src={example.previewUrl}
-				class="md:md-y:rounded-3xl md:md-y:border-b-8 mx-auto h-full w-full max-w-screen-2xl border-astro-gray-500/50 bg-white bg-clip-content p-px outline-astro-gray-100/15 ring-inset ring-astro-gray-100/20 md:rounded-t-3xl md:border-8 md:border-b-0 md:shadow-2xl md:outline md:outline-1 md:-outline-offset-1 md:ring-1 md:drop-shadow-md"
+				class="mx-auto h-full w-full max-w-screen-2xl border-astro-gray-500/50 bg-white bg-clip-content outline-astro-gray-100/15 ring-inset ring-astro-gray-100/20 md:rounded-t-3xl md:border-8 md:border-b-0 md:p-px md:pb-0 md:shadow-2xl md:outline md:outline-1 md:-outline-offset-1 md:ring-1 md:drop-shadow-md md:md-y:rounded-3xl md:md-y:border-b-8 md:md-y:p-px"
 			></iframe>
 		</main>
 
