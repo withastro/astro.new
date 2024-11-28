@@ -28,13 +28,14 @@ const TOP_SECTION_ORDER = [
 	'minimal',
 ];
 
-const FEATURED_INTEGRATIONS = new Set(['tailwindcss']);
+const INTEGRATIONS_ORDER = ['with-tailwindcss', 'with-mdx'];
 const FRAMEWORK_ORDER = ['react', 'preact', 'vue', 'svelte', 'lit', 'solid'].map(
 	(name) => `framework-${name}`,
 );
 
 export interface Example {
 	name: string;
+	category: string;
 	title: string;
 	sourceUrl: string;
 	idxUrl: string;
@@ -42,6 +43,7 @@ export interface Example {
 	codesandboxUrl: string;
 	gitpodUrl: string;
 	previewUrl: string | null;
+	previewEmbedUrl: string | null;
 	createAstroTemplate: string;
 	loadPreviewImage: (() => Promise<ImageMetadata>) | undefined;
 }
@@ -53,11 +55,17 @@ function getSuffix(name: string, ref: string): string {
 	return '';
 }
 
-function toExample(exampleData: ExampleDataWithRepo, previews: string[], ref: string): Example {
+function toExample(
+	exampleData: ExampleDataWithRepo,
+	previews: string[],
+	category: string,
+	ref: string,
+): Example {
 	const { name } = exampleData;
 	const suffix = getSuffix(name, ref);
 	return {
 		name,
+		category,
 		sourceUrl: `/${name}${suffix}?on=github`,
 		idxUrl: `/${name}${suffix}?on=idx`,
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
@@ -65,6 +73,7 @@ function toExample(exampleData: ExampleDataWithRepo, previews: string[], ref: st
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,
 		previewUrl:
 			ref === 'latest' && previews.includes(name) ? `https://preview.astro.new/${name}` : null,
+		previewEmbedUrl: ref === 'latest' && previews.includes(name) ? `/latest/preview/${name}` : null,
 		createAstroTemplate: toTemplateName(exampleData),
 		loadPreviewImage: previewImages.get(name),
 		title: toTitle(name),
@@ -78,28 +87,24 @@ export type ExampleGroup = {
 };
 
 function groupExamplesByCategory(examples: ExampleDataWithRepo[], previews: string[], ref: string) {
-	const gettingStartedItems: Example[] = [];
-	const frameworks: Example[] = [];
-	const integrations: Example[] = [];
-	const templates: Example[] = [];
+	const categories = {
+		'getting-started': [] as Example[],
+		integrations: [] as Example[],
+		frameworks: [] as Example[],
+		templates: [] as Example[],
+	};
 
 	for (const example of examples) {
 		if (example.size !== 0) continue;
-
-		const data = toExample(example, previews, ref);
-		if (TOP_SECTION_ORDER.includes(example.name)) {
-			gettingStartedItems.push(data);
-		} else if (example.name.startsWith('with-')) {
-			if (FEATURED_INTEGRATIONS.has(example.name.replace('with-', ''))) {
-				integrations.unshift(data);
-			} else {
-				integrations.push(data);
-			}
-		} else if (example.name.startsWith('framework-')) {
-			frameworks.push(data);
-		} else {
-			templates.push(data);
-		}
+		const category = TOP_SECTION_ORDER.includes(example.name)
+			? 'getting-started'
+			: example.name.startsWith('with-')
+				? 'integrations'
+				: example.name.startsWith('framework-')
+					? 'frameworks'
+					: 'templates';
+		const data = toExample(example, previews, category, ref);
+		categories[category].push(data);
 	}
 
 	return new Map(
@@ -107,22 +112,22 @@ function groupExamplesByCategory(examples: ExampleDataWithRepo[], previews: stri
 			'getting-started': {
 				title: TOP_SECTION,
 				slug: 'getting-started',
-				items: gettingStartedItems.sort(sortExamplesByOrder(TOP_SECTION_ORDER)),
+				items: categories['getting-started'].sort(sortExamplesByOrder(TOP_SECTION_ORDER)),
 			},
 			frameworks: {
 				title: 'Frameworks',
 				slug: 'frameworks',
-				items: frameworks.sort(sortExamplesByOrder(FRAMEWORK_ORDER)),
+				items: categories.frameworks.sort(sortExamplesByOrder(FRAMEWORK_ORDER)),
 			},
 			integrations: {
 				title: 'Integrations',
 				slug: 'integrations',
-				items: integrations,
+				items: categories.integrations.sort(sortExamplesByOrder(INTEGRATIONS_ORDER)),
 			},
 			templates: {
 				title: 'Templates',
 				slug: 'templates',
-				items: templates,
+				items: categories.templates,
 			},
 		}),
 	);

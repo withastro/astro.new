@@ -1,21 +1,22 @@
 ---
 import { Image } from 'astro:assets';
-import { Icon } from 'astro-icon';
 import fallbackImage from '../assets/previews/minimal.webp';
 import type { Example } from '../data/examples.js';
 import CopyButton from './CopyButton.astro';
+import ProjectLauncher from './ProjectLauncher.astro';
 import RepoCardLink from './RepoCardLink.astro';
 
 export type Props = Example & { aboveTheFold: boolean };
 
 const {
 	title,
+	name,
 	sourceUrl,
 	idxUrl,
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
-	previewUrl,
+	previewEmbedUrl,
 	createAstroTemplate,
 	loadPreviewImage = () => fallbackImage,
 	aboveTheFold,
@@ -32,20 +33,22 @@ const headingId = `template-${createAstroTemplate}`;
 	<div class="noise z-0"></div>
 	<div class="aspect-video bg-astro-gray-700">
 		<Image
+			transition:name={name}
+			transition:animate="initial"
 			src={image}
 			alt=""
 			loading={aboveTheFold ? 'eager' : 'lazy'}
 			widths={[400, 600, 900]}
 			sizes="(min-width 1280px) 390px,(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-			class="object-cover object-left-top s-full"
+			class="object-cover object-left-top outline outline-1 -outline-offset-1 outline-astro-gray-100/10 s-full"
 		/>
 	</div>
 	<div class="flex flex-col gap-4 p-5">
 		<h2 class="heading-4" id={headingId}>{title}</h2>
 		<p class="flex flex-wrap gap-2">
 			{
-				previewUrl && (
-					<RepoCardLink as="a" href={previewUrl} icon="eye">
+				previewEmbedUrl && (
+					<RepoCardLink as="a" href={previewEmbedUrl} icon="eye" data-astro-prefetch>
 						Preview
 					</RepoCardLink>
 				)
@@ -54,54 +57,7 @@ const headingId = `template-${createAstroTemplate}`;
 			<CopyButton {createAstroTemplate} />
 		</p>
 		<hr class="border-astro-gray-100/10" />
-		<div
-			class="relative flex h-10 w-max min-w-0 max-w-full divide-x divide-astro-gray-600 rounded-full bg-blue-purple-gradient"
-		>
-			<a
-				href={idxUrl}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="flex items-center gap-2 rounded-l-full bg-black/15 px-4 text-sm transition hover:backdrop-brightness-75"
-			>
-				<Icon name="idx" size={16} aria-hidden="true" /> Open in IDX
-			</a>
-			<details class="z-10" data-card-options>
-				<summary
-					class="flex h-full cursor-pointer list-none items-center rounded-r-full bg-black/15 px-2 transition hover:backdrop-brightness-75"
-				>
-					<span class="sr-only">More options</span>
-					<Icon name="chevron-down" size={20} aria-hidden="true" />
-				</summary>
-				<ul
-					class="absolute left-0 top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md"
-				>
-					<li>
-						<a
-							href={stackblitzUrl}
-							class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
-						>
-							<Icon name="stackblitz" size={20} aria-hidden="true" /> Open in StackBlitz
-						</a>
-					</li>
-					<li>
-						<a
-							href={gitpodUrl}
-							class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
-						>
-							<Icon name="gitpod" size={20} aria-hidden="true" /> Open in Gitpod
-						</a>
-					</li>
-					<li>
-						<a
-							href={codesandboxUrl}
-							class="flex flex-row items-center gap-2 rounded-sm px-3 py-1.5 hover:bg-blue-purple-gradient hover:text-white"
-						>
-							<Icon name="codesandbox" size={20} aria-hidden="true" /> Open in CodeSandbox
-						</a>
-					</li>
-				</ul>
-			</details>
-		</div>
+		<ProjectLauncher {...{ idxUrl, stackblitzUrl, codesandboxUrl, gitpodUrl }} />
 	</div>
 </article>
 
@@ -171,9 +127,3 @@ const headingId = `template-${createAstroTemplate}`;
 		}
 	}
 </script>
-
-<style>
-	details summary::-webkit-details-marker {
-		display: none;
-	}
-</style>

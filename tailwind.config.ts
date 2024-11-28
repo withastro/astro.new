@@ -16,6 +16,11 @@ export default {
 				secondary: colors.orange,
 				accent: colors.fuchsia,
 			},
+			screens: {
+				'sm-y': { raw: '(min-height: 640px)' },
+				'md-y': { raw: '(min-height: 768px)' },
+				'lg-y': { raw: '(min-height: 1024px)' },
+			},
 		},
 	},
 	plugins: [

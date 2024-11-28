@@ -4,7 +4,9 @@ import AstroLogo from '../components/AstroLogo.astro';
 import { mainSiteLink, socialLinks } from '../data/links';
 ---
 
-<header class="noise-container flex h-24 items-center gap-6 border-b border-astro-gray-100/20 px-8">
+<header
+	class="noise-container z-50 flex h-24 items-center gap-6 border-b border-astro-gray-100/20 px-8"
+>
 	<div class="noise"></div>
 	<a href="/" class="flex items-center gap-6 transition hover:opacity-75" title="Home">
 		<AstroLogo aria-hidden="true" class="h-14 w-10 translate-y-1 object-top" />
@@ -25,5 +27,5 @@ import { mainSiteLink, socialLinks } from '../data/links';
 			))
 		}
 	</div>
-	<a href={mainSiteLink} class="button button-primary font-medium"> Visit astro.build</a>
+	<a href={mainSiteLink} class="button button-sm button-primary font-medium"> Visit astro.build</a>
 </header>

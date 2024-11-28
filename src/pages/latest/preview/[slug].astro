@@ -1,0 +1,89 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Icon from 'astro-icon';
+import GridGradientsAndNoise from '../../../components/GridGradientsAndNoise.astro';
+import Head from '../../../components/Head.astro';
+import ProjectLauncher from '../../../components/ProjectLauncher.astro';
+import { getCategorizedExamples } from '../../../data/examples.ts';
+
+export const getStaticPaths = (async () => {
+	const examples = await getCategorizedExamples();
+	return [...examples.values()]
+		.flatMap((category) => category.items)
+		.filter((example) => example.previewUrl !== null)
+		.map((example) => ({ params: { slug: example.name }, props: { example } }));
+}) satisfies GetStaticPaths;
+
+const { example } = Astro.props;
+const previewImage = await example.loadPreviewImage?.();
+---
+
+<html lang="en" class="h-dvh overflow-hidden bg-astro-gray-700 text-astro-gray-100">
+	<head>
+		<Head
+			title=`Preview: ${example.title}`
+			description=`See a preview of the ${example.title} starter template for Astro.`
+			image={previewImage ? { src: previewImage.src, alt: '' } : undefined}
+			canonicalURL={Astro.url}
+		/>
+		<link rel="preconnect" href="https://preview.astro.new" />
+	</head>
+
+	<body class="grid h-full grid-rows-[auto,1fr]">
+		<header
+			class="noise-container z-10 grid h-24 grid-cols-[1fr,auto,1fr] items-center gap-6 border-b border-astro-gray-100/20 px-8"
+		>
+			<div class="noise"></div>
+			<a
+				href=`/latest/${example.category}/`
+				class="link flex items-center gap-4 justify-self-start"
+			>
+				<Icon name="arrow-left" size="32" class="s-8" aria-hidden="true" />
+				<span class="sr-only text-sm md:not-sr-only">Back</span>
+			</a>
+			<h1 class="heading-5 text-center text-base lg:text-xl">{example.title}</h1>
+			<span class="hidden items-center gap-6 justify-self-end md:flex">
+				<a href={example.sourceUrl} class="link">
+					<Icon name="github" size="32" class="s-8" aria-hidden="true" />
+					<span class="sr-only">Source code on GitHub</span>
+				</a>
+				<ProjectLauncher menuAlign="right" {...example} />
+			</span>
+		</header>
+
+		<main
+			class="noise-container overflow-x-hidden bg-gradient-to-b from-transparent via-transparent to-astro-purple/5 supports-[overflow-x:clip]:overflow-x-clip md:p-8 md:pb-0 md:md-y:pb-8 lg:md-y:p-14"
+			aria-labelledby="site-preview"
+		>
+			<GridGradientsAndNoise />
+
+			<iframe
+				id="site-preview"
+				title=`Preview of ${example.title} template`
+				transition:name={example.name}
+				src={example.previewUrl}
+				class="mx-auto h-full w-full max-w-screen-2xl border-astro-gray-500/50 bg-white bg-clip-content outline-astro-gray-100/15 ring-inset ring-astro-gray-100/20 md:rounded-t-3xl md:border-8 md:border-b-0 md:p-px md:pb-0 md:shadow-2xl md:outline md:outline-1 md:-outline-offset-1 md:ring-1 md:drop-shadow-md md:md-y:rounded-3xl md:md-y:border-b-8 md:md-y:p-px"
+			></iframe>
+		</main>
+
+		<script>
+			// find all internal links, this will pickup all redirects handled by the redirect function
+			document.querySelectorAll<HTMLAnchorElement>("a[href^='/']").forEach((link) => {
+				link.addEventListener('click', () => {
+					window.fathom.trackPageview({
+						url: link.href,
+					});
+				});
+			});
+
+			declare global {
+				// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+				interface Window {
+					fathom: {
+						trackPageview: (options: { url: string }) => void;
+					};
+				}
+			}
+		</script>
+	</body>
+</html>
