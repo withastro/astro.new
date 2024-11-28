@@ -14,7 +14,6 @@
         "component": "Component",
         "container-with-vitest": "Container with Vitest",
         "framework-alpine": "Alpine",
-        "framework-lit": "Lit",
         "framework-multiple": "Kitchen Sink (Multiple Frameworks)",
         "framework-preact": "Preact",
         "framework-react": "React",
