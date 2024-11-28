@@ -81,6 +81,16 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 			}
 		};
 
+		/** When removed from the DOM, remove this instance from the global set of dropdowns. */
+		disconnectedCallback() {
+			const details = this.querySelector('details');
+			if (details) DropDown.dropdowns.delete(details);
+		}
+
+		/**
+		 * When added to the DOM, set up event listeners and add this instance to the global set of
+		 * dropdowns.
+		 */
 		connectedCallback() {
 			window.removeEventListener('click', DropDown.onWindowClick);
 			window.addEventListener('click', DropDown.onWindowClick);
@@ -142,10 +152,6 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 					}
 				});
 			}
-		}
-		disconnectedCallback() {
-			const details = this.querySelector('details');
-			if (details) DropDown.dropdowns.delete(details);
 		}
 	}
 
