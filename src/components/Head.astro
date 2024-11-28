@@ -5,7 +5,6 @@ import '../styles/fonts.css';
 
 import { ViewTransitions } from 'astro:transitions';
 import { SEO } from '@astrojs/site-kit/components';
-import Inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2';
 import type { ComponentProps } from 'astro/types';
 import houstonOmg from '../assets/houston_omg.webp';
 import Favicon from './Favicon.astro';
@@ -24,7 +23,6 @@ const { name = 'astro.new', ...props } = Astro.props;
 	type="font/woff2"
 	crossorigin
 />
-<link rel="preload" href={Inter} as="font" type="font/woff2" crossorigin />
 <link rel="preload" href={houstonOmg.src} as="image" type="image/webp" />
 <link rel="preload" href="/assets/noise.webp" as="image" type="image/webp" />
 
