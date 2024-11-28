@@ -3,6 +3,7 @@ import preset from '@astrojs/site-kit/tailwind-preset';
 import containerQueries from '@tailwindcss/container-queries';
 import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors.js';
+import { fontFamily } from 'tailwindcss/defaultTheme.js';
 import plugin from 'tailwindcss/plugin.js';
 
 export default {
@@ -10,6 +11,9 @@ export default {
 	content: ['./src/**/*.{astro,js,ts,jsx,tsx}'],
 	theme: {
 		extend: {
+			fontFamily: {
+				sans: fontFamily.sans,
+			},
 			colors: {
 				neutral: colors.slate,
 				primary: colors.purple,

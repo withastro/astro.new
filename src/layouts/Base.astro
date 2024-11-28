@@ -55,7 +55,7 @@ const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
 			</div>
 
 			<main class="container" aria-labelledby="main-heading">
-				<nav class="flex flex-wrap border-b border-astro-gray-100/20">
+				<nav class="flex overflow-auto whitespace-nowrap border-b border-astro-gray-100/20">
 					{
 						[...Astro.props.examples.values()].map((group) => (
 							<a
