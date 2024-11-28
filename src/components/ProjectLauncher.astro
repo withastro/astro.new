@@ -20,45 +20,47 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 	>
 		<Icon name="idx" size={16} aria-hidden="true" /> Open in IDX
 	</a>
-	<details class="z-10" data-card-options>
-		<summary
-			class="flex h-full cursor-pointer list-none items-center rounded-r-full bg-black/15 px-2 transition hover:backdrop-brightness-75"
-		>
-			<span class="sr-only">More options</span>
-			<Icon name="chevron-down" size={20} aria-hidden="true" />
-		</summary>
-		<ul
-			class:list={[
-				'absolute top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md',
-				menuAlign === 'right' ? 'right-0' : 'left-0',
-			]}
-		>
-			<li>
-				<a
-					href={stackblitzUrl}
-					class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
-				>
-					<Icon name="stackblitz" size={20} aria-hidden="true" /> Open in StackBlitz
-				</a>
-			</li>
-			<li>
-				<a
-					href={gitpodUrl}
-					class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
-				>
-					<Icon name="gitpod" size={20} aria-hidden="true" /> Open in Gitpod
-				</a>
-			</li>
-			<li>
-				<a
-					href={codesandboxUrl}
-					class="flex flex-row items-center gap-2 rounded-sm px-3 py-1.5 hover:bg-blue-purple-gradient hover:text-white"
-				>
-					<Icon name="codesandbox" size={20} aria-hidden="true" /> Open in CodeSandbox
-				</a>
-			</li>
-		</ul>
-	</details>
+	<an-drop-down class="flex">
+		<details class="z-10" data-card-options>
+			<summary
+				class="flex h-full cursor-pointer list-none items-center rounded-r-full bg-black/15 px-2 transition hover:backdrop-brightness-75"
+			>
+				<span class="sr-only">More options</span>
+				<Icon name="chevron-down" size={20} aria-hidden="true" />
+			</summary>
+			<ul
+				class:list={[
+					'absolute top-full mt-2 flex w-max flex-col rounded bg-white p-2 text-astro-gray-700 shadow-md',
+					menuAlign === 'right' ? 'right-0' : 'left-0',
+				]}
+			>
+				<li>
+					<a
+						href={stackblitzUrl}
+						class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
+					>
+						<Icon name="stackblitz" size={20} aria-hidden="true" /> Open in StackBlitz
+					</a>
+				</li>
+				<li>
+					<a
+						href={gitpodUrl}
+						class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
+					>
+						<Icon name="gitpod" size={20} aria-hidden="true" /> Open in Gitpod
+					</a>
+				</li>
+				<li>
+					<a
+						href={codesandboxUrl}
+						class="flex flex-row items-center gap-2 rounded-sm px-3 py-1.5 hover:bg-blue-purple-gradient hover:text-white"
+					>
+						<Icon name="codesandbox" size={20} aria-hidden="true" /> Open in CodeSandbox
+					</a>
+				</li>
+			</ul>
+		</details>
+	</an-drop-down>
 </div>
 
 <style>
@@ -66,3 +68,94 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 		display: none;
 	}
 </style>
+
+<script>
+	class DropDown extends HTMLElement {
+		static tagName = 'an-drop-down';
+		static dropdowns = new Set<HTMLDetailsElement>();
+		static onWindowClick = (event: MouseEvent) => {
+			for (const dropdown of DropDown.dropdowns) {
+				if (dropdown.open && !dropdown.contains(event.target as Node)) {
+					dropdown.open = false;
+				}
+			}
+		};
+
+		/** When removed from the DOM, remove this instance from the global set of dropdowns. */
+		disconnectedCallback() {
+			const details = this.querySelector('details');
+			if (details) DropDown.dropdowns.delete(details);
+		}
+
+		/**
+		 * When added to the DOM, set up event listeners and add this instance to the global set of
+		 * dropdowns.
+		 */
+		connectedCallback() {
+			window.removeEventListener('click', DropDown.onWindowClick);
+			window.addEventListener('click', DropDown.onWindowClick);
+
+			const dropdown = this.querySelector('details');
+			if (!dropdown) return;
+
+			DropDown.dropdowns.add(dropdown);
+
+			const summary = dropdown.querySelector('summary') as HTMLElement;
+			const focusableItems = dropdown.querySelectorAll<HTMLElement>('a, button');
+
+			dropdown.addEventListener('keydown', (event) => {
+				const previouslyHadFocus = dropdown.contains(document.activeElement);
+				if (event.key === 'Escape') {
+					dropdown.open = !dropdown.open;
+					if (previouslyHadFocus) {
+						summary.focus();
+					}
+				}
+			});
+
+			dropdown.addEventListener('keydown', (event) => {
+				const currentIndex = Array.from(focusableItems).indexOf(
+					document.activeElement as HTMLElement,
+				);
+
+				const modLooped = (n: number, m: number) => ((n % m) + m) % m;
+
+				if (event.key === 'ArrowDown') {
+					event.preventDefault();
+					focusableItems[modLooped(currentIndex + 1, focusableItems.length)]?.focus();
+				}
+				if (event.key === 'ArrowUp') {
+					event.preventDefault();
+					focusableItems[modLooped(currentIndex - 1, focusableItems.length)]?.focus();
+				}
+			});
+
+			summary.addEventListener('keydown', (event) => {
+				if (event.key === 'ArrowDown') {
+					event.preventDefault();
+					event.stopPropagation();
+					dropdown.open = true;
+					focusableItems[0]?.focus();
+				}
+				if (event.key === 'ArrowUp') {
+					event.preventDefault();
+					event.stopPropagation();
+					dropdown.open = true;
+					focusableItems[focusableItems.length - 1]?.focus();
+				}
+			});
+
+			for (const item of focusableItems) {
+				item.addEventListener('blur', (event) => {
+					if (!dropdown.contains(event.relatedTarget as Node) || event.relatedTarget === summary) {
+						dropdown.open = false;
+					}
+				});
+			}
+		}
+	}
+
+	if (!customElements.get(DropDown.tagName)) {
+		customElements.define(DropDown.tagName, DropDown);
+	}
+</script>
