@@ -45,6 +45,10 @@ function idxProjectName(example: ExampleData, repo: string) {
  */
 function idxUrl(example: ExampleData, repo: string, ref = 'latest') {
 	const url = new URL('https://idx.google.com/new');
+	// Add UTM parameters for IDX to track.
+	url.searchParams.set('utm_source', 'astro');
+	url.searchParams.set('utm_medium', 'astro');
+	url.searchParams.set('utm_campaign', 'astro');
 	// Select the Astro template to use when starting up IDX.
 	url.searchParams.set('astroTemplate', toTemplateName({ ...example, repo }));
 	// Pre-fill the IDX wizard with a project name based on the selected template.
