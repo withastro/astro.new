@@ -22,7 +22,7 @@
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/netlify": "^5.5.4",
+    "@astrojs/netlify": "^6.0.0",
     "title": "^4.0.1"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^20.17.6",
     "@types/title": "^3.4.3",
-    "astro": "^4.16.13",
+    "astro": "^5.0.0",
     "astro-icon": "^0.8.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",

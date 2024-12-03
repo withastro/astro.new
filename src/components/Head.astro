@@ -2,7 +2,7 @@
 import '@astrojs/site-kit/tailwind.css';
 import '../styles/fonts.css';
 
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import { SEO } from '@astrojs/site-kit/components';
 import type { ComponentProps } from 'astro/types';
 import houstonOmg from '../assets/houston_omg.webp';
@@ -25,7 +25,7 @@ const { name = 'astro.new', ...props } = Astro.props;
 <link rel="preload" href={houstonOmg.src} as="image" type="image/webp" />
 <link rel="preload" href="/assets/noise.webp" as="image" type="image/webp" />
 
-<ViewTransitions />
+<ClientRouter />
 
 <Favicon />
 <link rel="mask-icon" href="/favicon.svg" color="#8D46E7" />

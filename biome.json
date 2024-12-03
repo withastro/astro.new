@@ -16,6 +16,6 @@
     "enabled": false
   },
   "files": {
-    "ignore": ["dist"]
+    "ignore": ["dist", ".astro"]
   }
 }
