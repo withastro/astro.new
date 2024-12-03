@@ -14,7 +14,6 @@ export default defineConfig({
 			applyBaseStyles: false,
 		}),
 	],
-	output: 'hybrid',
 	adapter: netlify({}),
 	vite: {
 		ssr: {
