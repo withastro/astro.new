@@ -1,0 +1,21 @@
+---
+import Icon from 'astro-icon';
+import type { Example } from '../data/examples.ts';
+
+type Props = Pick<Example, 'stackblitzUrl'>;
+
+const { stackblitzUrl } = Astro.props;
+---
+
+<div
+	class="relative flex h-10 w-max min-w-0 max-w-full overflow-clip rounded-full bg-blue-purple-gradient"
+>
+	<a
+		href={stackblitzUrl}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="flex items-center gap-2 bg-black/15 px-4 text-sm transition hover:backdrop-brightness-75"
+	>
+		<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
+	</a>
+</div>

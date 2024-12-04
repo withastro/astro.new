@@ -1,0 +1,170 @@
+---
+import type { GetStaticPaths } from 'astro';
+import seoBanner from '../../assets/seo-banner.webp';
+import GridGradientsAndNoise from '../../components/GridGradientsAndNoise.astro';
+import Head from '../../components/Head.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import RepoCard from '../../components/RepoCard.astro';
+import { getCategorizedExamples } from '../../data/examples.js';
+import { joinPath } from '../../utils/path.js';
+
+export const getStaticPaths = (async () => {
+	const examples = await getCategorizedExamples();
+	return [...examples.entries()].map(([tab]) => ({
+		params: { tab },
+		props: { examples, currentExample: tab, basePath: '/repro' },
+	}));
+}) satisfies GetStaticPaths;
+
+const currentExample = Astro.props.currentExample || 'getting-started';
+const exampleGroup = Astro.props.examples.get(currentExample);
+if (!exampleGroup) {
+	throw new Error(`No examples found for "${currentExample}"`);
+}
+
+// Show minimal repro option first.
+if (exampleGroup.slug === 'getting-started') {
+	exampleGroup.items = exampleGroup.items.toSorted((a, b) =>
+		a.name === 'minimal' ? -1 : b.name === 'minimal' ? 1 : 0,
+	);
+}
+
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+
+const resolvedSeoBanner = new URL(seoBanner.src, Astro.site).toString();
+---
+
+<html lang="en" class="overflow-x-hidden bg-astro-gray-700 text-astro-gray-100">
+	<head>
+		<Head
+			title={`Create a new reproduction: ${exampleGroup.title}`}
+			description="Quickly create a minimal reproduction for your Astro bug report!"
+			image={{ src: resolvedSeoBanner, alt: '' }}
+			canonicalURL={new URL(pathname, `https://astro.new`)}
+		/>
+	</head>
+
+	<body>
+		<a
+			href="#main-heading"
+			class="sr-only left-2 top-2 z-50 inline-flex justify-center rounded-full border border-astro-gray-100/20 bg-astro-gray-700 font-semibold text-white focus:not-sr-only focus:absolute focus:w-fit focus:px-4 focus:py-2"
+		>
+			Skip to content
+		</a>
+		<Header />
+
+		<div class="noise-container overflow-x-hidden supports-[overflow-x:clip]:overflow-x-clip">
+			<GridGradientsAndNoise />
+
+			<div class="container">
+				<Hero
+					title="Let’s get that bug fixed!"
+					infoBoxTitle="A minimal reproduction is the start of a beautiful journey"
+				>
+					<Fragment slot="infobox-content">
+						<p>
+							Open any of these templates in StackBlitz to get started creating a minimal
+							reproduction for your bug report.
+						</p>
+						<p>
+							Want more guidance? Read our guide to <a
+								class="link underline underline-offset-[3px]"
+								href="https://docs.astro.build/en/guides/troubleshooting/#creating-minimal-reproductions"
+								>“Creating minimal reproductions”</a
+							>.
+						</p>
+					</Fragment>
+				</Hero>
+			</div>
+
+			<main class="container" aria-labelledby="main-heading">
+				<nav class="flex overflow-auto whitespace-nowrap border-b border-astro-gray-100/20">
+					{
+						[...Astro.props.examples.values()].map((group) => (
+							<a
+								href={joinPath(Astro.props.basePath, group.slug)}
+								aria-current={group.slug === currentExample ? 'page' : undefined}
+								data-astro-prefetch
+								class="inline-block rounded-t-lg from-astro-blue/50 to-emerald-300/50 px-4 py-2 text-sm transition hover:backdrop-brightness-50 aria-[current]:bg-gradient-to-tr"
+							>
+								{group.title}
+							</a>
+						))
+					}
+				</nav>
+
+				<h1 id="main-heading" class="sr-only">{exampleGroup.title}</h1>
+
+				<ul class="mb-24 mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+					{
+						exampleGroup.items.map((example, index) => (
+							<li>
+								<RepoCard
+									recommended={example.name === 'minimal'}
+									minimal
+									aboveTheFold={index < 3}
+									{...example}
+								/>
+							</li>
+						))
+					}
+				</ul>
+			</main>
+		</div>
+
+		<footer
+			class="container flex flex-col items-center gap-x-8 gap-y-2 border-t border-astro-gray-100/20 p-8 sm:flex-row sm:px-12"
+		>
+			<a href="https://astro.build/privacy" class="link text-astro-gray-200"> Privacy Policy</a>
+			<a href="https://astro.build/terms" class="link text-astro-gray-200"> Terms and Conditions</a>
+			<address class="not-italic text-astro-gray-200 sm:ml-auto">
+				MIT License &copy; {new Date().getFullYear()} Astro Contributors
+			</address>
+		</footer>
+
+		<style>
+			.container {
+				@apply mx-auto max-w-screen-xl px-4 md:px-8;
+			}
+			.bg-radial-gradient {
+				background-image: radial-gradient(closest-side, var(--tw-gradient-stops));
+			}
+
+			@media (forced-colors: active) {
+				a[aria-current='page'] {
+					background-color: Highlight;
+				}
+			}
+		</style>
+
+		<style is:global>
+			:focus {
+				outline: none;
+			}
+			:focus-visible {
+				@apply ring-2 ring-astro-purple;
+			}
+		</style>
+
+		<script>
+			// find all internal links, this will pickup all redirects handled by the redirect function
+			document.querySelectorAll<HTMLAnchorElement>("a[href^='/']").forEach((link) => {
+				link.addEventListener('click', () => {
+					window.fathom.trackPageview({
+						url: link.href,
+					});
+				});
+			});
+
+			declare global {
+				// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+				interface Window {
+					fathom: {
+						trackPageview: (options: { url: string }) => void;
+					};
+				}
+			}
+		</script>
+	</body>
+</html>
