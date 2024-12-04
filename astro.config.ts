@@ -9,6 +9,9 @@ const NETLIFY_PREVIEW_SITE = process.env.CONTEXT !== 'production' && process.env
 export default defineConfig({
 	site: NETLIFY_PREVIEW_SITE || 'https://astro.new',
 	prefetch: true,
+	redirects: {
+		'/repro/': '/repro/getting-started',
+	},
 	integrations: [
 		tailwind({
 			applyBaseStyles: false,
