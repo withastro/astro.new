@@ -33,6 +33,8 @@ const FRAMEWORK_ORDER = ['react', 'preact', 'vue', 'svelte', 'lit', 'solid'].map
 	(name) => `framework-${name}`,
 );
 
+const TEMPLATE_BLOCKLIST = ['integration', 'component', 'toolbar-app'];
+
 export interface Example {
 	name: string;
 	category: string;
@@ -127,7 +129,7 @@ function groupExamplesByCategory(examples: ExampleDataWithRepo[], previews: stri
 			templates: {
 				title: 'Templates',
 				slug: 'templates',
-				items: categories.templates,
+				items: categories.templates.filter((example) => !TEMPLATE_BLOCKLIST.includes(example.name)),
 			},
 		}),
 	);
