@@ -21,7 +21,7 @@
       onCreate = {
         install-deps =
           "npm ci --prefer-offline --no-audit --no-progress --timing || npm i --no-audit --no-progress --timing";
-        # Workaround described above. The "Recommended extensions" popup will still be shown
+        # Workaround described above.
         install-extensions = pkgs.lib.escapeShellArgs ([ "code" ]
           ++ builtins.map (ext: "--install-extension=${ext}") extensions);
         # Open editors for the following files by default, if they exist:
