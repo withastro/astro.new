@@ -49,6 +49,9 @@
         # The extension will be installed automatically
         mkdir -p .vscode
         cat ${./extensions.json} > ".vscode/extensions.json"
+
+        # Add the modified files to the staging area like all other files
+        git add . || true
       } 2>&1 | tee "$logfile"
 
       ${if debug then ''mv "$logfile" "$out/create.log"'' else ""}
