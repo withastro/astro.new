@@ -37,6 +37,7 @@
         # Copy the template development configuration into the IDX directory
         # Use cat piped to a file so it doesn't carry the permissions from the Nix store (read-only and owned by a different user)
         cat ${./dev.nix} > ".idx/dev.nix"
+        cp ${./icon.png} "$out/.idx/icon.png"
         
         # Overwrite extensions file for IDX so it doesn't show the extension recommendation popup
         # The extension will be installed automatically
