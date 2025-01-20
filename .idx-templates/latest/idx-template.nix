@@ -8,14 +8,6 @@
       {
         ${
           pkgs.lib.strings.escapeShellArgs [
-            # Limit time that can be used to create project.
-            # An error will be shown to the users to be sent on an issue.
-            "timeout"
-            # Kill process if it doesn't exit 15 second after SIGTERM
-            "-k"
-            "15s"
-            # Send SIGTERM if project creation takes more than 15s
-            "15s"
             # Create new project on a "project" folder in the bootstrap environment
             # `npm create` hangs randomly when running inside of Nix building, use PNPM
             # to create the project within the bootstrap environment and use NPM for intalling
@@ -24,8 +16,9 @@
             "create"
             "astro@latest"
             "project"
+            # Use the selected template
             "--template"
-            astroTemplate # Use the selected template
+            astroTemplate
             "--git" # Initialize Git repository in the new workspace
             "--no-install" # Skip installing dependency as it is done on a later phase of IDX startup
             "--skip-houston" # Skip the Houston animation since this command runs non-interactively
