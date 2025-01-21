@@ -1,0 +1,4 @@
+{
+  "recommendations": [],
+  "unwantedRecommendations": ["astro-build.astro-vscode"]
+}
