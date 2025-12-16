@@ -13,12 +13,12 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 	class="relative flex h-10 w-max min-w-0 max-w-full divide-x divide-astro-gray-600 rounded-full bg-blue-purple-gradient"
 >
 	<a
-		href={idxUrl}
+		href={stackblitzUrl}
 		target="_blank"
 		rel="noopener noreferrer"
 		class="flex items-center gap-2 rounded-l-full bg-black/15 px-4 text-sm transition hover:backdrop-brightness-75"
 	>
-		<Icon name="idx" size={16} aria-hidden="true" /> Open in IDX
+		<Icon name="stackblitz" size={16} aria-hidden="true" /> Open in StackBlitz
 	</a>
 	<an-drop-down class="flex">
 		<details class="z-10" data-card-options>
@@ -36,10 +36,10 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 			>
 				<li>
 					<a
-						href={stackblitzUrl}
+						href={idxUrl}
 						class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
 					>
-						<Icon name="stackblitz" size={20} aria-hidden="true" /> Open in StackBlitz
+						<Icon name="idx" size={20} aria-hidden="true" /> Open in IDX
 					</a>
 				</li>
 				<li>
