@@ -34,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Update IDX template
-        run: pnpm generate:idx
+      - name: Update Firebase Studio template
+        run: pnpm generate:firebase-studio
 
       - name: Format
         run: pnpm run format

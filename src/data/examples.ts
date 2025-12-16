@@ -40,7 +40,7 @@ export interface Example {
 	category: string;
 	title: string;
 	sourceUrl: string;
-	idxUrl: string;
+	firebaseStudioUrl: string;
 	stackblitzUrl: string;
 	codesandboxUrl: string;
 	gitpodUrl: string;
@@ -69,7 +69,7 @@ function toExample(
 		name,
 		category,
 		sourceUrl: `/${name}${suffix}?on=github`,
-		idxUrl: `/${name}${suffix}?on=idx`,
+		firebaseStudioUrl: `/${name}${suffix}?on=firebase-studio`,
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
 		gitpodUrl: `/${name}${suffix}?on=gitpod`,

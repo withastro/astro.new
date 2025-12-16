@@ -20,7 +20,7 @@
             "--template"
             astroTemplate
             "--git" # Initialize Git repository in the new workspace
-            "--no-install" # Skip installing dependency as it is done on a later phase of IDX startup
+            "--no-install" # Skip installing dependency as it is done on a later phase of Firebase Studio startup
             "--skip-houston" # Skip the Houston animation since this command runs non-interactively
             "--yes" # Accept all default options
           ]
@@ -31,15 +31,15 @@
 
         cd "$out"
 
-        # Create IDX config directory in the workspace
+        # Create Firebase Studio config directory in the workspace
         mkdir -p ".idx"
 
-        # Copy the template development configuration into the IDX directory
+        # Copy the template development configuration into the `.idx` directory
         # Use cat piped to a file so it doesn't carry the permissions from the Nix store (read-only and owned by a different user)
         cat ${./dev.nix} > ".idx/dev.nix"
         cp ${./icon.png} "$out/.idx/icon.png"
-        
-        # Overwrite extensions file for IDX so it doesn't show the extension recommendation popup
+
+        # Overwrite extensions file for Firebase Studio so it doesn't show the extension recommendation popup
         # The extension will be installed automatically
         mkdir -p .vscode
         cat ${./extensions.json} > ".vscode/extensions.json"

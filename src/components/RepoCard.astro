@@ -16,7 +16,7 @@ const {
 	title,
 	name,
 	sourceUrl,
-	idxUrl,
+	firebaseStudioUrl,
 	stackblitzUrl,
 	codesandboxUrl,
 	gitpodUrl,
@@ -77,7 +77,7 @@ const headingId = `template-${createAstroTemplate}`;
 			minimal ? (
 				<StackBlitzButton {stackblitzUrl} />
 			) : (
-				<ProjectLauncher {...{ idxUrl, stackblitzUrl, codesandboxUrl, gitpodUrl }} />
+				<ProjectLauncher {...{ firebaseStudioUrl, stackblitzUrl, codesandboxUrl, gitpodUrl }} />
 			)
 		}
 	</div>

@@ -1,5 +1,5 @@
 # To learn more about how to use Nix to configure your environment
-# see: https://developers.google.com/idx/guides/customize-idx-env
+# see: https://firebase.google.com/docs/studio/devnix-reference
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
   channel = "stable-24.05"; # or "unstable"
@@ -9,10 +9,11 @@
   env = { };
   idx = let
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
-    # Workaround for https://community.idx.dev/t/8374
-    # `idx.extensions` only work for extensions declared in the Nixpkgs derivation used internally by IDX,
-    # forked at some point from the official `release-24.05` channel.
-    # Instead of relying on IDX internal installation, we also add a startup script to install/update the extensions.
+    # Workaround for https://community.firebasestudio.dev/t/8374
+    # `idx.extensions` only work for extensions declared in the Nixpkgs derivation used internally
+    # by Firebase Studio, forked at some point from the official `release-24.05` channel.
+    # Instead of relying on Firebase Studio internal installation, we also add a startup script to
+    # install/update the extensions.
     extensions = [ "astro-build.astro-vscode" ];
   in {
     inherit extensions;

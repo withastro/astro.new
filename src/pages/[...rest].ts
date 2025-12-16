@@ -13,7 +13,7 @@ export const prerender = false;
 type CachedExample = {
 	name: string;
 	github: string;
-	idx: string;
+	'firebase-studio': string;
 	stackblitz: string;
 	codesandbox: string;
 	gitpod: string;
@@ -22,8 +22,8 @@ type CachedExample = {
 const examplesCache = new Map<string, CachedExample[]>();
 let starlightExamplesCache: CachedExample[] | undefined = undefined;
 
-/** Generate a placeholder workspace name for IDX. Must be no longer than 20 characters. */
-function idxProjectName(example: ExampleData, repo: string) {
+/** Generate a placeholder workspace name for Firebase Studio. Must be no longer than 20 characters. */
+function firebaseStudioProjectName(example: ExampleData, repo: string) {
 	const fullTitle = toTitle(
 		repo === 'withastro/starlight' ? toStarlightName(example.name) : example.name,
 	)
@@ -37,24 +37,25 @@ function idxProjectName(example: ExampleData, repo: string) {
 }
 
 /**
- * Generate a URL to create a new IDX workspace for the given example.
+ * Generate a URL to create a new Firebase Studio workspace for the given example.
  *
  * @param example GitHub REST API repository contents entry for this template.
  * @param repo The GitHub repo identifier for this template, e.g. `withastro/astro`.
  * @param ref The GitHub branch to use: `latest` or `next`.
  */
-function idxUrl(example: ExampleData, repo: string, ref = 'latest') {
-	const url = new URL('https://idx.google.com/new');
-	// Add UTM parameters for IDX to track.
+function firebaseStudioUrl(example: ExampleData, repo: string, ref = 'latest') {
+	const url = new URL('https://studio.firebase.google.com/new');
+	// Add UTM parameters for Firebase Studio to track.
 	url.searchParams.set('utm_source', 'astro');
 	url.searchParams.set('utm_medium', 'astro');
 	url.searchParams.set('utm_campaign', 'astro');
-	// Select the Astro template to use when starting up IDX.
+	// Select the Astro template to use when starting up Firebase Studio.
 	url.searchParams.set('astroTemplate', toTemplateName({ ...example, repo }));
-	// Pre-fill the IDX wizard with a project name based on the selected template.
-	const title = idxProjectName(example, repo);
+	// Pre-fill the Firebase Studio wizard with a project name based on the selected template.
+	const title = firebaseStudioProjectName(example, repo);
 	url.searchParams.set('name', title);
-	// Tell IDX where the template files are located. IDX parses this greedily so it MUST COME LAST.
+	// Tell Firebase Studio where the template files are located. Firebase Studio parses this greedily
+	// so it MUST COME LAST.
 	const templateUrl = `https://github.com/withastro/astro.new/tree/main/.idx-templates/${ref}`;
 	url.searchParams.set('template', templateUrl);
 	return url.href;
@@ -72,7 +73,7 @@ function toCachedExample(example: ExampleData, repo: string, ref: string): Cache
 	return {
 		name: example.name,
 		github: example.html_url,
-		idx: idxUrl(example, repo, ref),
+		'firebase-studio': firebaseStudioUrl(example, repo, ref),
 		stackblitz: `https://stackblitz.com/github${githubUrl.pathname}`,
 		codesandbox: `https://codesandbox.io/p/sandbox/github${githubUrl.pathname}`,
 		gitpod: `https://gitpod.io/#${example.html_url}`,
@@ -156,7 +157,13 @@ async function validateRef(name: string) {
 }
 
 type Platform = typeof PLATFORMS extends Set<infer T> ? T : never;
-const PLATFORMS = new Set(['idx', 'stackblitz', 'codesandbox', 'github', 'gitpod'] as const);
+const PLATFORMS = new Set([
+	'firebase-studio',
+	'stackblitz',
+	'codesandbox',
+	'github',
+	'gitpod',
+] as const);
 function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform);
 }

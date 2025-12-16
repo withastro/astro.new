@@ -48,7 +48,7 @@ export async function getExamples(ref = 'latest') {
 	return examples;
 }
 
-export async function getIdxParams(ref?: string) {
+export async function getFirebaseStudioParams(ref?: string) {
 	const examples = await getExamples(ref);
 	return Object.fromEntries(
 		examples.map((example) => [toTemplateName(example), toTitle(example.name)]),

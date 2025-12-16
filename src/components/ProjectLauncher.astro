@@ -2,11 +2,20 @@
 import Icon from 'astro-icon';
 import type { Example } from '../data/examples.ts';
 
-type Props = Pick<Example, 'idxUrl' | 'stackblitzUrl' | 'gitpodUrl' | 'codesandboxUrl'> & {
+type Props = Pick<
+	Example,
+	'firebaseStudioUrl' | 'stackblitzUrl' | 'gitpodUrl' | 'codesandboxUrl'
+> & {
 	menuAlign?: 'left' | 'right';
 };
 
-const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } = Astro.props;
+const {
+	firebaseStudioUrl,
+	stackblitzUrl,
+	gitpodUrl,
+	codesandboxUrl,
+	menuAlign = 'left',
+} = Astro.props;
 ---
 
 <div
@@ -36,10 +45,10 @@ const { idxUrl, stackblitzUrl, gitpodUrl, codesandboxUrl, menuAlign = 'left' } =
 			>
 				<li>
 					<a
-						href={idxUrl}
+						href={firebaseStudioUrl}
 						class="flex flex-row items-center gap-2 rounded-sm px-3 py-2 hover:bg-blue-purple-gradient hover:text-white"
 					>
-						<Icon name="idx" size={20} aria-hidden="true" /> Open in IDX
+						<Icon name="firebase-studio" size={20} aria-hidden="true" /> Open in Firebase Studio
 					</a>
 				</li>
 				<li>
