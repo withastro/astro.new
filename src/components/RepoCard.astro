@@ -19,7 +19,6 @@ const {
 	firebaseStudioUrl,
 	stackblitzUrl,
 	codesandboxUrl,
-	gitpodUrl,
 	previewEmbedUrl,
 	createAstroTemplate,
 	loadPreviewImage = () => fallbackImage,
@@ -77,7 +76,7 @@ const headingId = `template-${createAstroTemplate}`;
 			minimal ? (
 				<StackBlitzButton {stackblitzUrl} />
 			) : (
-				<ProjectLauncher {...{ firebaseStudioUrl, stackblitzUrl, codesandboxUrl, gitpodUrl }} />
+				<ProjectLauncher {...{ firebaseStudioUrl, stackblitzUrl, codesandboxUrl }} />
 			)
 		}
 	</div>

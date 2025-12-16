@@ -43,7 +43,6 @@ export interface Example {
 	firebaseStudioUrl: string;
 	stackblitzUrl: string;
 	codesandboxUrl: string;
-	gitpodUrl: string;
 	previewUrl: string | null;
 	previewEmbedUrl: string | null;
 	createAstroTemplate: string;
@@ -72,7 +71,6 @@ function toExample(
 		firebaseStudioUrl: `/${name}${suffix}?on=firebase-studio`,
 		stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
 		codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
-		gitpodUrl: `/${name}${suffix}?on=gitpod`,
 		previewUrl:
 			ref === 'latest' && previews.includes(name) ? `https://preview.astro.new/${name}` : null,
 		previewEmbedUrl: ref === 'latest' && previews.includes(name) ? `/latest/preview/${name}` : null,

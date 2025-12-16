@@ -16,7 +16,6 @@ type CachedExample = {
 	'firebase-studio': string;
 	stackblitz: string;
 	codesandbox: string;
-	gitpod: string;
 };
 
 const examplesCache = new Map<string, CachedExample[]>();
@@ -76,7 +75,6 @@ function toCachedExample(example: ExampleData, repo: string, ref: string): Cache
 		'firebase-studio': firebaseStudioUrl(example, repo, ref),
 		stackblitz: `https://stackblitz.com/github${githubUrl.pathname}`,
 		codesandbox: `https://codesandbox.io/p/sandbox/github${githubUrl.pathname}`,
-		gitpod: `https://gitpod.io/#${example.html_url}`,
 	};
 }
 
@@ -157,13 +155,7 @@ async function validateRef(name: string) {
 }
 
 type Platform = typeof PLATFORMS extends Set<infer T> ? T : never;
-const PLATFORMS = new Set([
-	'firebase-studio',
-	'stackblitz',
-	'codesandbox',
-	'github',
-	'gitpod',
-] as const);
+const PLATFORMS = new Set(['firebase-studio', 'stackblitz', 'codesandbox', 'github'] as const);
 function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform);
 }
