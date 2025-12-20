@@ -156,15 +156,25 @@ async function validateRef(name: string) {
 
 type Platform = typeof PLATFORMS extends Set<infer T> ? T : never;
 const PLATFORMS = new Set(['firebase-studio', 'stackblitz', 'codesandbox', 'github'] as const);
+const FALLBACKS = new Map<string, Platform>([['idx', 'firebase-studio']]);
+const DEPRECATED = new Set(['gitpod']);
 function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform);
 }
+function handleFallbacks(name: string | null) {
+	return name && FALLBACKS.has(name) ? FALLBACKS.get(name) : name;
+}
+function isDeprecated(name: string): boolean {
+	return DEPRECATED.has(name);
+}
+class DeprecatedPlaformError extends Error {}
 
 async function parseReq(context: APIContext) {
-	const platform = context.url.searchParams.get('on') ?? 'stackblitz';
+	let platform = handleFallbacks(context.url.searchParams.get('on')) ?? 'stackblitz';
 	const path = context.params.rest?.replace(/^\//, '') ?? '';
 
 	if (!isPlatform(platform)) {
+		if (isDeprecated(platform)) throw new DeprecatedPlaformError();
 		throw new Error(
 			`Unsupported "on" query! Supported platforms are:\n  - ${Array.from(PLATFORMS.values())
 				.map((x) => x)
@@ -222,6 +232,7 @@ export const GET: APIRoute = async (context) => {
 
 		return context.redirect(example[platform]);
 	} catch (error) {
+		if (error instanceof DeprecatedPlaformError) return context.redirect('/latest', 301);
 		console.error(error);
 		return new Response('An internal error occurred', { status: 500 });
 	}
