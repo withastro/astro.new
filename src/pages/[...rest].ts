@@ -156,13 +156,16 @@ async function validateRef(name: string) {
 
 type Platform = typeof PLATFORMS extends Set<infer T> ? T : never;
 const PLATFORMS = new Set(['firebase-studio', 'stackblitz', 'codesandbox', 'github'] as const);
-const FALLBACKS = new Map<string, Platform>([['idx', 'firebase-studio']]);
+const FALLBACKS: Record<string, Platform> = {
+	idx: 'firebase-studio',
+};
 const DEPRECATED = new Set(['gitpod']);
 function isPlatform(name: string): name is Platform {
 	return PLATFORMS.has(name as Platform);
 }
 function handleFallbacks(name: string | null) {
-	return name && FALLBACKS.has(name) ? FALLBACKS.get(name) : name;
+	if (!name) return name;
+	return FALLBACKS[name] || name;
 }
 function isDeprecated(name: string): boolean {
 	return DEPRECATED.has(name);
