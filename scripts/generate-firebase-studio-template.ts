@@ -1,10 +1,10 @@
 import { writeFile } from 'fs/promises';
-import { getIdxParams } from '../src/data/examples-shared.js';
+import { getFirebaseStudioParams } from '../src/data/examples-shared.js';
 
-await generateIDXTemplate('latest');
-await generateIDXTemplate('next');
+await generateFirebaseStudioTemplate('latest');
+await generateFirebaseStudioTemplate('next');
 
-async function generateIDXTemplate(ref: 'latest' | 'next') {
+async function generateFirebaseStudioTemplate(ref: 'latest' | 'next') {
 	console.time(`Updated ${ref}/idx-template.json`);
 	// .idx-templates/latest/idx-template.json
 	const template = {
@@ -17,7 +17,7 @@ async function generateIDXTemplate(ref: 'latest' | 'next') {
 				name: 'Starter template',
 				type: 'enum',
 				default: 'basics',
-				options: await getIdxParams(ref),
+				options: await getFirebaseStudioParams(ref),
 				required: true,
 			},
 		],
