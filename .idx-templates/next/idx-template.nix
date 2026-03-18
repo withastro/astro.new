@@ -1,5 +1,5 @@
 { pkgs, astroTemplate ? "basics", debug ? false, ... }: {
-  packages = [ pkgs.git pkgs.nodejs_20 pkgs.nodePackages.pnpm ];
+  packages = [ pkgs.git pkgs.nodejs_22 pkgs.nodePackages.pnpm ];
 
   bootstrap = let
     script = pkgs.writeShellScript "bootstrap" ''
