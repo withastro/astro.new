@@ -9,6 +9,7 @@
       "type": "enum",
       "default": "basics",
       "options": {
+        "advanced-routing": "Advanced Routing",
         "basics": "Just the Basics",
         "blog": "Blog",
         "component": "Component",
