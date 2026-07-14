@@ -1,0 +1,24 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		":dependencyDashboard",
+		":semanticPrefixFixDepsChoreOthers",
+		":ignoreModulesAndTests",
+		"workarounds:all",
+		"helpers:pinGitHubActionDigestsToSemver"
+	],
+	"rangeStrategy": "bump",
+	"ignorePaths": ["**/node_modules/**"],
+	"minimumReleaseAge": "3 days",
+	"packageRules": [
+		{
+			"groupName": "github-actions",
+			"matchManagers": ["github-actions"]
+		},
+		{
+			"groupName": "astro",
+			"matchDatasources": ["npm"],
+			"matchPackageNames": ["astro", "@astrojs/**"]
+		}
+	]
+}
