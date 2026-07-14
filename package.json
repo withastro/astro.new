@@ -21,13 +21,13 @@
   },
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.9",
     "@astrojs/netlify": "^6.0.0",
     "title": "^4.0.1"
   },
   "devDependencies": {
     "@astrojs/site-kit": "github:withastro/site-kit",
-    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/tailwind": "^5.1.5",
     "@biomejs/biome": "^1.9.4",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^20.17.6",
