@@ -14,9 +14,15 @@ export interface ExampleDataWithRepo extends ExampleData {
 export async function getExamples(ref = "latest") {
   if (ref === "next") {
     try {
-      await fetch(githubRequest(astroContentUrl(ref)));
+      const res = await fetch(githubRequest(astroContentUrl(ref)));
+      if (!res.ok) {
+        throw new Error(`${res.status}: ${res.statusText}`);
+      }
     } catch (e) {
-      console.error(`Failed to fetch examples for ref "${ref}" -`, e);
+      console.error(
+        `Failed to fetch examples for ref "${ref}", falling back to ref "main" -`,
+        e,
+      );
       // `next` branch is missing, fallback to `main`
       ref = "main";
     }
