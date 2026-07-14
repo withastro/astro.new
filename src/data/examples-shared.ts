@@ -25,6 +25,14 @@ export async function getExamples(ref = "latest") {
     await Promise.all([
       fetch(githubRequest(astroContentUrl(ref)))
         .then((res) => res.json())
+        .then((json) => {
+          if (!Array.isArray(json)) {
+            throw new Error(
+              `Expected an array of examples, but got: ${JSON.stringify(json)}`,
+            );
+          }
+          return json;
+        })
         .then((examples: ExampleData[]) =>
           examples.map((example) => ({
             ...example,
@@ -33,6 +41,14 @@ export async function getExamples(ref = "latest") {
         ),
       fetch(githubRequest(starlightContentUrl()))
         .then((res) => res.json())
+        .then((json) => {
+          if (!Array.isArray(json)) {
+            throw new Error(
+              `Expected an array of examples, but got: ${JSON.stringify(json)}`,
+            );
+          }
+          return json;
+        })
         // prefix starlight example names to differentiate duplicate example names
         .then((examples: ExampleData[]) =>
           examples.map((example) => ({
