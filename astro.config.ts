@@ -19,7 +19,7 @@ export default defineConfig({
 		}),
 		icon(),
 	],
-	adapter: netlify({}),
+	adapter: netlify(),
 	vite: {
 		ssr: {
 			noExternal: ['smartypants'],
