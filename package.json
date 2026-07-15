@@ -22,7 +22,7 @@
   "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/netlify": "^6.0.0",
+    "@astrojs/netlify": "^7.0.0",
     "title": "^4.0.1"
   },
   "devDependencies": {
