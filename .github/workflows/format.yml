@@ -37,7 +37,7 @@ jobs:
       - name: Update Firebase Studio template
         run: pnpm generate:firebase-studio
         env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Format
         run: pnpm run format
