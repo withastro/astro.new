@@ -1,21 +1,17 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "style": {
-        "all": false
-      }
+      "preset": "recommended",
+      "style": {}
     }
   },
   "formatter": {
     "enabled": false
   },
   "files": {
-    "ignore": ["dist", ".astro"]
+    "includes": ["**", "!**/dist", "!**/.astro"]
   }
 }
