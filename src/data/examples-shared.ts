@@ -1,8 +1,8 @@
 import titleCase from "title";
 import { toStarlightName } from "../utils/constants.js";
 import {
-  type ExampleData,
   astroContentUrl,
+  type ExampleData,
   githubRequest,
   starlightContentUrl,
 } from "../utils/github.js";

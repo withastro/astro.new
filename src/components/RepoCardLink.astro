@@ -1,6 +1,6 @@
 ---
-import { Icon } from 'astro-icon';
 import type { Polymorphic } from 'astro/types';
+import { Icon } from 'astro-icon';
 
 type Props<Tag extends 'a' | 'button'> = Polymorphic<{ as: Tag }> & { icon?: string };
 
