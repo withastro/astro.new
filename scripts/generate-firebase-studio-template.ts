@@ -1,4 +1,4 @@
-import { writeFile } from "fs/promises";
+import { writeFile } from "node:fs/promises";
 import { getFirebaseStudioParams } from "../src/data/examples-shared.js";
 
 await generateFirebaseStudioTemplate("latest");
@@ -25,7 +25,7 @@ async function generateFirebaseStudioTemplate(ref: "latest" | "next") {
   };
   await writeFile(
     `./.idx-templates/${ref}/idx-template.json`,
-    JSON.stringify(template, null, 2) + "\n",
+    `${JSON.stringify(template, null, 2)}\n`,
     "utf-8",
   );
   console.timeEnd(`Updated ${ref}/idx-template.json`);
