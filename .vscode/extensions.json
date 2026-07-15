@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "astro-build.astro-vscode",
-    "esbenp.prettier-vscode",
-    "biomejs.biome"
-  ]
+  "recommendations": ["astro-build.astro-vscode", "esbenp.prettier-vscode", "biomejs.biome"]
 }
