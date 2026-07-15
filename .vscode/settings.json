@@ -6,10 +6,8 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "never",
     "source.organizeImports.biome": "always",
-    "source.fixAll": "always",
-    "quickfix.biome": "always"
+    "source.fixAll": "always"
   },
-  "javascript.preferences.importModuleSpecifierEnding": "js",
-  "typescript.preferences.importModuleSpecifierEnding": "js",
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "js/ts.preferences.importModuleSpecifierEnding": "js",
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

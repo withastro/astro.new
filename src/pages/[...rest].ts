@@ -6,8 +6,8 @@ import {
   toStarlightName,
 } from "../utils/constants.js";
 import {
-  type ExampleData,
   astroContentUrl,
+  type ExampleData,
   githubRequest,
   starlightContentUrl,
 } from "../utils/github.js";
@@ -23,7 +23,7 @@ type CachedExample = {
 };
 
 const examplesCache = new Map<string, CachedExample[]>();
-let starlightExamplesCache: CachedExample[] | undefined = undefined;
+let starlightExamplesCache: CachedExample[] | undefined;
 
 /** Generate a placeholder workspace name for Firebase Studio. Must be no longer than 20 characters. */
 function firebaseStudioProjectName(example: ExampleData, repo: string) {
@@ -198,7 +198,7 @@ function isDeprecated(name: string): boolean {
 class DeprecatedPlaformError extends Error {}
 
 async function parseReq(context: APIContext) {
-  let platform =
+  const platform =
     handleFallbacks(context.url.searchParams.get("on")) ?? "stackblitz";
   const path = context.params.rest?.replace(/^\//, "") ?? "";
 
