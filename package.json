@@ -13,7 +13,7 @@
     "preview": "astro preview",
     "format": "run-s format:*",
     "format:prettier": "prettier --write .",
-    "format:biome": "biome check . --apply",
+    "format:biome": "biome check . --write",
     "lint": "astro sync && run-s --continue-on-error lint:*",
     "lint:biome": "biome lint .",
     "lint:astro": "astro check",
