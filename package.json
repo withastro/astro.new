@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@9.15.9",
   "engines": {
-    "node": "20.20.2"
+    "node": "24.18.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -30,7 +30,7 @@
     "@astrojs/tailwind": "^5.1.5",
     "@biomejs/biome": "^1.9.4",
     "@tailwindcss/container-queries": "^0.1.1",
-    "@types/node": "^20.19.43",
+    "@types/node": "^24.13.3",
     "@types/title": "^3.4.3",
     "astro": "^5.0.0",
     "astro-icon": "^0.8.2",
