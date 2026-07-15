@@ -19,7 +19,6 @@
     "lint:astro": "astro check",
     "generate:firebase-studio": "pnpm dlx tsx ./scripts/generate-firebase-studio-template.ts"
   },
-  "prettier": "@astrojs/site-kit/prettier",
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/netlify": "^8.1.1",
