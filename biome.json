@@ -5,6 +5,9 @@
     "enabled": true,
     "rules": {
       "preset": "recommended",
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "style": {}
     }
   },
