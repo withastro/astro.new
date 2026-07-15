@@ -34,8 +34,8 @@ importers:
         specifier: ^24.13.3
         version: 24.13.3
       '@types/title':
-        specifier: ^3.4.3
-        version: 3.4.3
+        specifier: ^4.0.0
+        version: 4.0.0
       astro:
         specifier: ^5.0.0
         version: 5.0.0(@types/node@24.13.3)(jiti@1.21.7)(rollup@4.27.3)(typescript@5.6.3)(yaml@2.9.0)
@@ -876,8 +876,9 @@ packages:
   '@types/semver@7.5.8':
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
 
-  '@types/title@3.4.3':
-    resolution: {integrity: sha512-mjupLOb4kwUuoUFokkacy/VMRVBH2qtqZ5AX7K7iha6+iKIkX80n/Y4EoNVEVRmer8dYJU/ry+fppUaDFVQh7Q==}
+  '@types/title@4.0.0':
+    resolution: {integrity: sha512-+/DoT3en4uDoeAq55IHtwLVWq51kCJVIjQFswW7kfw36p/mTa7gyf7vqAuoGdYmDcY7Mg7tgv6rfrnU7jNQ7BA==}
+    deprecated: This is a stub types definition. title provides its own type definitions, so you do not need this installed.
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -4233,7 +4234,9 @@ snapshots:
 
   '@types/semver@7.5.8': {}
 
-  '@types/title@3.4.3': {}
+  '@types/title@4.0.0':
+    dependencies:
+      title: 4.0.1
 
   '@types/unist@3.0.3': {}
 
