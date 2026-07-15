@@ -1,6 +1,7 @@
 import netlify from '@astrojs/netlify';
 import tailwind from '@astrojs/tailwind';
 import { defineConfig } from 'astro/config';
+import icon from 'astro-icon';
 
 /* https://docs.netlify.com/configure-builds/environment-variables/#read-only-variables */
 const NETLIFY_PREVIEW_SITE = process.env.CONTEXT !== 'production' && process.env.DEPLOY_PRIME_URL;
@@ -16,6 +17,7 @@ export default defineConfig({
 		tailwind({
 			applyBaseStyles: false,
 		}),
+		icon(),
 	],
 	adapter: netlify({}),
 	vite: {
