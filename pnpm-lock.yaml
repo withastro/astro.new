@@ -34,7 +34,7 @@ importers:
         specifier: ^24.13.3
         version: 24.13.3
       astro:
-        specifier: ^7.1.0
+        specifier: ^7.1.1
         version: 7.1.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@netlify/blobs@10.7.9)(@types/node@24.13.3)(jiti@1.21.7)(yaml@2.9.0)
       astro-icon:
         specifier: ^1.1.5
