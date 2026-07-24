@@ -27,7 +27,7 @@
   "devDependencies": {
     "@astrojs/site-kit": "github:withastro/site-kit",
     "@astrojs/tailwind": "^6.0.2",
-    "@biomejs/biome": "^2.5.4",
+    "@biomejs/biome": "^2.5.5",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^24.13.3",
     "astro": "^7.1.3",
