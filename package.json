@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/netlify": "^8.2.4",
+    "@astrojs/netlify": "^8.2.5",
     "title": "^4.0.1"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "@biomejs/biome": "^2.5.11",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "^24.13.3",
-    "astro": "^7.2.9",
+    "astro": "^7.2.10",
     "astro-icon": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.9.6",
