@@ -18,7 +18,7 @@ const previewImages = new Map(
   ]),
 );
 
-export const TOP_SECTION = "Getting Started";
+const TOP_SECTION = "Getting Started";
 const TOP_SECTION_ORDER = [
   "basics",
   "blog",

@@ -11,7 +11,7 @@ import ResourceCard from '../components/ResourceCard.astro';
 import type { ExampleGroup } from '../data/examples.js';
 import { joinPath } from '../utils/path.js';
 
-export type Props = {
+type Props = {
 	examples: Map<string, ExampleGroup>;
 	currentExample?: string | undefined;
 	basePath: string;
