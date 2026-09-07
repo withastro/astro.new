@@ -16,8 +16,7 @@
     "format:biome": "biome check . --write",
     "lint": "astro sync && run-s --continue-on-error lint:*",
     "lint:biome": "biome lint .",
-    "lint:astro": "astro check",
-    "generate:firebase-studio": "pnpm dlx tsx ./scripts/generate-firebase-studio-template.ts"
+    "lint:astro": "astro check"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",

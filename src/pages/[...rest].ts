@@ -1,10 +1,5 @@
 import type { APIContext, APIRoute } from "astro";
-import { toTemplateName, toTitle } from "../data/examples-shared.js";
-import {
-  fromStarlightName,
-  isStarlightName,
-  toStarlightName,
-} from "../utils/constants.js";
+import { fromStarlightName, isStarlightName } from "../utils/constants.js";
 import {
   astroContentUrl,
   type ExampleData,
@@ -17,54 +12,12 @@ export const prerender = false;
 type CachedExample = {
   name: string;
   github: string;
-  "firebase-studio": string;
   stackblitz: string;
   codesandbox: string;
 };
 
 const examplesCache = new Map<string, CachedExample[]>();
 let starlightExamplesCache: CachedExample[] | undefined;
-
-/** Generate a placeholder workspace name for Firebase Studio. Must be no longer than 20 characters. */
-function firebaseStudioProjectName(example: ExampleData, repo: string) {
-  const fullTitle = toTitle(
-    repo === "withastro/starlight"
-      ? toStarlightName(example.name)
-      : example.name,
-  )
-    // Remove parentheticals
-    .replace(/\([^)]+\)/, "")
-    .trim();
-
-  if (fullTitle.length > 20) return `${fullTitle.slice(0, 19)}…`;
-  if (fullTitle.length < 13) return `Astro: ${fullTitle}`;
-  return fullTitle;
-}
-
-/**
- * Generate a URL to create a new Firebase Studio workspace for the given example.
- *
- * @param example GitHub REST API repository contents entry for this template.
- * @param repo The GitHub repo identifier for this template, e.g. `withastro/astro`.
- * @param ref The GitHub branch to use: `latest` or `next`.
- */
-function firebaseStudioUrl(example: ExampleData, repo: string, ref = "latest") {
-  const url = new URL("https://studio.firebase.google.com/new");
-  // Add UTM parameters for Firebase Studio to track.
-  url.searchParams.set("utm_source", "astro");
-  url.searchParams.set("utm_medium", "astro");
-  url.searchParams.set("utm_campaign", "astro");
-  // Select the Astro template to use when starting up Firebase Studio.
-  url.searchParams.set("astroTemplate", toTemplateName({ ...example, repo }));
-  // Pre-fill the Firebase Studio wizard with a project name based on the selected template.
-  const title = firebaseStudioProjectName(example, repo);
-  url.searchParams.set("name", title);
-  // Tell Firebase Studio where the template files are located. Firebase Studio parses this greedily
-  // so it MUST COME LAST.
-  const templateUrl = `https://github.com/withastro/astro.new/tree/main/.idx-templates/${ref}`;
-  url.searchParams.set("template", templateUrl);
-  return url.href;
-}
 
 /**
  * Create a map of URLs that open this example on different services.
@@ -73,16 +26,11 @@ function firebaseStudioUrl(example: ExampleData, repo: string, ref = "latest") {
  * @param repo The GitHub repo identifier for this template, e.g. `withastro/astro`.
  * @param ref The GitHub branch to use: `latest` or `next`.
  */
-function toCachedExample(
-  example: ExampleData,
-  repo: string,
-  ref: string,
-): CachedExample {
+function toCachedExample(example: ExampleData): CachedExample {
   const githubUrl = new URL(example.html_url);
   return {
     name: example.name,
     github: example.html_url,
-    "firebase-studio": firebaseStudioUrl(example, repo, ref),
     stackblitz: `https://stackblitz.com/github${githubUrl.pathname}`,
     codesandbox: `https://codesandbox.io/p/sandbox/github${githubUrl.pathname}`,
   };
@@ -106,9 +54,7 @@ async function getStarlightExamples() {
   }
 
   starlightExamplesCache = examples.flatMap((example) =>
-    example.size > 0
-      ? []
-      : toCachedExample(example, "withastro/starlight", "latest"),
+    example.size > 0 ? [] : toCachedExample(example),
   );
 
   return starlightExamplesCache;
@@ -134,7 +80,7 @@ async function getExamples(ref = "latest") {
   }
 
   const values = examples.flatMap((example) =>
-    example.size > 0 ? [] : toCachedExample(example, "withastro/astro", ref),
+    example.size > 0 ? [] : toCachedExample(example),
   );
 
   examplesCache.set(ref, values);
@@ -175,15 +121,8 @@ async function validateRef(name: string) {
 }
 
 type Platform = typeof PLATFORMS extends Set<infer T> ? T : never;
-const PLATFORMS = new Set([
-  "firebase-studio",
-  "stackblitz",
-  "codesandbox",
-  "github",
-] as const);
-const FALLBACKS: Record<string, Platform> = {
-  idx: "firebase-studio",
-};
+const PLATFORMS = new Set(["stackblitz", "codesandbox", "github"] as const);
+const FALLBACKS: Record<string, Platform> = {};
 const DEPRECATED = new Set(["gitpod"]);
 function isPlatform(name: string): name is Platform {
   return PLATFORMS.has(name as Platform);
