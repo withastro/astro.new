@@ -8,7 +8,7 @@ import ProjectLauncher from './ProjectLauncher.astro';
 import RepoCardLink from './RepoCardLink.astro';
 import StackBlitzButton from './StackBlitzButton.astro';
 
-export type Props = Example & { aboveTheFold: boolean; minimal?: boolean; recommended?: boolean };
+type Props = Example & { aboveTheFold: boolean; minimal?: boolean; recommended?: boolean };
 
 const {
 	minimal = false,
