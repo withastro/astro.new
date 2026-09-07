@@ -45,7 +45,6 @@ export interface Example {
   category: string;
   title: string;
   sourceUrl: string;
-  firebaseStudioUrl: string;
   stackblitzUrl: string;
   codesandboxUrl: string;
   previewUrl: string | null;
@@ -73,7 +72,6 @@ function toExample(
     name,
     category,
     sourceUrl: `/${name}${suffix}?on=github`,
-    firebaseStudioUrl: `/${name}${suffix}?on=firebase-studio`,
     stackblitzUrl: `/${name}${suffix}?on=stackblitz`,
     codesandboxUrl: `/${name}${suffix}?on=codesandbox`,
     previewUrl:
