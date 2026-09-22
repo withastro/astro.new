@@ -132,7 +132,7 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(tailwindcss@3.4.19(yaml@2.9.0))
       '@types/node':
-        specifier: ^24.13.5
+        specifier: ^24.13.6
         version: 24.13.6
       astro:
         specifier: ^7.3.3
