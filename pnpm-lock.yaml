@@ -183,7 +183,7 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2(astro@7.3.8(@netlify/blobs@11.1.4(supports-color@7.2.0))(@types/node@24.19.2)(esbuild@0.28.1)(jiti@1.21.7)(yaml@2.9.0))(tailwindcss@3.4.19(yaml@2.9.0))
       '@biomejs/biome':
-        specifier: ^2.6.0
+        specifier: ^2.6.2
         version: 2.6.2
       '@tailwindcss/container-queries':
         specifier: ^0.1.1
