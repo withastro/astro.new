@@ -105,6 +105,9 @@ async function getRelease(ref: string) {
   return release;
 }
 
+/** An error caused by invalid user input, shown to the user as a 400 response. */
+class BadRequestError extends Error {}
+
 async function validateRef(name: string) {
   if (name === "next" || name === "latest") {
     return true;
@@ -115,8 +118,8 @@ async function validateRef(name: string) {
     return true;
   }
 
-  throw new Error(
-    `Invalid version "${name}"! Supported versions are "next", "latest", or any <a href="https://github.com/withastro/astro/releases?q=astro%40">GitHub release</a>.`,
+  throw new BadRequestError(
+    `Invalid version "${name}"! Supported versions are "next", "latest", or any GitHub release: https://github.com/withastro/astro/releases?q=astro%40`,
   );
 }
 
@@ -143,7 +146,7 @@ async function parseReq(context: APIContext) {
 
   if (!isPlatform(platform)) {
     if (isDeprecated(platform)) throw new DeprecatedPlaformError();
-    throw new Error(
+    throw new BadRequestError(
       `Unsupported "on" query! Supported platforms are:\n  - ${Array.from(
         PLATFORMS.values(),
       )
@@ -167,7 +170,7 @@ async function parseReq(context: APIContext) {
   if (path.includes("@")) {
     const [template, ref] = path.split("@");
     if (!ref || !template) {
-      throw new Error("why have you forsaken me");
+      throw new BadRequestError("why have you forsaken me");
     }
     await validateRef(ref);
     value.template = template;
@@ -205,6 +208,8 @@ export const GET: APIRoute = async (context) => {
   } catch (error) {
     if (error instanceof DeprecatedPlaformError)
       return context.redirect("/latest", 301);
+    if (error instanceof BadRequestError)
+      return new Response(error.message, { status: 400 });
     console.error(error);
     return new Response("An internal error occurred", { status: 500 });
   }
