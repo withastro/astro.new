@@ -27,8 +27,8 @@
     "lint:astro": "astro check"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/netlify": "^8.2.9",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/netlify": "^8.2.13",
     "title": "^4.0.1"
   },
   "devDependencies": {
